@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profil - NILAMTRACE</title>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+      .profile-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1.5rem;
+      }
+
+      .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .profile-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #2d5a27 0%, #1e3f1a 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        color: white;
+      }
+
+      .profile-info h2 {
+        color: #2d5a27;
+        margin-bottom: 0.5rem;
+      }
+
+      .profile-info p {
+        color: #666;
+        margin-bottom: 0.25rem;
+      }
+
+      .profile-tabs {
+        display: flex;
+        border-bottom: 1px solid #eaeaea;
+        margin-bottom: 2rem;
+      }
+
+      .tab-btn {
+        padding: 1rem 2rem;
+        background: none;
+        border: none;
+        border-bottom: 3px solid transparent;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #666;
+        transition: all 0.3s;
+      }
+
+      .tab-btn.active {
+        color: #2d5a27;
+        border-bottom: 3px solid #2d5a27;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 8px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        text-align: center;
+        margin-bottom: 1rem;
+      }
+
+      .stat-card h4 {
+        color: #666;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2d5a27;
+      }
+
+      .btn-edit {
+        background-color: #2d5a27;
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.3s;
+      }
+
+      .btn-edit:hover {
+        background-color: #1e3f1a;
+      }
+
+      .btn-logout {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.5rem 1.5rem;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: background-color 0.3s;
+        margin-left: 1rem;
+      }
+
+      .btn-logout:hover {
+        background-color: #c82333;
+      }
+
+      @media (max-width: 768px) {
+        .profile-header {
+          flex-direction: column;
+          text-align: center;
+          gap: 1rem;
+        }
+
+        .profile-tabs {
+          flex-direction: column;
+        }
+
+        .tab-btn {
+          padding: 0.75rem 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <div class="logo">
+          <img
+            src="../assets/images/nilam.png"
+            alt="Tanaman Nilam"
+            style="width: 100px; height: 100px" />
+          <h1>NILAMTRACE</h1>
+          <span>Desa Teuladan</span>
+        </div>
+        <nav>
+          <ul>
+            <li><a href="../homepage/homepage.html">Dashboard</a></li>
+            <li>
+              <a href="../monitoring/monitoring.html">Deteksi Penyakit</a>
+            </li>
+            <li>
+              <a href="../production/input-produksi.html">Input Produksi</a>
+            </li>
+            <li><a href="profile.html" class="active">Profil</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="profile-container">
+      <div class="profile-header">
+        <div class="profile-avatar" id="userAvatar">P</div>
+        <div class="profile-info">
+          <h2 id="userName">Petani Nilam</h2>
+          <p id="userEmail">petani@nilam.com</p>
+          <p id="userPhone">0812-3456-7890</p>
+          <p id="userVillage">Desa Teuladan, Kec. Seulimum, Kab. Aceh Besar</p>
+          <div style="margin-top: 1rem">
+            <button class="btn-edit" onclick="editProfile()">
+              Edit Profil
+            </button>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-tabs">
+        <button class="tab-btn active" data-tab="overview">Overview</button>
+        <button class="tab-btn" data-tab="activity">Aktivitas</button>
+        <button class="tab-btn" data-tab="settings">Pengaturan</button>
+      </div>
+
+      <div class="tab-content active" id="overview">
+        <div class="card">
+          <h2>Statistik Profil</h2>
+          <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr)">
+            <div class="stat-card">
+              <h4>Total Deteksi</h4>
+              <div class="stat-value" id="totalDetections">15</div>
+            </div>
+            <div class="stat-card">
+              <h4>Tanaman Aktif</h4>
+              <div class="stat-value" id="activePlants">1200</div>
+            </div>
+            <div class="stat-card">
+              <h4>Produksi Bulan Ini</h4>
+              <div class="stat-value" id="monthProduction">250 kg</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Deteksi Terbaru</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Penyakit</th>
+                <th>Keparahan</th>
+              </tr>
+            </thead>
+            <tbody id="recentDetections">
+              <tr>
+                <td>15/10/2023</td>
+                <td>Busuk Batang</td>
+                <td>Sedang (45%)</td>
+              </tr>
+              <tr>
+                <td>10/10/2023</td>
+                <td>Bercak Daun</td>
+                <td>Ringan (15%)</td>
+              </tr>
+              <tr>
+                <td>05/10/2023</td>
+                <td>Jamur Akar</td>
+                <td>Ringan (10%)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tab-content" id="activity">
+        <div class="card">
+          <h2>Riwayat Aktivitas</h2>
+          <div style="display: flex; flex-direction: column; gap: 1rem">
+            <div style="padding: 1rem; background: #f8f9fa; border-radius: 6px">
+              <strong>Login</strong> - Berhasil masuk ke sistem (18 Nov 2024,
+              10:30)
+            </div>
+            <div style="padding: 1rem; background: #f8f9fa; border-radius: 6px">
+              <strong>Deteksi Penyakit</strong> - Mengupload foto daun nilam (17
+              Nov 2024, 14:15)
+            </div>
+            <div style="padding: 1rem; background: #f8f9fa; border-radius: 6px">
+              <strong>Input Produksi</strong> - Menambahkan data produksi bulan
+              Oktober (15 Nov 2024, 09:45)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-content" id="settings">
+        <div class="card">
+          <h2>Pengaturan Akun</h2>
+          <form id="settingsForm">
+            <div class="form-group">
+              <label for="notifications">Notifikasi Email</label>
+              <select id="notifications" class="form-control">
+                <option value="daily">Setiap Hari</option>
+                <option value="weekly" selected>Setiap Minggu</option>
+                <option value="monthly">Setiap Bulan</option>
+                <option value="never">Tidak Pernah</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="theme">Tema Aplikasi</label>
+              <select id="theme" class="form-control">
+                <option value="light" selected>Terang</option>
+                <option value="dark">Gelap</option>
+                <option value="auto">Otomatis</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <input type="checkbox" id="dataSharing" checked />
+                Izinkan berbagi data anonim untuk penelitian
+              </label>
+            </div>
+
+            <button type="submit" class="btn" style="margin-top: 1rem">
+              Simpan Pengaturan
+            </button>
+          </form>
+
+          <div
+            style="
+              margin-top: 2rem;
+              padding-top: 1.5rem;
+              border-top: 1px solid #eaeaea;
+            ">
+            <h3 style="color: #dc3545; margin-bottom: 1rem">Zona Berbahaya</h3>
+            <button
+              class="btn-logout"
+              onclick="deleteAccount()"
+              style="width: 100%">
+              Hapus Akun Permanen
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>
+        NILAMTRACE - Dashboard Analitik Pertanian untuk Monitoring Produksi dan
+        Kesehatan Tanaman Nilam
+      </p>
+      <p>Desa Teuladan, Kecamatan Seulimum, Kabupaten Aceh Besar</p>
+    </footer>
+
+    <script>
+      // Load user data from localStorage
+      function loadUserData() {
+        const userData = JSON.parse(localStorage.getItem("user")) || {
+          name: "Petani Nilam",
+          email: "petani@nilam.com",
+          phone: "0812-3456-7890",
+          address: "Desa Teuladan, Kec. Seulimum, Kab. Aceh Besar",
+          village: "Desa Teuladan",
+        };
+
+        document.getElementById("userName").textContent = userData.name;
+        document.getElementById("userEmail").textContent =
+          userData.email || "petani@nilam.com";
+        document.getElementById("userPhone").textContent =
+          userData.phone || "0812-3456-7890";
+        document.getElementById("userVillage").textContent =
+          userData.address || "Desa Teuladan, Kec. Seulimum, Kab. Aceh Besar";
+
+        // Update avatar with first letter of name
+        if (userData.name) {
+          document.getElementById("userAvatar").textContent = userData.name
+            .charAt(0)
+            .toUpperCase();
+        }
+      }
+
+      // Tab switching
+      document.querySelectorAll(".tab-btn").forEach((btn) => {
+        btn.addEventListener("click", function () {
+          document
+            .querySelectorAll(".tab-btn")
+            .forEach((b) => b.classList.remove("active"));
+          document
+            .querySelectorAll(".tab-content")
+            .forEach((c) => c.classList.remove("active"));
+
+          this.classList.add("active");
+          const tabId = this.getAttribute("data-tab");
+          document.getElementById(tabId).classList.add("active");
+        });
+      });
+
+      function editProfile() {
+        const name = prompt(
+          "Masukkan nama baru:",
+          document.getElementById("userName").textContent
+        );
+        if (name) {
+          document.getElementById("userName").textContent = name;
+          document.getElementById("userAvatar").textContent = name
+            .charAt(0)
+            .toUpperCase();
+
+          // Update localStorage
+          const userData = JSON.parse(localStorage.getItem("user")) || {};
+          userData.name = name;
+          localStorage.setItem("user", JSON.stringify(userData));
+
+          alert("Profil berhasil diperbarui!");
+        }
+      }
+
+      function logout() {
+        if (confirm("Apakah Anda yakin ingin logout?")) {
+          localStorage.removeItem("user");
+          window.location.href = "login.html";
+        }
+      }
+
+      function deleteAccount() {
+        if (
+          confirm(
+            "PERINGATAN: Ini akan menghapus akun Anda secara permanen. Lanjutkan?"
+          )
+        ) {
+          if (
+            confirm("Benar-benar yakin? Tindakan ini tidak dapat dibatalkan!")
+          ) {
+            localStorage.removeItem("user");
+            alert("Akun berhasil dihapus. Mengarahkan ke halaman utama...");
+            setTimeout(() => {
+              window.location.href = "../homepage/homepage.html";
+            }, 1000);
+          }
+        }
+      }
+
+      // Initialize on load
+      document.addEventListener("DOMContentLoaded", function () {
+        loadUserData();
+
+        // Check if user is logged in
+        const userData = localStorage.getItem("user");
+        if (!userData) {
+          alert("Silakan login terlebih dahulu");
+          window.location.href = "login.html";
+        }
+
+        // Settings form
+        document
+          .getElementById("settingsForm")
+          .addEventListener("submit", function (e) {
+            e.preventDefault();
+            alert("Pengaturan berhasil disimpan!");
+          });
+      });
+    </script>
+  </body>
+</html>

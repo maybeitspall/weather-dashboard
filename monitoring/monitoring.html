@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NILAMTRACE - Deteksi Penyakit</title>
+
+    <!-- Akses CSS dari folder assets -->
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/upload.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <div class="logo">
+          <img
+            src="../assets/images/nilam.png"
+            alt="Tanaman Nilam"
+            style="width: 100px; height: 100px" />
+          <h1>NILAMTRACE</h1>
+
+        </div>
+        <nav>
+          <ul>
+            <!-- Akses halaman homepage -->
+            <li><a href="../homepage/homepage.html">Dashboard</a></li>
+            <li>
+              <a href="monitoring.html" class="active">Deteksi Penyakit</a>
+            </li>
+            <li>
+              <a href="../production/input-produksi.html">Input Produksi</a>
+            </li>
+            <!-- Tambahkan di dalam <nav><ul> di homepage.html dan monitoring.html -->
+            <li><a href="../auth/profile.html">Profil</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="card">
+        <h2>Deteksi Kesehatan Tanaman Nilam (Menggunakan AI)</h2>
+
+        <!-- Tab untuk memilih metode input -->
+        <div class="input-methods">
+          <button class="method-btn active" data-method="upload">
+            Upload Foto
+          </button>
+          <button class="method-btn" data-method="camera">
+            Ambil Foto dengan Kamera
+          </button>
+        </div>
+
+        <!-- Area Upload Foto -->
+        <div class="upload-area active" id="uploadArea">
+          <div class="upload-icon">📷</div>
+          <h3>Tarik & Lepas Foto Daun Nilam di Sini</h3>
+          <p>atau</p>
+          <input
+            type="file"
+            id="fileInput"
+            accept="image/*"
+            style="display: none" />
+          <button class="btn" id="uploadBtn">Pilih dari Galeri</button>
+          <p style="margin-top: 1rem; font-size: 0.9rem; color: #666">
+            <strong>Penting:</strong> Pastikan foto fokus dan hanya menampilkan
+            1-2 daun yang terkena penyakit.
+          </p>
+        </div>
+
+        <!-- Area Kamera -->
+        <div class="camera-area" id="cameraArea">
+          <div class="camera-preview" id="cameraPreview">
+            <video id="videoElement" autoplay playsinline></video>
+            <canvas id="canvasElement" style="display: none"></canvas>
+          </div>
+          <div class="camera-controls">
+            <button class="btn" id="startCameraBtn">Aktifkan Kamera</button>
+            <button class="btn" id="captureBtn" style="display: none">
+              Ambil Foto
+            </button>
+            <button
+              class="btn btn-secondary"
+              id="retakeBtn"
+              style="display: none">
+              Ambil Ulang
+            </button>
+          </div>
+          <div class="camera-result" id="cameraResult" style="display: none">
+            <img id="capturedImage" src="" alt="Foto yang diambil" />
+            <p>
+              Foto berhasil diambil. Klik "Analisis dengan AI" untuk memproses.
+            </p>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem">
+          <button class="btn" id="analyzeBtn" style="display: none">
+            Analisis dengan AI
+          </button>
+        </div>
+      </div>
+
+      <div class="result-container" id="resultContainer" style="display: none">
+        <div class="result-header">
+          <h2>Hasil Analisis AI</h2>
+        </div>
+
+        <div class="card">
+          <h3>Identifikasi</h3>
+          <p>
+            Terdeteksi:
+            <span class="detected">Penyakit Budok</span>
+          </p>
+          <p>
+            Deskripsi:
+            <span class="description"
+              >: Gejala penyakit budok pada batang dan daun nilam. Pada batang
+              dan daun terlihat bintil-bintil kasar berwarna kecokelatan</span
+            >
+          </p>
+          <p>Tingkat Keparahan: <span class="detected">Parah (80%)</span></p>
+          <p>Akurasi Model: <span class="accuracy">92%</span></p>
+        </div>
+
+        <div class="recommendation">
+          <h3>Rekomendasi Penanganan</h3>
+          <p>
+            Isolasikan tanaman sakit, segera aplikasikan fungisida [Nama Bahan
+            Aktif] pada dosis [X] gram/liter air.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Riwayat Foto</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Tanggal</th>
+              <th>Foto</th>
+              <th>Hasil Analisis</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>15/10/2023</td>
+              <td>daun_nilam_001.jpg</td>
+              <td>Busuk Batang (45%)</td>
+              <td>Selesai</td>
+            </tr>
+            <tr>
+              <td>10/10/2023</td>
+              <td>daun_nilam_002.jpg</td>
+              <td>Bercak Daun (15%)</td>
+              <td>Selesai</td>
+            </tr>
+            <tr>
+              <td>05/10/2023</td>
+              <td>daun_nilam_003.jpg</td>
+              <td>Jamur Akar (10%)</td>
+              <td>Selesai</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer>
+      <p>
+        NILAMTRACE - Dashboard Analitik Pertanian untuk Monitoring Produksi dan
+        Kesehatan Tanaman Nilam
+      </p>
+      <p>Desa Teuladan, Kecamatan Seulimum, Kabupaten Aceh Besar</p>
+    </footer>
+
+    <!-- Akses JavaScript dari folder assets -->
+    <script src="../assets/js/upload.js"></script>
+  </body>
+</html>

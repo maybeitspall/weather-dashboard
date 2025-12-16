@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NILAMTRACE - Dashboard Utama</title>
+    
+    <!-- Akses CSS dari folder assets -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/chart.css">
+    
+    <!-- Chart.js dari CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="../assets/images/nilam.png" alt="Tanaman Nilam" style="width: 100px; height: 100px;"/>
+                <div>
+                    <h1>NILAMTRACE</h1>
+                    <span id="locationInfo">Desa Teuladan</span>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="homepage.html" class="active">Dashboard</a></li>
+                    <li><a href="../monitoring/monitoring.html">Deteksi Penyakit</a></li>
+                    <li><a href="../production/input-produksi.html">Input Produksi</a></li>
+                    <li><a href="../auth/profile.html">Profil</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Welcome Section -->
+        <div class="card">
+            <div class="dashboard-header">
+                <h2>Dashboard Utama</h2>
+                <div class="last-update">
+                    <span id="lastUpdateTime"></span>
+                    <button id="refreshBtn" class="refresh-btn">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="welcomeMessage">
+                <p>Selamat datang di NILAMTRACE, sistem monitoring tanaman nilam terpadu.</p>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+            <h2>Aksi Cepat</h2>
+            <div class="quick-actions">
+                <a href="../production/input-produksi.html" class="action-btn">
+                    <div class="action-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <h4>Input Produksi</h4>
+                    <p>Catat hasil panen</p>
+                </a>
+                
+                <a href="../monitoring/monitoring.html" class="action-btn">
+                    <div class="action-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h4>Deteksi Penyakit</h4>
+                    <p>Periksa kesehatan tanaman</p>
+                </a>
+                
+                <a href="../production/input-produksi.html#tab-tanaman" class="action-btn">
+                    <div class="action-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <h4>Tambah Tanaman</h4>
+                    <p>Input data tanaman baru</p>
+                </a>
+                
+                <a href="#" class="action-btn" id="viewReportBtn">
+                    <div class="action-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h4>Lihat Laporan</h4>
+                    <p>Analisis data produksi</p>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Stats -->
+        <div class="card">
+            <h2>Statistik Utama</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Tanaman</h3>
+                    <div class="stat-value" id="totalTanaman">0 Batang</div>
+                    <div class="health-status">
+                        <div class="health-progress">
+                            <div class="health-bar" id="healthBar"></div>
+                        </div>
+                        <div class="health-percentage" id="healthPercentage">0%</div>
+                    </div>
+                    <small id="activePlantsInfo">Tanaman aktif: 0</small>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Estimasi Produksi</h3>
+                    <div class="stat-value" id="estimasiProduksi">0 kg/Bulan</div>
+                    <div class="production-summary">
+                        <div class="summary-item">
+                            <div class="summary-label">Bulan Ini</div>
+                            <div class="summary-value" id="thisMonthProduction">0 kg</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Total</div>
+                            <div class="summary-value" id="totalProduction">0 kg</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Status Kesehatan</h3>
+                    <div class="status-warning">
+                        <span id="statusKesehatan">MENUNGGU DATA</span>
+                    </div>
+                    <div class="detailed-stats compact">
+                        <div class="stat-detail">
+                            <div class="value" id="healthyPlants">0</div>
+                            <div class="label">Sehat</div>
+                        </div>
+                        <div class="stat-detail">
+                            <div class="value" id="readyToHarvest">0</div>
+                            <div class="label">Siap Panen</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Luas Lahan</h3>
+                    <div class="stat-value" id="luasLahan">0 m²</div>
+                    <div class="productivity-detail">
+                        <div class="value" id="productivityRate">0 g</div>
+                        <div class="label">Produktivitas/Tanaman</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Production Chart -->
+        <div class="card">
+            <h2>Grafik Produksi 12 Bulan Terakhir</h2>
+            <div class="chart-container">
+                <canvas id="productionChart"></canvas>
+            </div>
+            <div class="chart-controls">
+                <div>
+                    <small>Periode: <span id="chartPeriod"></span></small>
+                </div>
+                <div>
+                    <button id="toggleChartType" class="chart-toggle-btn">
+                        <i class="fas fa-chart-line"></i> Ganti Grafik
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts and Notifications -->
+        <div class="card">
+            <h2>Notifikasi & Peringatan</h2>
+            <div id="alertsContainer">
+                <div class="alert-box">
+                    <div class="alert-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="alert-content">
+                        <h4>Memuat data...</h4>
+                        <p>Sedang mengambil data terbaru dari sistem.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="quickTips" class="quick-tips">
+                <h3>Tips Perawatan</h3>
+                <ul>
+                    <li>Periksa kelembaban tanah setiap pagi</li>
+                    <li>Semprot fungisida preventif setiap 2 minggu</li>
+                    <li>Pemupukan dilakukan setiap 1-2 bulan</li>
+                    <li>Pantau tanda-tanda penyakit sejak dini</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="card">
+            <h2>Aktivitas Terbaru</h2>
+            <div class="activity-list" id="recentActivities">
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <div class="activity-content">
+                        <p>Memuat aktivitas terbaru...</p>
+                        <div class="activity-time">Sekarang</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Production Summary Table -->
+        <div class="card">
+            <h2>Ringkasan Produksi</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Bulan</th>
+                            <th>Jenis Produk</th>
+                            <th>Jumlah (kg)</th>
+                            <th>Pendapatan (Rp)</th>
+                            <th>Rata-rata Harga/kg</th>
+                        </tr>
+                    </thead>
+                    <tbody id="productionSummaryTable">
+                        <tr>
+                            <td colspan="5" class="empty-state">Memuat data produksi...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Plant Status Overview -->
+        <div class="card">
+            <h2>Status Tanaman</h2>
+            <div id="plantStatusOverview">
+                <div class="detailed-stats full-grid">
+                    <div class="stat-detail">
+                        <div class="value" id="plantStatusAktif">0</div>
+                        <div class="label">Tanaman Aktif</div>
+                        <div class="trend trend-up" id="trendAktif">-</div>
+                    </div>
+                    <div class="stat-detail">
+                        <div class="value" id="plantStatusPanen">0</div>
+                        <div class="label">Siap Panen</div>
+                        <div class="trend" id="trendPanen">-</div>
+                    </div>
+                    <div class="stat-detail">
+                        <div class="value" id="plantStatusBaru">0</div>
+                        <div class="label">Tanaman Baru</div>
+                        <div class="trend trend-up" id="trendBaru">-</div>
+                    </div>
+                    <div class="stat-detail">
+                        <div class="value" id="plantStatusPemeliharaan">0</div>
+                        <div class="label">Pemeliharaan</div>
+                        <div class="trend" id="trendPemeliharaan">-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="card">
+            <h2>Kontak & Informasi</h2>
+            <div class="contact-grid">
+                <div>
+                    <h3>Penyuluh Pertanian</h3>
+                    <p><strong>Ahmad Fauzi</strong></p>
+                    <p>📞 0812-3456-7890</p>
+                    <p>✉️ ahmad.fauzi@nilamtrace.id</p>
+                    <p class="consultation-hours">Jam konsultasi: Senin-Jumat, 08:00-16:00</p>
+                </div>
+                <div>
+                    <h3>Informasi Sistem</h3>
+                    <p><strong>Versi:</strong> NILAMTRACE v2.0</p>
+                    <p><strong>Status:</strong> <span id="systemStatus" class="badge badge-success">Online</span></p>
+                    <p><strong>Update Terakhir:</strong> <span id="systemLastUpdate">-</span></p>
+                    <p><strong>Lokasi:</strong> Desa Teuladan, Kec. Seulimum, Kab. Aceh Besar</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>NILAMTRACE - Dashboard Analitik Pertanian untuk Monitoring Produksi dan Kesehatan Tanaman Nilam</p>
+        <p>Desa Teuladan, Kecamatan Seulimum, Kabupaten Aceh Besar</p>
+        <p class="footer-info">
+            <span id="dataInfo">Data diperbarui: -</span> | 
+            <span id="recordCount">Catatan: 0 produksi, 0 tanaman</span>
+        </p>
+    </footer>
+
+    <!-- Akses JavaScript dari folder assets -->
+    <script src="../assets/js/main.js"></script>
+</body>
+</html>

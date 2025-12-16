@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NILAMTRACE - Input Data Produksi & Tanaman</title>
+    
+    <!-- Akses CSS dari folder assets -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/form.css">
+    <style>
+        .tab-container {
+            display: flex;
+            border-bottom: 1px solid #eaeaea;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            color: #2d5a27;
+            border-bottom: 3px solid #2d5a27;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .info-box {
+            background-color: #e8f4e8;
+            border-left: 4px solid #2d5a27;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border-radius: 4px;
+        }
+        
+        .info-box h3 {
+            color: #2d5a27;
+            margin-bottom: 0.5rem;
+        }
+        
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .plant-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 1rem;
+            border: 1px solid #eaeaea;
+            transition: transform 0.3s;
+        }
+        
+        .plant-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .plant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .plant-name {
+            font-weight: bold;
+            color: #2d5a27;
+            font-size: 1.1rem;
+        }
+        
+        .plant-status {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        
+        .status-aktif {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-panen {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-baru {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+        
+        .plant-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+            font-size: 0.9rem;
+        }
+        
+        .plant-detail {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .detail-value {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .plant-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: #6c757d;
+        }
+        
+        .empty-state img {
+            width: 80px;
+            opacity: 0.5;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .tab-container {
+                flex-direction: column;
+            }
+            
+            .tab {
+                padding: 0.75rem 1rem;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <img src="../assets/images/nilam.png" alt="Tanaman Nilam" style="width: 100px; height: 100px;"/>
+                <h1>NILAMTRACE</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../homepage/homepage.html">Dashboard</a></li>
+                    <li><a href="../monitoring/monitoring.html">Deteksi Penyakit</a></li>
+                    <li><a href="input-produksi.html" class="active">Input Produksi</a></li>
+                    <li><a href="../auth/profile.html">Profil</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Tab Container -->
+        <div class="tab-container">
+            <button class="tab active" data-tab="produksi">Input Produksi Panen</button>
+            <button class="tab" data-tab="tanaman">Input Data Tanaman</button>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <h3>Informasi Sistem</h3>
+            <p>Input data produksi panen dan data tanaman secara terpisah. Data tanaman yang diinput akan digunakan untuk analisis pada dashboard utama.</p>
+        </div>
+
+        <!-- Tab Content: Input Produksi -->
+        <div class="tab-content active" id="tab-produksi">
+            <div class="card">
+                <h2>Input Data Produksi Panen Nilam</h2>
+                <form id="productionForm">
+                    <div class="form-group">
+                        <label for="tanggal">Tanggal Panen</label>
+                        <input type="date" id="tanggal" name="tanggal" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="jenisProduk">Jenis Produk</label>
+                        <select id="jenisProduk" name="jenisProduk" required>
+                            <option value="">Pilih Jenis Produk</option>
+                            <option value="daun_segar">Daun Segar</option>
+                            <option value="minyak_nilam">Minyak Nilam</option>
+                            <option value="sabut_nilam">Sabut Nilam</option>
+                            <option value="bibit">Bibit</option>
+                        </select>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="jumlahProduksi">Jumlah Produksi (kg)</label>
+                            <input type="number" id="jumlahProduksi" name="jumlahProduksi" min="0" step="0.01" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="hargaJual">Harga Jual per kg (Rp)</label>
+                            <input type="number" id="hargaJual" name="hargaJual" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Total Pendapatan</label>
+                        <div id="totalPendapatanDisplay" class="total-display">Rp 0</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="kualitas">Kualitas Produk</label>
+                        <select id="kualitas" name="kualitas" required>
+                            <option value="">Pilih Kualitas</option>
+                            <option value="premium">Premium</option>
+                            <option value="standar">Standar</option>
+                            <option value="ekonomi">Ekonomi</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="keterangan">Keterangan (opsional)</label>
+                        <textarea id="keterangan" name="keterangan" rows="3" placeholder="Contoh: Panen musim pertama, hasil distilasi..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Simpan Data Produksi
+                    </button>
+                </form>
+            </div>
+
+            <!-- Riwayat Produksi -->
+            <div class="card">
+                <h2>Riwayat Produksi Panen</h2>
+                <table id="riwayatProduksi">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Jenis Produk</th>
+                            <th>Jumlah (kg)</th>
+                            <th>Harga/kg (Rp)</th>
+                            <th>Total (Rp)</th>
+                            <th>Kualitas</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Data riwayat akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Tab Content: Input Tanaman -->
+        <div class="tab-content" id="tab-tanaman">
+            <div class="card">
+                <h2>Input Data Tanaman Nilam</h2>
+                <form id="tanamanForm">
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="namaVarietas">Nama Varietas</label>
+                            <input type="text" id="namaVarietas" name="namaVarietas" required placeholder="Contoh: Nilam Aceh">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tanggalTanam">Tanggal Tanam</label>
+                            <input type="date" id="tanggalTanam" name="tanggalTanam" required>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label for="jumlahBatang">Jumlah Batang</label>
+                            <input type="number" id="jumlahBatang" name="jumlahBatang" min="1" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="luasLahan">Luas Lahan (m²)</label>
+                            <input type="number" id="luasLahan" name="luasLahan" min="1" step="0.01" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lokasi">Lokasi Tanam</label>
+                        <input type="text" id="lokasi" name="lokasi" placeholder="Contoh: Blok A, Desa Teuladan">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="statusTanaman">Status Tanaman</label>
+                        <select id="statusTanaman" name="statusTanaman" required>
+                            <option value="aktif">Aktif/Berkembang</option>
+                            <option value="panen">Siap Panen</option>
+                            <option value="baru">Tanaman Baru</option>
+                            <option value="masa-pemeliharaan">Masa Pemeliharaan</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="catatanTanaman">Catatan Tambahan</label>
+                        <textarea id="catatanTanaman" name="catatanTanaman" rows="3" placeholder="Kondisi tanah, perawatan khusus, dll..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Simpan Data Tanaman
+                    </button>
+                </form>
+            </div>
+
+            <!-- Daftar Tanaman -->
+            <div class="card">
+                <h2>Daftar Tanaman Terdaftar</h2>
+                <div id="daftarTanaman">
+                    <!-- Data tanaman akan diisi oleh JavaScript -->
+                    <div class="empty-state">
+                        <img src="../assets/images/nilam.png" alt="Belum ada data">
+                        <p>Belum ada data tanaman. Silakan input data tanaman terlebih dahulu.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>NILAMTRACE - Dashboard Analitik Pertanian untuk Monitoring Produksi dan Kesehatan Tanaman Nilam</p>
+        <p>Desa Teuladan, Kecamatan Seulimum, Kabupaten Aceh Besar</p>
+    </footer>
+
+    <!-- Akses JavaScript dari folder assets -->
+    <script src="../assets/js/production.js"></script>
+    <script>
+        // Modifikasi production.js untuk menangani kedua form
+        document.addEventListener("DOMContentLoaded", function() {
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show active content
+                    tabContents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `tab-${tabId}`) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+            
+            // Set tanggal default
+            document.getElementById('tanggal').valueAsDate = new Date();
+            document.getElementById('tanggalTanam').valueAsDate = new Date();
+            
+            // Load existing data
+            loadRiwayatProduksi();
+            loadDaftarTanaman();
+            
+            // Production form handling
+            const productionForm = document.getElementById('productionForm');
+            const jumlahProduksiInput = document.getElementById('jumlahProduksi');
+            const hargaJualInput = document.getElementById('hargaJual');
+            const totalPendapatanDisplay = document.getElementById('totalPendapatanDisplay');
+            
+            // Update total pendapatan
+            jumlahProduksiInput.addEventListener('input', updateTotalPendapatan);
+            hargaJualInput.addEventListener('input', updateTotalPendapatan);
+            
+            // Production form submit
+            productionForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = {
+                    tanggal: document.getElementById('tanggal').value,
+                    jenisProduk: document.getElementById('jenisProduk').value,
+                    jumlahProduksi: parseFloat(jumlahProduksiInput.value),
+                    hargaJual: parseInt(hargaJualInput.value),
+                    kualitas: document.getElementById('kualitas').value,
+                    keterangan: document.getElementById('keterangan').value,
+                    totalPendapatan: parseFloat(jumlahProduksiInput.value) * parseInt(hargaJualInput.value)
+                };
+                
+                // Validate
+                if (!formData.tanggal || !formData.jenisProduk || isNaN(formData.jumlahProduksi) || 
+                    isNaN(formData.hargaJual) || !formData.kualitas) {
+                    alert('Harap isi semua field yang wajib diisi!');
+                    return;
+                }
+                
+                saveProductionData(formData);
+                productionForm.reset();
+                document.getElementById('tanggal').valueAsDate = new Date();
+                updateTotalPendapatan();
+                loadRiwayatProduksi();
+                alert('Data produksi berhasil disimpan!');
+            });
+            
+            // Plants form handling
+            const tanamanForm = document.getElementById('tanamanForm');
+            
+            tanamanForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = {
+                    id: Date.now().toString(),
+                    namaVarietas: document.getElementById('namaVarietas').value,
+                    tanggalTanam: document.getElementById('tanggalTanam').value,
+                    jumlahBatang: parseInt(document.getElementById('jumlahBatang').value),
+                    luasLahan: parseFloat(document.getElementById('luasLahan').value),
+                    lokasi: document.getElementById('lokasi').value,
+                    statusTanaman: document.getElementById('statusTanaman').value,
+                    catatanTanaman: document.getElementById('catatanTanaman').value,
+                    createdAt: new Date().toISOString()
+                };
+                
+                // Validate
+                if (!formData.namaVarietas || !formData.tanggalTanam || 
+                    isNaN(formData.jumlahBatang) || isNaN(formData.luasLahan)) {
+                    alert('Harap isi semua field yang wajib diisi!');
+                    return;
+                }
+                
+                savePlantData(formData);
+                tanamanForm.reset();
+                document.getElementById('tanggalTanam').valueAsDate = new Date();
+                loadDaftarTanaman();
+                alert('Data tanaman berhasil disimpan!');
+            });
+            
+            // Function to update total pendapatan
+            function updateTotalPendapatan() {
+                const jumlah = parseFloat(jumlahProduksiInput.value) || 0;
+                const harga = parseInt(hargaJualInput.value) || 0;
+                totalPendapatanDisplay.textContent = formatRupiah(jumlah * harga);
+            }
+            
+            // Function to save production data
+            function saveProductionData(data) {
+                let productions = JSON.parse(localStorage.getItem('productions')) || [];
+                data.id = Date.now().toString();
+                productions.push(data);
+                localStorage.setItem('productions', JSON.stringify(productions));
+                
+                // Update dashboard data
+                updateDashboardData();
+            }
+            
+            // Function to save plant data
+            function savePlantData(data) {
+                let plants = JSON.parse(localStorage.getItem('plants')) || [];
+                plants.push(data);
+                localStorage.setItem('plants', JSON.stringify(plants));
+                
+                // Update dashboard data
+                updateDashboardData();
+            }
+            
+            // Function to load production history
+            function loadRiwayatProduksi() {
+                const tbody = document.querySelector('#riwayatProduksi tbody');
+                const productions = JSON.parse(localStorage.getItem('productions')) || [];
+                
+                tbody.innerHTML = '';
+                
+                if (productions.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="7" class="empty-state">Belum ada data produksi</td>
+                        </tr>
+                    `;
+                    return;
+                }
+                
+                // Sort by date (newest first)
+                productions.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+                
+                productions.forEach(prod => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${formatTanggal(prod.tanggal)}</td>
+                        <td>${getProductName(prod.jenisProduk)}</td>
+                        <td>${prod.jumlahProduksi} kg</td>
+                        <td>${formatRupiah(prod.hargaJual)}</td>
+                        <td>${formatRupiah(prod.totalPendapatan)}</td>
+                        <td>${prod.kualitas}</td>
+                        <td>
+                            <button class="btn-danger" onclick="deleteProduction('${prod.id}')">Hapus</button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+            
+            // Function to load plants list
+            function loadDaftarTanaman() {
+                const container = document.getElementById('daftarTanaman');
+                const plants = JSON.parse(localStorage.getItem('plants')) || [];
+                
+                if (plants.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <img src="../assets/images/nilam.png" alt="Belum ada data">
+                            <p>Belum ada data tanaman. Silakan input data tanaman terlebih dahulu.</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = '';
+                
+                // Sort by date (newest first)
+                plants.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                
+                plants.forEach(plant => {
+                    const card = document.createElement('div');
+                    card.className = 'plant-card';
+                    card.innerHTML = `
+                        <div class="plant-header">
+                            <span class="plant-name">${plant.namaVarietas}</span>
+                            <span class="plant-status status-${plant.statusTanaman}">
+                                ${getStatusName(plant.statusTanaman)}
+                            </span>
+                        </div>
+                        <p><small>Ditanam: ${formatTanggal(plant.tanggalTanam)}</small></p>
+                        
+                        <div class="plant-details">
+                            <div class="plant-detail">
+                                <span class="detail-label">Jumlah Batang</span>
+                                <span class="detail-value">${plant.jumlahBatang} batang</span>
+                            </div>
+                            <div class="plant-detail">
+                                <span class="detail-label">Luas Lahan</span>
+                                <span class="detail-value">${plant.luasLahan} m²</span>
+                            </div>
+                            <div class="plant-detail">
+                                <span class="detail-label">Lokasi</span>
+                                <span class="detail-value">${plant.lokasi || '-'}</span>
+                            </div>
+                            <div class="plant-detail">
+                                <span class="detail-label">Usia</span>
+                                <span class="detail-value">${calculateAge(plant.tanggalTanam)} hari</span>
+                            </div>
+                        </div>
+                        
+                        ${plant.catatanTanaman ? `<p style="margin-top: 0.75rem; font-size: 0.9rem;"><em>${plant.catatanTanaman}</em></p>` : ''}
+                        
+                        <div class="plant-actions">
+                            <button class="btn-secondary" onclick="editPlant('${plant.id}')">Edit</button>
+                            <button class="btn-danger" onclick="deletePlant('${plant.id}')">Hapus</button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+            
+            // Function to update dashboard data (for homepage)
+            function updateDashboardData() {
+                const plants = JSON.parse(localStorage.getItem('plants')) || [];
+                const productions = JSON.parse(localStorage.getItem('productions')) || [];
+                
+                // Calculate total plants and area
+                let totalPlants = 0;
+                let totalArea = 0;
+                let activePlants = 0;
+                
+                plants.forEach(plant => {
+                    totalPlants += plant.jumlahBatang;
+                    totalArea += plant.luasLahan;
+                    if (plant.statusTanaman === 'aktif' || plant.statusTanaman === 'panen') {
+                        activePlants += plant.jumlahBatang;
+                    }
+                });
+                
+                // Calculate total production this month
+                const now = new Date();
+                const thisMonthProductions = productions.filter(prod => {
+                    const prodDate = new Date(prod.tanggal);
+                    return prodDate.getMonth() === now.getMonth() && 
+                           prodDate.getFullYear() === now.getFullYear();
+                });
+                
+                const totalProduction = thisMonthProductions.reduce((sum, prod) => sum + prod.jumlahProduksi, 0);
+                
+                // Save to localStorage for dashboard
+                localStorage.setItem('dashboardData', JSON.stringify({
+                    totalPlants: totalPlants,
+                    totalArea: totalArea,
+                    activePlants: activePlants,
+                    monthProduction: totalProduction,
+                    lastUpdated: new Date().toISOString()
+                }));
+            }
+            
+            // Helper functions
+            function formatTanggal(dateString) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString('id-ID', options);
+            }
+            
+            function formatRupiah(angka) {
+                return new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0
+                }).format(angka);
+            }
+            
+            function getProductName(code) {
+                const products = {
+                    'daun_segar': 'Daun Segar',
+                    'minyak_nilam': 'Minyak Nilam',
+                    'sabut_nilam': 'Sabut Nilam',
+                    'bibit': 'Bibit'
+                };
+                return products[code] || code;
+            }
+            
+            function getStatusName(status) {
+                const statuses = {
+                    'aktif': 'Aktif',
+                    'panen': 'Siap Panen',
+                    'baru': 'Baru',
+                    'masa-pemeliharaan': 'Pemeliharaan'
+                };
+                return statuses[status] || status;
+            }
+            
+            function calculateAge(tanggalTanam) {
+                const tanamDate = new Date(tanggalTanam);
+                const today = new Date();
+                const diffTime = Math.abs(today - tanamDate);
+                return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            }
+            
+            // Global functions for buttons
+            window.deleteProduction = function(id) {
+                if (confirm('Apakah Anda yakin ingin menghapus data produksi ini?')) {
+                    let productions = JSON.parse(localStorage.getItem('productions')) || [];
+                    productions = productions.filter(prod => prod.id !== id);
+                    localStorage.setItem('productions', JSON.stringify(productions));
+                    loadRiwayatProduksi();
+                    updateDashboardData();
+                }
+            };
+            
+            window.deletePlant = function(id) {
+                if (confirm('Apakah Anda yakin ingin menghapus data tanaman ini?')) {
+                    let plants = JSON.parse(localStorage.getItem('plants')) || [];
+                    plants = plants.filter(plant => plant.id !== id);
+                    localStorage.setItem('plants', JSON.stringify(plants));
+                    loadDaftarTanaman();
+                    updateDashboardData();
+                }
+            };
+            
+            window.editPlant = function(id) {
+                alert('Fitur edit akan segera tersedia!');
+                // Implementasi edit bisa ditambahkan di sini
+            };
+            
+            // Initial update
+            updateDashboardData();
+        });
+    </script>
+</body>
+</html>
