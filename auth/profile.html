@@ -1,438 +1,802 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- Tambahkan setelah <meta name="viewport"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Profil - NILAMTRACE</title>
-    <link rel="stylesheet" href="../assets/css/style.css" />
-    <style>
-      .profile-container {
-        max-width: 800px;
-        margin: 2rem auto;
-        padding: 0 1.5rem;
-      }
-
-      .profile-header {
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-        margin-bottom: 2rem;
-        background: white;
-        border-radius: 12px;
-        padding: 2rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-      }
-
-      .profile-avatar {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #2d5a27 0%, #1e3f1a 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 2.5rem;
-        color: white;
-      }
-
-      .profile-info h2 {
-        color: #2d5a27;
-        margin-bottom: 0.5rem;
-      }
-
-      .profile-info p {
-        color: #666;
-        margin-bottom: 0.25rem;
-      }
-
-      .profile-tabs {
-        display: flex;
-        border-bottom: 1px solid #eaeaea;
-        margin-bottom: 2rem;
-      }
-
-      .tab-btn {
-        padding: 1rem 2rem;
-        background: none;
-        border: none;
-        border-bottom: 3px solid transparent;
-        cursor: pointer;
-        font-size: 1rem;
-        font-weight: 500;
-        color: #666;
-        transition: all 0.3s;
-      }
-
-      .tab-btn.active {
-        color: #2d5a27;
-        border-bottom: 3px solid #2d5a27;
-      }
-
-      .tab-content {
-        display: none;
-      }
-
-      .tab-content.active {
-        display: block;
-      }
-
-      .stat-card {
-        background: white;
-        border-radius: 8px;
-        padding: 1.5rem;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        text-align: center;
-        margin-bottom: 1rem;
-      }
-
-      .stat-card h4 {
-        color: #666;
-        margin-bottom: 0.5rem;
-        font-size: 0.9rem;
-      }
-
-      .stat-value {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #2d5a27;
-      }
-
-      .btn-edit {
-        background-color: #2d5a27;
-        color: white;
-        border: none;
-        padding: 0.5rem 1.5rem;
-        border-radius: 4px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: background-color 0.3s;
-      }
-
-      .btn-edit:hover {
-        background-color: #1e3f1a;
-      }
-
-      .btn-logout {
-        background-color: #dc3545;
-        color: white;
-        border: none;
-        padding: 0.5rem 1.5rem;
-        border-radius: 4px;
-        cursor: pointer;
-        font-weight: 500;
-        transition: background-color 0.3s;
-        margin-left: 1rem;
-      }
-
-      .btn-logout:hover {
-        background-color: #c82333;
-      }
-
-      @media (max-width: 768px) {
-        .profile-header {
-          flex-direction: column;
-          text-align: center;
-          gap: 1rem;
-        }
-
-        .profile-tabs {
-          flex-direction: column;
-        }
-
-        .tab-btn {
-          padding: 0.75rem 1rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
+    
+    <!-- Ikon Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Akses CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <!-- Navigation Header (Sama seperti homepage) -->
     <header>
-      <div class="header-container">
-        <div class="logo">
-          <img
-            src="../assets/images/nilam.png"
-            alt="Tanaman Nilam"
-            style="width: 100px; height: 100px" />
-          <h1>NILAMTRACE</h1>
-          <span>Desa Teuladan</span>
+        <div class="header-container">
+            <!-- Hamburger Menu untuk Mobile -->
+            <button class="hamburger-btn" id="hamburgerBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <!-- Logo -->
+            <div class="logo">
+                <img src="../assets/images/nilam.png" alt="Tanaman Nilam" class="logo-img"/>
+                <div class="logo-text">
+                    <h1>NILAMTRACE</h1>
+                    <span id="locationInfo">Desa Teuladan</span>
+                </div>
+            </div>
+            
+            <!-- Profile Dropdown -->
+            <div class="profile-dropdown" id="profileDropdown">
+                <button class="profile-btn" id="profileBtn">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="profile-name">Petani Nilam</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="dropdown-header">
+                        <div class="dropdown-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="dropdown-info">
+                            <h4>Petani Nilam</h4>
+                            <p>petani@nilam.com</p>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="profile.html" class="dropdown-item active">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Profil Saya</span>
+                    </a>
+                    <a href="profile.html#settings" class="dropdown-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Pengaturan</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item logout" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Keluar</span>
+                    </a>
+                </div>
+            </div>
         </div>
-        <nav>
-          <ul>
-            <li><a href="../homepage/homepage.html">Dashboard</a></li>
-            <li>
-              <a href="../monitoring/monitoring.html">Deteksi Penyakit</a>
-            </li>
-            <li>
-              <a href="../production/input-produksi.html">Input Produksi</a>
-            </li>
-            <li><a href="profile.html" class="active">Profil</a></li>
-          </ul>
-        </nav>
-      </div>
     </header>
 
-    <div class="profile-container">
-      <div class="profile-header">
-        <div class="profile-avatar" id="userAvatar">P</div>
-        <div class="profile-info">
-          <h2 id="userName">Petani Nilam</h2>
-          <p id="userEmail">petani@nilam.com</p>
-          <p id="userPhone">0812-3456-7890</p>
-          <p id="userVillage">Desa Teuladan, Kec. Seulimum, Kab. Aceh Besar</p>
-          <div style="margin-top: 1rem">
-            <button class="btn-edit" onclick="editProfile()">
-              Edit Profil
+    <!-- Sidebar Navigation (Sama seperti homepage) -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="../assets/images/nilam.png" alt="Logo Nilam"/>
+                <h3>NILAMTRACE</h3>
+            </div>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
             </button>
-            <button class="btn-logout" onclick="logout()">Logout</button>
-          </div>
         </div>
-      </div>
-
-      <div class="profile-tabs">
-        <button class="tab-btn active" data-tab="overview">Overview</button>
-        <button class="tab-btn" data-tab="activity">Aktivitas</button>
-        <button class="tab-btn" data-tab="settings">Pengaturan</button>
-      </div>
-
-      <div class="tab-content active" id="overview">
-        <div class="card">
-          <h2>Statistik Profil</h2>
-          <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr)">
-            <div class="stat-card">
-              <h4>Total Deteksi</h4>
-              <div class="stat-value" id="totalDetections">15</div>
-            </div>
-            <div class="stat-card">
-              <h4>Tanaman Aktif</h4>
-              <div class="stat-value" id="activePlants">1200</div>
-            </div>
-            <div class="stat-card">
-              <h4>Produksi Bulan Ini</h4>
-              <div class="stat-value" id="monthProduction">250 kg</div>
-            </div>
-          </div>
+        
+        <div class="sidebar-menu">
+            <a href="../homepage/homepage.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            
+            <a href="../monitoring/monitoring.html" class="menu-item">
+                <i class="fas fa-camera"></i>
+                <span>Deteksi Penyakit</span>
+            </a>
+            
+            <a href="../production/input-produksi.html" class="menu-item">
+                <i class="fas fa-seedling"></i>
+                <span>Input Produksi</span>
+            </a>
+            
+            <a href="../monitoring/monitoring.html" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Monitoring Tanaman</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Jadwal Panen</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-file-alt"></i>
+                <span>Laporan</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>Panduan</span>
+            </a>
+            
+            <div class="menu-divider"></div>
+            
+            <a href="profile.html" class="menu-item active">
+                <i class="fas fa-user-cog"></i>
+                <span>Pengaturan Akun</span>
+            </a>
+            
+            <a href="#" class="menu-item" id="themeToggle">
+                <i class="fas fa-moon"></i>
+                <span>Mode Gelap</span>
+            </a>
         </div>
-
-        <div class="card">
-          <h2>Deteksi Terbaru</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Tanggal</th>
-                <th>Penyakit</th>
-                <th>Keparahan</th>
-              </tr>
-            </thead>
-            <tbody id="recentDetections">
-              <tr>
-                <td>15/10/2023</td>
-                <td>Busuk Batang</td>
-                <td>Sedang (45%)</td>
-              </tr>
-              <tr>
-                <td>10/10/2023</td>
-                <td>Bercak Daun</td>
-                <td>Ringan (15%)</td>
-              </tr>
-              <tr>
-                <td>05/10/2023</td>
-                <td>Jamur Akar</td>
-                <td>Ringan (10%)</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="tab-content" id="activity">
-        <div class="card">
-          <h2>Riwayat Aktivitas</h2>
-          <div style="display: flex; flex-direction: column; gap: 1rem">
-            <div style="padding: 1rem; background: #f8f9fa; border-radius: 6px">
-              <strong>Login</strong> - Berhasil masuk ke sistem (18 Nov 2024,
-              10:30)
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <h4>Petani Nilam</h4>
+                    <p>Desa Teuladan</p>
+                </div>
             </div>
-            <div style="padding: 1rem; background: #f8f9fa; border-radius: 6px">
-              <strong>Deteksi Penyakit</strong> - Mengupload foto daun nilam (17
-              Nov 2024, 14:15)
-            </div>
-            <div style="padding: 1rem; background: #f8f9fa; border-radius: 6px">
-              <strong>Input Produksi</strong> - Menambahkan data produksi bulan
-              Oktober (15 Nov 2024, 09:45)
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="tab-content" id="settings">
-        <div class="card">
-          <h2>Pengaturan Akun</h2>
-          <form id="settingsForm">
-            <div class="form-group">
-              <label for="notifications">Notifikasi Email</label>
-              <select id="notifications" class="form-control">
-                <option value="daily">Setiap Hari</option>
-                <option value="weekly" selected>Setiap Minggu</option>
-                <option value="monthly">Setiap Bulan</option>
-                <option value="never">Tidak Pernah</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="theme">Tema Aplikasi</label>
-              <select id="theme" class="form-control">
-                <option value="light" selected>Terang</option>
-                <option value="dark">Gelap</option>
-                <option value="auto">Otomatis</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label>
-                <input type="checkbox" id="dataSharing" checked />
-                Izinkan berbagi data anonim untuk penelitian
-              </label>
-            </div>
-
-            <button type="submit" class="btn" style="margin-top: 1rem">
-              Simpan Pengaturan
+            <button class="logout-btn" id="sidebarLogout">
+                <i class="fas fa-sign-out-alt"></i>
             </button>
-          </form>
-
-          <div
-            style="
-              margin-top: 2rem;
-              padding-top: 1.5rem;
-              border-top: 1px solid #eaeaea;
-            ">
-            <h3 style="color: #dc3545; margin-bottom: 1rem">Zona Berbahaya</h3>
-            <button
-              class="btn-logout"
-              onclick="deleteAccount()"
-              style="width: 100%">
-              Hapus Akun Permanen
-            </button>
-          </div>
         </div>
-      </div>
-    </div>
+    </nav>
 
+    <!-- Overlay untuk mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-left">
+                    <h1><i class="fas fa-user-circle"></i> Profil Saya</h1>
+                    <p class="page-subtitle">Kelola informasi akun dan preferensi Anda</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-help" id="editProfileBtn">
+                        <i class="fas fa-edit"></i>
+                        Edit Profil
+                    </button>
+                </div>
+            </div>
+
+            <!-- Profile Overview -->
+            <div class="content-grid">
+                <!-- Profile Card -->
+                <div class="card">
+                    <div class="profile-header">
+                        <div class="profile-avatar-large" id="userAvatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h2 id="userName">Petani Nilam</h2>
+                            <p class="profile-email" id="userEmail">petani@nilam.com</p>
+                            <p class="profile-phone" id="userPhone">0812-3456-7890</p>
+                            <p class="profile-location" id="userVillage">Desa Teuladan, Kec. Seulimum, Kab. Aceh Besar</p>
+                            <div class="profile-actions">
+                                <button class="btn btn-primary" onclick="editProfile()">
+                                    <i class="fas fa-edit"></i>
+                                    Edit Profil
+                                </button>
+                                <button class="btn btn-secondary" onclick="changePassword()">
+                                    <i class="fas fa-key"></i>
+                                    Ganti Password
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Card -->
+                <div class="card">
+                    <h2><i class="fas fa-chart-bar"></i> Statistik Akun</h2>
+                    <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Deteksi</h3>
+                                <div class="stat-value" id="totalDetections">15</div>
+                                <span class="stat-unit">Kali</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Tanaman Aktif</h3>
+                                <div class="stat-value" id="activePlants">1,200</div>
+                                <span class="stat-unit">Batang</span>
+                            </div>
+                        </div>
+                        
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-weight"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Produksi Bulan Ini</h3>
+                                <div class="stat-value" id="monthProduction">250</div>
+                                <span class="stat-unit">kg</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="tab-container">
+                <button class="tab-btn active" data-tab="activity">
+                    <i class="fas fa-history"></i>
+                    Aktivitas Terbaru
+                </button>
+                <button class="tab-btn" data-tab="detections">
+                    <i class="fas fa-bug"></i>
+                    Riwayat Deteksi
+                </button>
+                <button class="tab-btn" data-tab="settings">
+                    <i class="fas fa-cog"></i>
+                    Pengaturan
+                </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div class="tab-content active" id="activityContent">
+                <div class="card">
+                    <h2><i class="fas fa-history"></i> Riwayat Aktivitas</h2>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="fas fa-sign-in-alt"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Login ke sistem</p>
+                                <span class="activity-time">Hari ini, 10:30 WIB</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Deteksi penyakit: Busuk Batang</p>
+                                <span class="activity-time">Kemarin, 14:15 WIB</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon info">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Input produksi: 50 kg Daun Segar</p>
+                                <span class="activity-time">2 hari yang lalu, 09:45 WIB</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="detectionsContent">
+                <div class="card">
+                    <h2><i class="fas fa-bug"></i> Riwayat Deteksi Penyakit</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Tanggal</th>
+                                    <th>Penyakit</th>
+                                    <th>Tingkat Keparahan</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recentDetections">
+                                <tr>
+                                    <td>15/10/2023</td>
+                                    <td>Busuk Batang</td>
+                                    <td>
+                                        <div class="severity-indicator medium">
+                                            <div class="severity-bar" style="width: 45%"></div>
+                                            <span>45%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-warning">Dalam Penanganan</span></td>
+                                </tr>
+                                <tr>
+                                    <td>10/10/2023</td>
+                                    <td>Bercak Daun</td>
+                                    <td>
+                                        <div class="severity-indicator low">
+                                            <div class="severity-bar" style="width: 15%"></div>
+                                            <span>15%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-success">Selesai</span></td>
+                                </tr>
+                                <tr>
+                                    <td>05/10/2023</td>
+                                    <td>Jamur Akar</td>
+                                    <td>
+                                        <div class="severity-indicator low">
+                                            <div class="severity-bar" style="width: 10%"></div>
+                                            <span>10%</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge badge-success">Selesai</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-content" id="settingsContent">
+                <div class="card">
+                    <h2><i class="fas fa-cog"></i> Pengaturan Akun</h2>
+                    <form id="settingsForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="notifications">
+                                    <i class="fas fa-bell"></i>
+                                    Notifikasi Email
+                                </label>
+                                <select id="notifications" class="form-control">
+                                    <option value="daily">Setiap Hari</option>
+                                    <option value="weekly" selected>Setiap Minggu</option>
+                                    <option value="monthly">Setiap Bulan</option>
+                                    <option value="never">Tidak Pernah</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="theme">
+                                    <i class="fas fa-palette"></i>
+                                    Tema Aplikasi
+                                </label>
+                                <select id="theme" class="form-control">
+                                    <option value="light" selected>Terang</option>
+                                    <option value="dark">Gelap</option>
+                                    <option value="auto">Otomatis</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="dataSharing" checked>
+                                <span>Izinkan berbagi data anonim untuk penelitian</span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="resetSettings()">
+                                <i class="fas fa-redo"></i>
+                                Reset
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i>
+                                Simpan Pengaturan
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Danger Zone -->
+                    <div class="danger-zone">
+                        <h3><i class="fas fa-exclamation-triangle"></i> Zona Berbahaya</h3>
+                        <div class="danger-actions">
+                            <button class="btn btn-danger" onclick="deleteAccount()">
+                                <i class="fas fa-trash"></i>
+                                Hapus Akun Permanen
+                            </button>
+                            <button class="btn btn-warning" onclick="exportData()">
+                                <i class="fas fa-download"></i>
+                                Ekspor Data Saya
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
     <footer>
-      <p>
-        NILAMTRACE - Dashboard Analitik Pertanian untuk Monitoring Produksi dan
-        Kesehatan Tanaman Nilam
-      </p>
-      <p>Desa Teuladan, Kecamatan Seulimum, Kabupaten Aceh Besar</p>
+        <div class="footer-content">
+            <p>NILAMTRACE - Sistem Monitoring Tanaman Nilam Terpadu</p>
+            <p>Desa Teuladan, Kecamatan Seulimum, Kabupaten Aceh Besar</p>
+            <div class="footer-info">
+                <span id="profileInfo">Akun aktif sejak: November 2023</span>
+                <span class="divider">|</span>
+                <span id="lastLogin">Login terakhir: Hari ini, 10:30 WIB</span>
+            </div>
+        </div>
     </footer>
 
+    <!-- JavaScript -->
+    <script src="../assets/js/main.js"></script>
     <script>
-      // Load user data from localStorage
-      function loadUserData() {
-        const userData = JSON.parse(localStorage.getItem("user")) || {
-          name: "Petani Nilam",
-          email: "petani@nilam.com",
-          phone: "0812-3456-7890",
-          address: "Desa Teuladan, Kec. Seulimum, Kab. Aceh Besar",
-          village: "Desa Teuladan",
-        };
-
-        document.getElementById("userName").textContent = userData.name;
-        document.getElementById("userEmail").textContent =
-          userData.email || "petani@nilam.com";
-        document.getElementById("userPhone").textContent =
-          userData.phone || "0812-3456-7890";
-        document.getElementById("userVillage").textContent =
-          userData.address || "Desa Teuladan, Kec. Seulimum, Kab. Aceh Besar";
-
-        // Update avatar with first letter of name
-        if (userData.name) {
-          document.getElementById("userAvatar").textContent = userData.name
-            .charAt(0)
-            .toUpperCase();
-        }
-      }
-
-      // Tab switching
-      document.querySelectorAll(".tab-btn").forEach((btn) => {
-        btn.addEventListener("click", function () {
-          document
-            .querySelectorAll(".tab-btn")
-            .forEach((b) => b.classList.remove("active"));
-          document
-            .querySelectorAll(".tab-content")
-            .forEach((c) => c.classList.remove("active"));
-
-          this.classList.add("active");
-          const tabId = this.getAttribute("data-tab");
-          document.getElementById(tabId).classList.add("active");
+        // Profile Page Specific Script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load user data
+            loadUserData();
+            
+            // Tab switching
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.dataset.tab;
+                    
+                    // Update active tab
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    document.getElementById(tabId + 'Content').classList.add('active');
+                });
+            });
+            
+            // Settings form
+            document.getElementById('settingsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveSettings();
+            });
+            
+            // Edit profile button
+            document.getElementById('editProfileBtn').addEventListener('click', editProfile);
+            
+            // Initialize theme from localStorage
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.getElementById('theme').value = savedTheme;
+            }
         });
-      });
-
-      function editProfile() {
-        const name = prompt(
-          "Masukkan nama baru:",
-          document.getElementById("userName").textContent
-        );
-        if (name) {
-          document.getElementById("userName").textContent = name;
-          document.getElementById("userAvatar").textContent = name
-            .charAt(0)
-            .toUpperCase();
-
-          // Update localStorage
-          const userData = JSON.parse(localStorage.getItem("user")) || {};
-          userData.name = name;
-          localStorage.setItem("user", JSON.stringify(userData));
-
-          alert("Profil berhasil diperbarui!");
+        
+        function loadUserData() {
+            const userData = JSON.parse(localStorage.getItem('user')) || {
+                name: 'Petani Nilam',
+                email: 'petani@nilam.com',
+                phone: '0812-3456-7890',
+                village: 'Desa Teuladan',
+                joinDate: '2023-11-01'
+            };
+            
+            // Update profile elements
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userEmail').textContent = userData.email;
+            document.getElementById('userPhone').textContent = userData.phone;
+            document.getElementById('userVillage').textContent = userData.village;
+            
+            // Update avatar with initials
+            const avatar = document.getElementById('userAvatar');
+            if (userData.name) {
+                avatar.innerHTML = userData.name.charAt(0).toUpperCase();
+                avatar.style.backgroundColor = getColorFromName(userData.name);
+            }
+            
+            // Update profile info in footer
+            if (userData.joinDate) {
+                const joinDate = new Date(userData.joinDate);
+                document.getElementById('profileInfo').textContent = 
+                    `Akun aktif sejak: ${joinDate.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}`;
+            }
         }
-      }
-
-      function logout() {
-        if (confirm("Apakah Anda yakin ingin logout?")) {
-          localStorage.removeItem("user");
-          window.location.href = "login.html";
+        
+        function getColorFromName(name) {
+            // Generate consistent color from name
+            const colors = [
+                '#2d5a27', '#1e3f1a', '#3d6b35', '#28a745', 
+                '#17a2b8', '#ffc107', '#dc3545', '#6c757d'
+            ];
+            const index = name.length % colors.length;
+            return colors[index];
         }
-      }
-
-      function deleteAccount() {
-        if (
-          confirm(
-            "PERINGATAN: Ini akan menghapus akun Anda secara permanen. Lanjutkan?"
-          )
-        ) {
-          if (
-            confirm("Benar-benar yakin? Tindakan ini tidak dapat dibatalkan!")
-          ) {
-            localStorage.removeItem("user");
-            alert("Akun berhasil dihapus. Mengarahkan ke halaman utama...");
+        
+        function editProfile() {
+            const currentName = document.getElementById('userName').textContent;
+            const currentEmail = document.getElementById('userEmail').textContent;
+            const currentPhone = document.getElementById('userPhone').textContent;
+            
+            // In a real app, you would show a modal or redirect to edit page
+            alert('Fitur edit profil akan membuka form edit. Untuk demo, data diambil dari localStorage.');
+            
+            // Simulate loading updated data
             setTimeout(() => {
-              window.location.href = "../homepage/homepage.html";
-            }, 1000);
-          }
+                loadUserData();
+            }, 500);
         }
-      }
-
-      // Initialize on load
-      document.addEventListener("DOMContentLoaded", function () {
-        loadUserData();
-
-        // Check if user is logged in
-        const userData = localStorage.getItem("user");
-        if (!userData) {
-          alert("Silakan login terlebih dahulu");
-          window.location.href = "login.html";
+        
+        function changePassword() {
+            alert('Fitur ganti password akan segera tersedia!');
         }
-
-        // Settings form
-        document
-          .getElementById("settingsForm")
-          .addEventListener("submit", function (e) {
-            e.preventDefault();
-            alert("Pengaturan berhasil disimpan!");
-          });
-      });
+        
+        function saveSettings() {
+            const theme = document.getElementById('theme').value;
+            const notifications = document.getElementById('notifications').value;
+            const dataSharing = document.getElementById('dataSharing').checked;
+            
+            // Save to localStorage
+            localStorage.setItem('theme', theme);
+            localStorage.setItem('notifications', notifications);
+            localStorage.setItem('dataSharing', dataSharing);
+            
+            // Apply theme immediately
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+            } else if (theme === 'light') {
+                document.body.classList.remove('dark-mode');
+            }
+            
+            showNotification('Pengaturan berhasil disimpan!', 'success');
+        }
+        
+        function resetSettings() {
+            if (confirm('Reset semua pengaturan ke nilai default?')) {
+                document.getElementById('theme').value = 'light';
+                document.getElementById('notifications').value = 'weekly';
+                document.getElementById('dataSharing').checked = true;
+                
+                showNotification('Pengaturan telah direset', 'info');
+            }
+        }
+        
+        function deleteAccount() {
+            if (confirm('PERINGATAN: Ini akan menghapus akun Anda secara permanen. Lanjutkan?')) {
+                if (confirm('Benar-benar yakin? Tindakan ini tidak dapat dibatalkan!')) {
+                    localStorage.removeItem('user');
+                    showNotification('Akun berhasil dihapus. Mengarahkan ke halaman utama...', 'success');
+                    
+                    setTimeout(() => {
+                        window.location.href = '../homepage/homepage.html';
+                    }, 2000);
+                }
+            }
+        }
+        
+        function exportData() {
+            alert('Fitur ekspor data akan segera tersedia!');
+        }
+        
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `alert-box ${type}`;
+            notification.innerHTML = `
+                <div class="alert-icon">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                </div>
+                <div class="alert-content">
+                    <p>${message}</p>
+                </div>
+            `;
+            
+            // Add to page
+            document.querySelector('.container').prepend(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 500);
+            }, 3000);
+        }
+        
+        // Initialize navigation (from main.js)
+        if (typeof navigationController !== 'undefined') {
+            navigationController.loadUserData();
+        }
     </script>
-  </body>
+    
+    <!-- Additional CSS for Profile Page -->
+    <style>
+        /* Profile Page Specific Styles */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xl);
+            padding: var(--spacing-xl);
+        }
+        
+        .profile-avatar-large {
+            width: 120px;
+            height: 120px;
+            border-radius: var(--radius-round);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-info h2 {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+        }
+        
+        .profile-email, .profile-phone, .profile-location {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-secondary);
+        }
+        
+        .profile-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .severity-indicator {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .severity-bar {
+            height: 8px;
+            background-color: var(--warning-color);
+            border-radius: 4px;
+            flex: 1;
+            max-width: 100px;
+        }
+        
+        .severity-indicator.low .severity-bar {
+            background-color: var(--success-color);
+        }
+        
+        .severity-indicator.medium .severity-bar {
+            background-color: var(--warning-color);
+        }
+        
+        .severity-indicator.high .severity-bar {
+            background-color: var(--danger-color);
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            cursor: pointer;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .danger-zone {
+            margin-top: var(--spacing-xl);
+            padding: var(--spacing-lg);
+            background: linear-gradient(135deg, #fff5f5 0%, #ffeaea 100%);
+            border: 1px solid var(--danger-color);
+            border-radius: var(--radius-lg);
+        }
+        
+        .dark-mode .danger-zone {
+            background: linear-gradient(135deg, #2d1a1a 0%, #251515 100%);
+        }
+        
+        .danger-zone h3 {
+            color: var(--danger-color);
+            margin-bottom: var(--spacing-lg);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        
+        .danger-actions {
+            display: flex;
+            gap: var(--spacing-md);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: #212529;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        
+        .alert-box {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 1000;
+            min-width: 300px;
+            max-width: 400px;
+            background-color: var(--bg-card);
+            border-left: 4px solid var(--primary-color);
+            box-shadow: var(--shadow-lg);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            animation: slideIn 0.3s ease;
+        }
+        
+        .alert-box.success {
+            border-left-color: var(--success-color);
+        }
+        
+        .alert-box.info {
+            border-left-color: var(--info-color);
+        }
+        
+        .alert-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+        
+        .alert-box.success .alert-icon {
+            color: var(--success-color);
+        }
+        
+        .alert-box.info .alert-icon {
+            color: var(--info-color);
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--spacing-lg);
+            }
+            
+            .profile-avatar-large {
+                width: 100px;
+                height: 100px;
+                font-size: 2.5rem;
+            }
+            
+            .profile-actions {
+                flex-direction: column;
+            }
+            
+            .danger-actions {
+                flex-direction: column;
+            }
+            
+            .alert-box {
+                left: 20px;
+                right: 20px;
+                max-width: none;
+            }
+        }
+    </style>
+</body>
 </html>
