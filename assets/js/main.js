@@ -1,67 +1,16 @@
 // ====================== //
-// GRAFIK PRODUKSI        //
+// LEGACY MAIN.JS         //
 // ====================== //
 
-document.addEventListener("DOMContentLoaded", function () {
-  const ctx = document.getElementById("productionChart");
-  if (ctx) {
-    const productionChart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "Mei",
-          "Jun",
-          "Jul",
-          "Agu",
-          "Sep",
-          "Okt",
-          "Nov",
-          "Des",
-        ],
-        datasets: [
-          {
-            label: "Produksi (kg)",
-            data: [120, 150, 180, 200, 240, 260, 250, 230, 200, 180, 160, 140],
-            borderColor: "#2d5a27",
-            backgroundColor: "rgba(45, 90, 39, 0.1)",
-            borderWidth: 2,
-            fill: true,
-            tension: 0.4,
-          },
-        ],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: true,
-            position: "top",
-          },
-        },
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: "Produksi (kg)",
-            },
-          },
-          x: {
-            title: {
-              display: true,
-              text: "Bulan",
-            },
-          },
-        },
-      },
-    });
-  }
-});
+// This file is kept for backward compatibility
+// All functionality has been moved to modular files:
+// - common.js: Navigation, theme, user management
+// - dashboard.js: Homepage functionality
+// - monitoring.js: Detection features
+// - production.js: Production management
+// - profile.js: Profile management
+
+console.log('NILAMTRACE: Using modular JavaScript architecture');
 
 // ====================== //
 // DASHBOARD FUNCTIONS    //
