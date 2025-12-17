@@ -1962,3 +1962,205 @@ footer {
                 border-color var(--transition-normal),
                 box-shadow var(--transition-normal);
 }
+
+/* ====================== */
+/* PROFILE PAGE STYLES */
+/* ====================== */
+
+/* Profile Header */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+    padding: var(--spacing-xl);
+}
+
+.profile-avatar-large {
+    width: 120px;
+    height: 120px;
+    border-radius: var(--radius-round);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h2 {
+    font-size: 2rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--text-primary);
+}
+
+.profile-email, 
+.profile-phone, 
+.profile-location {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-secondary);
+}
+
+.profile-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+}
+
+/* Severity Indicator */
+.severity-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.severity-bar {
+    height: 8px;
+    background-color: var(--warning-color);
+    border-radius: 4px;
+    flex: 1;
+    max-width: 100px;
+}
+
+.severity-indicator.low .severity-bar {
+    background-color: var(--success-color);
+}
+
+.severity-indicator.medium .severity-bar {
+    background-color: var(--warning-color);
+}
+
+.severity-indicator.high .severity-bar {
+    background-color: var(--danger-color);
+}
+
+/* Checkbox Label */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
+/* Danger Zone */
+.danger-zone {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, #fff5f5 0%, #ffeaea 100%);
+    border: 1px solid var(--danger-color);
+    border-radius: var(--radius-lg);
+}
+
+.dark-mode .danger-zone {
+    background: linear-gradient(135deg, #2d1a1a 0%, #251515 100%);
+}
+
+.danger-zone h3 {
+    color: var(--danger-color);
+    margin-bottom: var(--spacing-lg);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.danger-actions {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+/* Alert Box */
+.alert-box {
+    position: fixed;
+    top: 100px;
+    right: 20px;
+    z-index: 1000;
+    min-width: 300px;
+    max-width: 400px;
+    background-color: var(--bg-card);
+    border-left: 4px solid var(--primary-color);
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    animation: slideIn 0.3s ease;
+    transition: opacity 0.5s ease;
+}
+
+.alert-box.success {
+    border-left-color: var(--success-color);
+}
+
+.alert-box.info {
+    border-left-color: var(--info-color);
+}
+
+.alert-icon {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+}
+
+.alert-box.success .alert-icon {
+    color: var(--success-color);
+}
+
+.alert-box.info .alert-icon {
+    color: var(--info-color);
+}
+
+.alert-content p {
+    margin: 0;
+}
+
+/* Profile Page Responsive */
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+        gap: var(--spacing-lg);
+    }
+    
+    .profile-avatar-large {
+        width: 100px;
+        height: 100px;
+        font-size: 2.5rem;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .profile-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .danger-actions {
+        flex-direction: column;
+    }
+    
+    .danger-actions .btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .alert-box {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+    }
+}
