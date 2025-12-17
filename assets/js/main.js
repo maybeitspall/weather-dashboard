@@ -1020,3 +1020,293 @@ function showNotification(message, type = "info") {
 
 // Initialize dashboard on load
 window.addEventListener("load", initDashboard);
+// ====================== //
+// NAVIGATION CONTROLLER //
+// ====================== //
+
+class NavigationController {
+    constructor() {
+        this.isSidebarOpen = false;
+        this.isDropdownOpen = false;
+        this.isMobile = window.innerWidth <= 1024;
+        
+        this.init();
+    }
+    
+    init() {
+        this.setupEventListeners();
+        this.setupResizeHandler();
+        this.loadUserData();
+        this.updateGreeting();
+    }
+    
+    setupEventListeners() {
+        // Hamburger button
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        if (hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', () => this.toggleSidebar());
+        }
+        
+        // Close sidebar button
+        const closeSidebar = document.getElementById('closeSidebar');
+        if (closeSidebar) {
+            closeSidebar.addEventListener('click', () => this.closeSidebar());
+        }
+        
+        // Profile dropdown
+        const profileBtn = document.getElementById('profileBtn');
+        if (profileBtn) {
+            profileBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.toggleDropdown();
+            });
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            if (this.isDropdownOpen) {
+                this.closeDropdown();
+            }
+        });
+        
+        // Close sidebar when clicking overlay
+        const overlay = document.getElementById('overlay');
+        if (overlay) {
+            overlay.addEventListener('click', () => this.closeSidebar());
+        }
+        
+        // Theme toggle
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => this.toggleTheme());
+        }
+        
+        // Logout buttons
+        const logoutBtns = document.querySelectorAll('#logoutBtn, #sidebarLogout');
+        logoutBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.handleLogout();
+            });
+        });
+        
+        // Menu items - close sidebar on mobile
+        const menuItems = document.querySelectorAll('.menu-item');
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                if (this.isMobile) {
+                    this.closeSidebar();
+                }
+            });
+        });
+    }
+    
+    setupResizeHandler() {
+        window.addEventListener('resize', () => {
+            const wasMobile = this.isMobile;
+            this.isMobile = window.innerWidth <= 1024;
+            
+            if (wasMobile && !this.isMobile) {
+                // Switched to desktop
+                this.openSidebar();
+            } else if (!wasMobile && this.isMobile) {
+                // Switched to mobile
+                this.closeSidebar();
+            }
+        });
+    }
+    
+    toggleSidebar() {
+        if (this.isSidebarOpen) {
+            this.closeSidebar();
+        } else {
+            this.openSidebar();
+        }
+    }
+    
+    openSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const mainContent = document.getElementById('mainContent');
+        
+        if (sidebar && overlay) {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            document.body.classList.add('sidebar-active');
+            this.isSidebarOpen = true;
+            
+            // Add focus trap for accessibility
+            if (this.isMobile) {
+                this.setupFocusTrap(sidebar);
+            }
+        }
+    }
+    
+    closeSidebar() {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        
+        if (sidebar && overlay) {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.classList.remove('sidebar-active');
+            this.isSidebarOpen = false;
+            
+            // Return focus to hamburger button
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            if (hamburgerBtn) {
+                hamburgerBtn.focus();
+            }
+        }
+    }
+    
+    toggleDropdown() {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const profileBtn = document.getElementById('profileBtn');
+        
+        if (dropdownMenu && profileBtn) {
+            dropdownMenu.classList.toggle('show');
+            profileBtn.classList.toggle('active');
+            this.isDropdownOpen = !this.isDropdownOpen;
+        }
+    }
+    
+    closeDropdown() {
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const profileBtn = document.getElementById('profileBtn');
+        
+        if (dropdownMenu && profileBtn) {
+            dropdownMenu.classList.remove('show');
+            profileBtn.classList.remove('active');
+            this.isDropdownOpen = false;
+        }
+    }
+    
+    setupFocusTrap(element) {
+        // Get all focusable elements
+        const focusableElements = element.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        
+        if (focusableElements.length > 0) {
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+            
+            firstElement.focus();
+            
+            // Trap focus inside sidebar
+            element.addEventListener('keydown', (e) => {
+                if (e.key === 'Tab') {
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstElement) {
+                            lastElement.focus();
+                            e.preventDefault();
+                        }
+                    } else {
+                        if (document.activeElement === lastElement) {
+                            firstElement.focus();
+                            e.preventDefault();
+                        }
+                    }
+                }
+                
+                if (e.key === 'Escape') {
+                    this.closeSidebar();
+                }
+            });
+        }
+    }
+    
+    toggleTheme() {
+        const isDarkMode = document.body.classList.toggle('dark-mode');
+        const themeToggle = document.getElementById('themeToggle');
+        
+        if (themeToggle) {
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            
+            if (isDarkMode) {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Mode Terang';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Mode Gelap';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+    }
+    
+    loadUserData() {
+        const userData = JSON.parse(localStorage.getItem('user')) || {
+            name: 'Petani Nilam',
+            email: 'petani@nilam.com',
+            village: 'Desa Teuladan'
+        };
+        
+        // Update all profile elements
+        document.querySelectorAll('.profile-name, .dropdown-info h4, .user-details h4').forEach(el => {
+            el.textContent = userData.name;
+        });
+        
+        const emailElement = document.querySelector('.dropdown-info p');
+        if (emailElement) emailElement.textContent = userData.email;
+        
+        const villageElement = document.querySelector('.user-details p');
+        if (villageElement) villageElement.textContent = userData.village;
+        
+        // Update avatars with initials
+        const initials = userData.name.charAt(0).toUpperCase();
+        document.querySelectorAll('.profile-avatar, .dropdown-avatar, .user-avatar').forEach(avatar => {
+            if (!avatar.querySelector('i')) {
+                avatar.innerHTML = `<span>${initials}</span>`;
+            }
+        });
+        
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                const icon = themeToggle.querySelector('i');
+                const text = themeToggle.querySelector('span');
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Mode Terang';
+            }
+        }
+    }
+    
+    updateGreeting() {
+        const hour = new Date().getHours();
+        let greeting = "Selamat Siang!";
+        
+        if (hour < 12) greeting = "Selamat Pagi!";
+        else if (hour < 15) greeting = "Selamat Siang!";
+        else if (hour < 19) greeting = "Selamat Sore!";
+        else greeting = "Selamat Malam!";
+        
+        const greetingElement = document.getElementById('greetingMessage');
+        if (greetingElement) greetingElement.textContent = greeting;
+    }
+    
+    handleLogout() {
+        if (confirm('Apakah Anda yakin ingin keluar?')) {
+            localStorage.removeItem('user');
+            window.location.href = '../auth/login.html';
+        }
+    }
+}
+
+// Initialize navigation when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.navigationController = new NavigationController();
+    
+    // Auto initialize sidebar on desktop
+    if (window.innerWidth > 1024) {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+            sidebar.classList.add('active');
+        }
+    }
+});
