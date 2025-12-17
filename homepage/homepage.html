@@ -16,12 +16,14 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <!-- Skip Navigation -->
+    <a href="#mainContent" class="skip-link">Lewati ke konten utama</a>
     <!-- Navigation Header -->
-    <header>
+    <header role="banner"></header>
         <div class="header-container">
             <!-- Hamburger Menu untuk Mobile -->
-            <button class="hamburger-btn" id="hamburgerBtn">
-                <i class="fas fa-bars"></i>
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="sidebar">
+                <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
             
             <!-- Logo -->
@@ -35,16 +37,16 @@
             
             <!-- Profile Dropdown -->
             <div class="profile-dropdown" id="profileDropdown">
-                <button class="profile-btn" id="profileBtn">
-                    <div class="profile-avatar">
+                <button class="profile-btn" id="profileBtn" aria-label="Menu profil pengguna" aria-expanded="false" aria-haspopup="true">
+                    <div class="profile-avatar" aria-hidden="true"></div>
                         <i class="fas fa-user"></i>
                     </div>
                     <span class="profile-name">Petani Nilam</span>
-                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
                 </button>
-                <div class="dropdown-menu" id="dropdownMenu">
-                    <div class="dropdown-header">
-                        <div class="dropdown-avatar">
+                <div class="dropdown-menu" id="dropdownMenu" role="menu" aria-labelledby="profileBtn">
+                    <div class="dropdown-header" role="presentation">
+                        <div class="dropdown-avatar" aria-hidden="true"></div>
                             <i class="fas fa-user"></i>
                         </div>
                         <div class="dropdown-info">
@@ -72,14 +74,14 @@
     </header>
 
     <!-- Sidebar Navigation -->
-    <nav class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar" role="navigation" aria-label="Menu navigasi utama">
         <div class="sidebar-header">
             <div class="sidebar-logo">
-                <img src="../assets/images/nilam.png" alt="Logo Nilam"/>
+                <img src="../assets/images/nilam.png" alt="Logo NILAMTRACE"/>
                 <h3>NILAMTRACE</h3>
             </div>
-            <button class="close-sidebar" id="closeSidebar">
-                <i class="fas fa-times"></i>
+            <button class="close-sidebar" id="closeSidebar" aria-label="Tutup menu navigasi">
+                <i class="fas fa-times" aria-hidden="true"></i>
             </button>
         </div>
         
@@ -147,20 +149,20 @@
     <div class="overlay" id="overlay"></div>
 
     <!-- Main Content -->
-    <main class="main-content" id="mainContent">
+    <main class="main-content" id="mainContent" role="main" aria-label="Konten utama dashboard">
         <div class="container">
             <!-- Dashboard Header -->
-            <div class="dashboard-header">
+            <header class="dashboard-header">
                 <h1>Dashboard Utama</h1>
                 <div class="header-actions">
                     <div class="last-update">
                         <span id="lastUpdateTime"></span>
-                        <button id="refreshBtn" class="refresh-btn">
-                            <i class="fas fa-sync-alt"></i>
+                        <button id="refreshBtn" class="refresh-btn" aria-label="Perbarui data dashboard">
+                            <i class="fas fa-sync-alt" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
-            </div>
+            </header>
 
             <!-- Welcome Message -->
             <div class="welcome-card card">

@@ -258,3 +258,225 @@ document.addEventListener('DOMContentLoaded', () => {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = AppController;
 }
+
+
+// ====================== //
+// UTILITY FUNCTIONS      //
+// ====================== //
+
+// Show notification/toast message
+function showNotification(message, type = 'info', duration = 3000) {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.setAttribute('role', 'alert');
+    notification.setAttribute('aria-live', 'polite');
+    
+    const iconMap = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle',
+        info: 'fa-info-circle'
+    };
+    
+    notification.innerHTML = `
+        <div class="notification-icon">
+            <i class="fas ${iconMap[type] || iconMap.info}" aria-hidden="true"></i>
+        </div>
+        <div class="notification-content">
+            <p>${message}</p>
+        </div>
+        <button class="notification-close" aria-label="Tutup notifikasi">
+            <i class="fas fa-times" aria-hidden="true"></i>
+        </button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Close button handler
+    const closeBtn = notification.querySelector('.notification-close');
+    closeBtn.addEventListener('click', () => {
+        notification.classList.add('notification-exit');
+        setTimeout(() => notification.remove(), 300);
+    });
+    
+    // Auto remove after duration
+    setTimeout(() => {
+        notification.classList.add('notification-exit');
+        setTimeout(() => notification.remove(), 300);
+    }, duration);
+}
+
+// Show loading state on element
+function showLoading(element, message = 'Memuat...') {
+    if (!element) return;
+    
+    element.classList.add('loading');
+    element.setAttribute('aria-busy', 'true');
+    
+    const loadingOverlay = document.createElement('div');
+    loadingOverlay.className = 'loading-overlay';
+    loadingOverlay.setAttribute('role', 'status');
+    loadingOverlay.setAttribute('aria-live', 'polite');
+    loadingOverlay.innerHTML = `
+        <div class="loading-spinner" aria-hidden="true"></div>
+        <span class="loading-text">${message}</span>
+    `;
+    
+    element.style.position = 'relative';
+    element.appendChild(loadingOverlay);
+}
+
+// Hide loading state
+function hideLoading(element) {
+    if (!element) return;
+    
+    element.classList.remove('loading');
+    element.removeAttribute('aria-busy');
+    
+    const loadingOverlay = element.querySelector('.loading-overlay');
+    if (loadingOverlay) {
+        loadingOverlay.remove();
+    }
+}
+
+// Validate form field
+function validateField(field, rules = {}) {
+    const value = field.value.trim();
+    const errors = [];
+    
+    // Required validation
+    if (rules.required && !value) {
+        errors.push('Field ini wajib diisi');
+    }
+    
+    // Min length validation
+    if (rules.minLength && value.length < rules.minLength) {
+        errors.push(`Minimal ${rules.minLength} karakter`);
+    }
+    
+    // Max length validation
+    if (rules.maxLength && value.length > rules.maxLength) {
+        errors.push(`Maksimal ${rules.maxLength} karakter`);
+    }
+    
+    // Email validation
+    if (rules.email && value) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+            errors.push('Format email tidak valid');
+        }
+    }
+    
+    // Number validation
+    if (rules.number && value) {
+        if (isNaN(value)) {
+            errors.push('Harus berupa angka');
+        }
+    }
+    
+    // Min value validation
+    if (rules.min !== undefined && parseFloat(value) < rules.min) {
+        errors.push(`Nilai minimal ${rules.min}`);
+    }
+    
+    // Max value validation
+    if (rules.max !== undefined && parseFloat(value) > rules.max) {
+        errors.push(`Nilai maksimal ${rules.max}`);
+    }
+    
+    // Show/hide error
+    if (errors.length > 0) {
+        showFieldError(field, errors[0]);
+        return false;
+    } else {
+        clearFieldError(field);
+        return true;
+    }
+}
+
+// Show field error
+function showFieldError(field, message) {
+    field.classList.add('error');
+    field.setAttribute('aria-invalid', 'true');
+    
+    // Remove existing error message
+    const existingError = field.parentElement.querySelector('.error-message');
+    if (existingError) {
+        existingError.remove();
+    }
+    
+    // Add new error message
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'error-message';
+    errorDiv.setAttribute('role', 'alert');
+    errorDiv.innerHTML = `
+        <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+        <span>${message}</span>
+    `;
+    
+    field.parentElement.appendChild(errorDiv);
+    
+    // Set aria-describedby
+    const errorId = `error-${field.id || Math.random().toString(36).substr(2, 9)}`;
+    errorDiv.id = errorId;
+    field.setAttribute('aria-describedby', errorId);
+}
+
+// Clear field error
+function clearFieldError(field) {
+    field.classList.remove('error');
+    field.removeAttribute('aria-invalid');
+    field.removeAttribute('aria-describedby');
+    
+    const errorMessage = field.parentElement.querySelector('.error-message');
+    if (errorMessage) {
+        errorMessage.remove();
+    }
+}
+
+// Format currency (Rupiah)
+function formatRupiah(amount) {
+    return new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0
+    }).format(amount);
+}
+
+// Format date
+function formatDate(dateString, options = {}) {
+    const defaultOptions = {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    };
+    
+    const date = new Date(dateString);
+    return date.toLocaleDateString('id-ID', { ...defaultOptions, ...options });
+}
+
+// Debounce function for search/filter
+function debounce(func, wait = 300) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+
+// Export utilities
+window.AppUtils = {
+    showNotification,
+    showLoading,
+    hideLoading,
+    validateField,
+    showFieldError,
+    clearFieldError,
+    formatRupiah,
+    formatDate,
+    debounce
+};

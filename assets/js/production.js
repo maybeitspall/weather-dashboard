@@ -44,15 +44,21 @@ class ProductionController {
                 e.preventDefault();
                 this.handleProductionSubmit(e);
             });
+            
+            // Add real-time validation
+            this.setupFormValidation(productionForm);
         }
         
-        // Plant form
-        const plantForm = document.getElementById('plantForm');
+        // Plant form  
+        const plantForm = document.getElementById('tanamanForm');
         if (plantForm) {
             plantForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 this.handlePlantSubmit(e);
             });
+            
+            // Add real-time validation
+            this.setupFormValidation(plantForm);
         }
         
         // Auto-calculate production value
@@ -384,3 +390,251 @@ document.addEventListener('DOMContentLoaded', () => {
         })}`;
     }
 });
+    
+    // Setup form validation
+    setupFormValidation(form) {
+        const fields = form.querySelectorAll('input[required], select[required], textarea[required]');
+        
+        fields.forEach(field => {
+            // Validation rules based on field type and attributes
+            const rules = {
+                required: field.hasAttribute('required')
+            };
+            
+            // Add specific rules based on field type
+            if (field.type === 'email') {
+                rules.email = true;
+            }
+            
+            if (field.type === 'number') {
+                rules.number = true;
+                if (field.hasAttribute('min')) {
+                    rules.min = parseFloat(field.getAttribute('min'));
+                }
+                if (field.hasAttribute('max')) {
+                    rules.max = parseFloat(field.getAttribute('max'));
+                }
+            }
+            
+            if (field.hasAttribute('minlength')) {
+                rules.minLength = parseInt(field.getAttribute('minlength'));
+            }
+            
+            if (field.hasAttribute('maxlength')) {
+                rules.maxLength = parseInt(field.getAttribute('maxlength'));
+            }
+            
+            // Add blur validation
+            field.addEventListener('blur', () => {
+                AppUtils.validateField(field, rules);
+            });
+            
+            // Add input validation for immediate feedback
+            field.addEventListener('input', AppUtils.debounce(() => {
+                if (field.classList.contains('error')) {
+                    AppUtils.validateField(field, rules);
+                }
+            }, 500));
+        });
+    }
+    
+    // Validate entire form
+    validateForm(form) {
+        const fields = form.querySelectorAll('input[required], select[required], textarea[required]');
+        let isValid = true;
+        
+        fields.forEach(field => {
+            const rules = {
+                required: field.hasAttribute('required')
+            };
+            
+            if (field.type === 'email') rules.email = true;
+            if (field.type === 'number') {
+                rules.number = true;
+                if (field.hasAttribute('min')) rules.min = parseFloat(field.getAttribute('min'));
+                if (field.hasAttribute('max')) rules.max = parseFloat(field.getAttribute('max'));
+            }
+            if (field.hasAttribute('minlength')) rules.minLength = parseInt(field.getAttribute('minlength'));
+            if (field.hasAttribute('maxlength')) rules.maxLength = parseInt(field.getAttribute('maxlength'));
+            
+            if (!AppUtils.validateField(field, rules)) {
+                isValid = false;
+            }
+        });
+        
+        return isValid;
+    }
+    
+    // Handle production form submission with validation
+    handleProductionSubmit(e) {
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        
+        // Show loading state
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+        
+        // Validate form
+        if (!this.validateForm(form)) {
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            AppUtils.showNotification('Mohon perbaiki kesalahan pada form', 'error');
+            
+            // Focus on first error field
+            const firstError = form.querySelector('.error');
+            if (firstError) {
+                firstError.focus();
+            }
+            return;
+        }
+        
+        try {
+            // Get form data
+            const formData = new FormData(form);
+            const productionData = {
+                id: Date.now().toString(),
+                tanggal: formData.get('tanggal'),
+                jenisProduk: formData.get('jenisProduk'),
+                jumlahProduksi: parseFloat(formData.get('jumlahProduksi')),
+                hargaJual: parseFloat(formData.get('hargaJual')),
+                totalPendapatan: parseFloat(formData.get('jumlahProduksi')) * parseFloat(formData.get('hargaJual')),
+                kualitas: formData.get('kualitas'),
+                lokasiPanen: formData.get('lokasiPanen'),
+                keterangan: formData.get('keterangan'),
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            const productions = JSON.parse(localStorage.getItem('productions')) || [];
+            productions.push(productionData);
+            localStorage.setItem('productions', JSON.stringify(productions));
+            
+            // Show success message
+            AppUtils.showNotification('Data produksi berhasil disimpan!', 'success');
+            
+            // Reset form
+            form.reset();
+            
+            // Update displays
+            this.loadProductionHistory();
+            this.updateDashboardStats();
+            
+        } catch (error) {
+            console.error('Error saving production data:', error);
+            AppUtils.showNotification('Terjadi kesalahan saat menyimpan data', 'error');
+        } finally {
+            // Remove loading state
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+        }
+    }
+    
+    // Handle plant form submission with validation
+    handlePlantSubmit(e) {
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        
+        // Show loading state
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+        
+        // Validate form
+        if (!this.validateForm(form)) {
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+            AppUtils.showNotification('Mohon perbaiki kesalahan pada form', 'error');
+            
+            // Focus on first error field
+            const firstError = form.querySelector('.error');
+            if (firstError) {
+                firstError.focus();
+            }
+            return;
+        }
+        
+        try {
+            // Get form data
+            const formData = new FormData(form);
+            const plantData = {
+                id: Date.now().toString(),
+                namaVarietas: formData.get('namaVarietas'),
+                tanggalTanam: formData.get('tanggalTanam'),
+                jumlahBatang: parseInt(formData.get('jumlahBatang')),
+                luasLahan: parseFloat(formData.get('luasLahan')),
+                lokasiTanam: formData.get('lokasiTanam'),
+                statusTanaman: formData.get('statusTanaman'),
+                catatanTanaman: formData.get('catatanTanaman'),
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            const plants = JSON.parse(localStorage.getItem('plants')) || [];
+            plants.push(plantData);
+            localStorage.setItem('plants', JSON.stringify(plants));
+            
+            // Show success message
+            AppUtils.showNotification('Data tanaman berhasil disimpan!', 'success');
+            
+            // Reset form
+            form.reset();
+            
+            // Update displays
+            this.loadPlantsList();
+            this.updatePlantStats();
+            
+        } catch (error) {
+            console.error('Error saving plant data:', error);
+            AppUtils.showNotification('Terjadi kesalahan saat menyimpan data', 'error');
+        } finally {
+            // Remove loading state
+            submitBtn.classList.remove('loading');
+            submitBtn.disabled = false;
+        }
+    }
+    
+    // Update dashboard statistics
+    updateDashboardStats() {
+        const productions = JSON.parse(localStorage.getItem('productions')) || [];
+        const plants = JSON.parse(localStorage.getItem('plants')) || [];
+        
+        // Update footer stats if elements exist
+        const totalProduction = productions.reduce((sum, prod) => sum + (prod.jumlahProduksi || 0), 0);
+        const totalPlants = plants.reduce((sum, plant) => sum + (plant.jumlahBatang || 0), 0);
+        
+        const dataStatsElement = document.getElementById('dataStats');
+        if (dataStatsElement) {
+            dataStatsElement.textContent = `Total Produksi: ${totalProduction.toFixed(1)} kg | Total Tanaman: ${totalPlants} batang`;
+        }
+        
+        const lastUpdateElement = document.getElementById('lastUpdate');
+        if (lastUpdateElement) {
+            lastUpdateElement.textContent = `Update Terakhir: ${AppUtils.formatDate(new Date(), { 
+                day: 'numeric', 
+                month: 'short', 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            })}`;
+        }
+    }
+    
+    // Update plant statistics
+    updatePlantStats() {
+        const plants = JSON.parse(localStorage.getItem('plants')) || [];
+        
+        const stats = {
+            active: plants.filter(p => p.statusTanaman === 'aktif').length,
+            ready: plants.filter(p => p.statusTanaman === 'panen').length,
+            new: plants.filter(p => p.statusTanaman === 'baru').length,
+            sick: plants.filter(p => p.statusTanaman === 'sakit').length
+        };
+        
+        // Update stat displays
+        Object.keys(stats).forEach(key => {
+            const element = document.getElementById(`plant${key.charAt(0).toUpperCase() + key.slice(1)}Count`);
+            if (element) {
+                element.textContent = stats[key];
+            }
+        });
+        
+        this.updateDashboardStats();
+    }

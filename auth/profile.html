@@ -12,12 +12,15 @@
     <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-    <!-- Navigation Header (Sama seperti homepage) -->
-    <header>
+    <!-- Skip Navigation -->
+    <a href="#mainContent" class="skip-link">Lewati ke konten utama</a>
+    
+    <!-- Navigation Header -->
+    <header role="banner">
         <div class="header-container">
             <!-- Hamburger Menu untuk Mobile -->
-            <button class="hamburger-btn" id="hamburgerBtn">
-                <i class="fas fa-bars"></i>
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="sidebar">
+                <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
             
             <!-- Logo -->
@@ -31,14 +34,14 @@
             
             <!-- Profile Dropdown -->
             <div class="profile-dropdown" id="profileDropdown">
-                <button class="profile-btn" id="profileBtn">
-                    <div class="profile-avatar">
+                <button class="profile-btn" id="profileBtn" aria-label="Menu profil pengguna" aria-expanded="false" aria-haspopup="true">
+                    <div class="profile-avatar" aria-hidden="true">
                         <i class="fas fa-user"></i>
                     </div>
                     <span class="profile-name">Petani Nilam</span>
-                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
                 </button>
-                <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-menu" id="dropdownMenu" role="menu" aria-labelledby="profileBtn">
                     <div class="dropdown-header">
                         <div class="dropdown-avatar">
                             <i class="fas fa-user"></i>
@@ -67,15 +70,15 @@
         </div>
     </header>
 
-    <!-- Sidebar Navigation (Sama seperti homepage) -->
-    <nav class="sidebar" id="sidebar">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar" role="navigation" aria-label="Menu navigasi utama">
         <div class="sidebar-header">
             <div class="sidebar-logo">
-                <img src="../assets/images/nilam.png" alt="Logo Nilam"/>
+                <img src="../assets/images/nilam.png" alt="Logo NILAMTRACE"/>
                 <h3>NILAMTRACE</h3>
             </div>
-            <button class="close-sidebar" id="closeSidebar">
-                <i class="fas fa-times"></i>
+            <button class="close-sidebar" id="closeSidebar" aria-label="Tutup menu navigasi">
+                <i class="fas fa-times" aria-hidden="true"></i>
             </button>
         </div>
         
@@ -144,21 +147,21 @@
     <div class="overlay" id="overlay"></div>
 
     <!-- Main Content -->
-    <main class="main-content" id="mainContent">
+    <main class="main-content" id="mainContent" role="main" aria-label="Konten utama profil pengguna">
         <div class="container">
             <!-- Page Header -->
-            <div class="page-header">
+            <header class="page-header">
                 <div class="header-left">
-                    <h1><i class="fas fa-user-circle"></i> Profil Saya</h1>
+                    <h1><i class="fas fa-user-circle" aria-hidden="true"></i> Profil Saya</h1>
                     <p class="page-subtitle">Kelola informasi akun dan preferensi Anda</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn btn-help" id="editProfileBtn">
-                        <i class="fas fa-edit"></i>
+                    <button class="btn btn-help" id="editProfileBtn" aria-label="Edit informasi profil">
+                        <i class="fas fa-edit" aria-hidden="true"></i>
                         Edit Profil
                     </button>
                 </div>
-            </div>
+            </header>
 
             <!-- Profile Overview -->
             <div class="content-grid">
@@ -228,23 +231,23 @@
             </div>
 
             <!-- Tab Navigation -->
-            <div class="tab-container">
-                <button class="tab-btn active" data-tab="activity">
-                    <i class="fas fa-history"></i>
+            <div class="tab-container" role="tablist" aria-label="Tab navigasi profil">
+                <button class="tab-btn active" data-tab="activity" role="tab" aria-selected="true" aria-controls="activityContent" id="activityTab">
+                    <i class="fas fa-history" aria-hidden="true"></i>
                     Aktivitas Terbaru
                 </button>
-                <button class="tab-btn" data-tab="detections">
-                    <i class="fas fa-bug"></i>
+                <button class="tab-btn" data-tab="detections" role="tab" aria-selected="false" aria-controls="detectionsContent" id="detectionsTab">
+                    <i class="fas fa-bug" aria-hidden="true"></i>
                     Riwayat Deteksi
                 </button>
-                <button class="tab-btn" data-tab="settings">
-                    <i class="fas fa-cog"></i>
+                <button class="tab-btn" data-tab="settings" role="tab" aria-selected="false" aria-controls="settingsContent" id="settingsTab">
+                    <i class="fas fa-cog" aria-hidden="true"></i>
                     Pengaturan
                 </button>
             </div>
 
             <!-- Tab Contents -->
-            <div class="tab-content active" id="activityContent">
+            <div class="tab-content active" id="activityContent" role="tabpanel" aria-labelledby="activityTab">
                 <div class="card">
                     <h2><i class="fas fa-history"></i> Riwayat Aktivitas</h2>
                     <div class="activity-list">
@@ -279,7 +282,7 @@
                 </div>
             </div>
 
-            <div class="tab-content" id="detectionsContent">
+            <div class="tab-content" id="detectionsContent" role="tabpanel" aria-labelledby="detectionsTab">
                 <div class="card">
                     <h2><i class="fas fa-bug"></i> Riwayat Deteksi Penyakit</h2>
                     <div class="table-responsive">
@@ -332,7 +335,7 @@
                 </div>
             </div>
 
-            <div class="tab-content" id="settingsContent">
+            <div class="tab-content" id="settingsContent" role="tabpanel" aria-labelledby="settingsTab">
                 <div class="card">
                     <h2><i class="fas fa-cog"></i> Pengaturan Akun</h2>
                     <form id="settingsForm">

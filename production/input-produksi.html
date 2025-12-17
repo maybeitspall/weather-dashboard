@@ -13,12 +13,15 @@
     <link rel="stylesheet" href="../assets/css/form.css">
 </head>
 <body>
+    <!-- Skip Navigation -->
+    <a href="#mainContent" class="skip-link">Lewati ke konten utama</a>
+    
     <!-- Navigation Header -->
-    <header>
+    <header role="banner">
         <div class="header-container">
             <!-- Hamburger Menu untuk Mobile -->
-            <button class="hamburger-btn" id="hamburgerBtn">
-                <i class="fas fa-bars"></i>
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="sidebar">
+                <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
             
             <!-- Logo -->
@@ -32,14 +35,14 @@
             
             <!-- Profile Dropdown -->
             <div class="profile-dropdown" id="profileDropdown">
-                <button class="profile-btn" id="profileBtn">
-                    <div class="profile-avatar">
+                <button class="profile-btn" id="profileBtn" aria-label="Menu profil pengguna" aria-expanded="false" aria-haspopup="true">
+                    <div class="profile-avatar" aria-hidden="true">
                         <i class="fas fa-user"></i>
                     </div>
                     <span class="profile-name">Petani Nilam</span>
-                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
                 </button>
-                <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-menu" id="dropdownMenu" role="menu" aria-labelledby="profileBtn">
                     <div class="dropdown-header">
                         <div class="dropdown-avatar">
                             <i class="fas fa-user"></i>
@@ -69,14 +72,14 @@
     </header>
 
     <!-- Sidebar Navigation -->
-    <nav class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar" role="navigation" aria-label="Menu navigasi utama">
         <div class="sidebar-header">
             <div class="sidebar-logo">
-                <img src="../assets/images/nilam.png" alt="Logo Nilam"/>
+                <img src="../assets/images/nilam.png" alt="Logo NILAMTRACE"/>
                 <h3>NILAMTRACE</h3>
             </div>
-            <button class="close-sidebar" id="closeSidebar">
-                <i class="fas fa-times"></i>
+            <button class="close-sidebar" id="closeSidebar" aria-label="Tutup menu navigasi">
+                <i class="fas fa-times" aria-hidden="true"></i>
             </button>
         </div>
         
@@ -145,38 +148,38 @@
     <div class="overlay" id="overlay"></div>
 
     <!-- Main Content -->
-    <main class="main-content" id="mainContent">
+    <main class="main-content" id="mainContent" role="main" aria-label="Konten utama input produksi">
         <div class="container">
             <!-- Page Header -->
-            <div class="page-header">
+            <header class="page-header">
                 <div class="header-left">
-                    <h1><i class="fas fa-seedling"></i> Input Data Produksi & Tanaman</h1>
+                    <h1><i class="fas fa-seedling" aria-hidden="true"></i> Input Data Produksi & Tanaman</h1>
                     <p class="page-subtitle">Kelola data produksi panen dan tanaman nilam Anda di satu tempat</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn btn-help" id="quickGuideBtn">
-                        <i class="fas fa-question-circle"></i>
+                    <button class="btn btn-help" id="quickGuideBtn" aria-label="Buka panduan cepat penggunaan">
+                        <i class="fas fa-question-circle" aria-hidden="true"></i>
                         Panduan Cepat
                     </button>
-                    <button class="btn btn-success" id="exportDataBtn">
-                        <i class="fas fa-file-export"></i>
+                    <button class="btn btn-success" id="exportDataBtn" aria-label="Ekspor data produksi">
+                        <i class="fas fa-file-export" aria-hidden="true"></i>
                         Ekspor Data
                     </button>
                 </div>
-            </div>
+            </header>
 
             <!-- Tab Container -->
-            <div class="tab-container" id="tabContainer">
-                <button class="tab-btn active" data-tab="produksi">
-                    <i class="fas fa-weight"></i>
+            <div class="tab-container" id="tabContainer" role="tablist" aria-label="Tab navigasi input data">
+                <button class="tab-btn active" data-tab="produksi" role="tab" aria-selected="true" aria-controls="tab-produksi" id="produksiTab">
+                    <i class="fas fa-weight" aria-hidden="true"></i>
                     Input Produksi Panen
                 </button>
-                <button class="tab-btn" data-tab="tanaman">
-                    <i class="fas fa-seedling"></i>
+                <button class="tab-btn" data-tab="tanaman" role="tab" aria-selected="false" aria-controls="tab-tanaman" id="tanamanTab">
+                    <i class="fas fa-seedling" aria-hidden="true"></i>
                     Input Data Tanaman
                 </button>
-                <button class="tab-btn" data-tab="riwayat">
-                    <i class="fas fa-history"></i>
+                <button class="tab-btn" data-tab="riwayat" role="tab" aria-selected="false" aria-controls="tab-riwayat" id="riwayatTab">
+                    <i class="fas fa-history" aria-hidden="true"></i>
                     Riwayat Produksi
                 </button>
             </div>
@@ -204,19 +207,19 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="tanggal">
-                                    <i class="fas fa-calendar-alt"></i>
-                                    Tanggal Panen
+                                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                                    Tanggal Panen <span class="required" aria-label="wajib diisi">*</span>
                                 </label>
-                                <input type="date" id="tanggal" name="tanggal" required>
-                                <small class="form-hint">Tanggal ketika panen dilakukan</small>
+                                <input type="date" id="tanggal" name="tanggal" required aria-describedby="tanggal-hint">
+                                <small class="form-hint" id="tanggal-hint">Tanggal ketika panen dilakukan</small>
                             </div>
                             
                             <div class="form-group">
                                 <label for="jenisProduk">
-                                    <i class="fas fa-box"></i>
-                                    Jenis Produk
+                                    <i class="fas fa-box" aria-hidden="true"></i>
+                                    Jenis Produk <span class="required" aria-label="wajib diisi">*</span>
                                 </label>
-                                <select id="jenisProduk" name="jenisProduk" required>
+                                <select id="jenisProduk" name="jenisProduk" required aria-describedby="jenisProduk-hint">
                                     <option value="">Pilih Jenis Produk</option>
                                     <option value="daun_segar">Daun Segar</option>
                                     <option value="minyak_nilam">Minyak Nilam</option>
@@ -224,33 +227,33 @@
                                     <option value="bibit">Bibit</option>
                                     <option value="lainnya">Lainnya</option>
                                 </select>
-                                <small class="form-hint">Jenis produk yang dihasilkan</small>
+                                <small class="form-hint" id="jenisProduk-hint">Jenis produk yang dihasilkan</small>
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="jumlahProduksi">
-                                    <i class="fas fa-balance-scale"></i>
-                                    Jumlah Produksi
+                                    <i class="fas fa-balance-scale" aria-hidden="true"></i>
+                                    Jumlah Produksi <span class="required" aria-label="wajib diisi">*</span>
                                 </label>
                                 <div class="input-with-unit">
-                                    <input type="number" id="jumlahProduksi" name="jumlahProduksi" min="0" step="0.01" required>
-                                    <span class="input-unit">kg</span>
+                                    <input type="number" id="jumlahProduksi" name="jumlahProduksi" min="0" step="0.01" required aria-describedby="jumlahProduksi-hint">
+                                    <span class="input-unit" aria-hidden="true">kg</span>
                                 </div>
-                                <small class="form-hint">Jumlah produksi dalam kilogram</small>
+                                <small class="form-hint" id="jumlahProduksi-hint">Jumlah produksi dalam kilogram</small>
                             </div>
                             
                             <div class="form-group">
                                 <label for="hargaJual">
-                                    <i class="fas fa-money-bill-wave"></i>
-                                    Harga Jual per kg
+                                    <i class="fas fa-money-bill-wave" aria-hidden="true"></i>
+                                    Harga Jual per kg <span class="required" aria-label="wajib diisi">*</span>
                                 </label>
                                 <div class="input-with-unit">
-                                    <input type="number" id="hargaJual" name="hargaJual" min="0" required>
-                                    <span class="input-unit">Rp</span>
+                                    <input type="number" id="hargaJual" name="hargaJual" min="0" required aria-describedby="hargaJual-hint">
+                                    <span class="input-unit" aria-hidden="true">Rp</span>
                                 </div>
-                                <small class="form-hint">Harga jual per kilogram produk</small>
+                                <small class="form-hint" id="hargaJual-hint">Harga jual per kilogram produk</small>
                             </div>
                         </div>
                         

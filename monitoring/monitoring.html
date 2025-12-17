@@ -13,12 +13,15 @@
     <link rel="stylesheet" href="../assets/css/upload.css">
 </head>
 <body>
+    <!-- Skip Navigation -->
+    <a href="#mainContent" class="skip-link">Lewati ke konten utama</a>
+    
     <!-- Navigation Header -->
-    <header>
+    <header role="banner">
         <div class="header-container">
             <!-- Hamburger Menu untuk Mobile -->
-            <button class="hamburger-btn" id="hamburgerBtn">
-                <i class="fas fa-bars"></i>
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="sidebar">
+                <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
             
             <!-- Logo -->
@@ -32,14 +35,14 @@
             
             <!-- Profile Dropdown -->
             <div class="profile-dropdown" id="profileDropdown">
-                <button class="profile-btn" id="profileBtn">
-                    <div class="profile-avatar">
+                <button class="profile-btn" id="profileBtn" aria-label="Menu profil pengguna" aria-expanded="false" aria-haspopup="true">
+                    <div class="profile-avatar" aria-hidden="true">
                         <i class="fas fa-user"></i>
                     </div>
                     <span class="profile-name">Petani Nilam</span>
-                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
                 </button>
-                <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-menu" id="dropdownMenu" role="menu" aria-labelledby="profileBtn">
                     <div class="dropdown-header">
                         <div class="dropdown-avatar">
                             <i class="fas fa-user"></i>
@@ -69,14 +72,14 @@
     </header>
 
     <!-- Sidebar Navigation -->
-    <nav class="sidebar" id="sidebar">
+    <nav class="sidebar" id="sidebar" role="navigation" aria-label="Menu navigasi utama">
         <div class="sidebar-header">
             <div class="sidebar-logo">
-                <img src="../assets/images/nilam.png" alt="Logo Nilam"/>
+                <img src="../assets/images/nilam.png" alt="Logo NILAMTRACE"/>
                 <h3>NILAMTRACE</h3>
             </div>
-            <button class="close-sidebar" id="closeSidebar">
-                <i class="fas fa-times"></i>
+            <button class="close-sidebar" id="closeSidebar" aria-label="Tutup menu navigasi">
+                <i class="fas fa-times" aria-hidden="true"></i>
             </button>
         </div>
         
@@ -144,21 +147,21 @@
     <div class="overlay" id="overlay"></div>
 
     <!-- Main Content -->
-    <main class="main-content" id="mainContent">
+    <main class="main-content" id="mainContent" role="main" aria-label="Konten utama deteksi penyakit">
         <div class="container">
             <!-- Page Header -->
-            <div class="page-header">
+            <header class="page-header">
                 <div class="header-left">
-                    <h1><i class="fas fa-camera"></i> Deteksi Penyakit Tanaman Nilam</h1>
+                    <h1><i class="fas fa-camera" aria-hidden="true"></i> Deteksi Penyakit Tanaman Nilam</h1>
                     <p class="page-subtitle">Gunakan AI untuk mendeteksi penyakit pada tanaman nilam secara akurat</p>
                 </div>
                 <div class="header-actions">
-                    <button class="btn btn-help">
-                        <i class="fas fa-question-circle"></i>
+                    <button class="btn btn-help" aria-label="Buka panduan penggunaan">
+                        <i class="fas fa-question-circle" aria-hidden="true"></i>
                         Panduan
                     </button>
                 </div>
-            </div>
+            </header>
 
             <!-- Upload Section -->
             <div class="card upload-section">
@@ -168,36 +171,36 @@
                 </div>
                 
                 <!-- Input Methods Tabs -->
-                <div class="input-methods">
-                    <button class="method-btn active" data-method="upload">
-                        <i class="fas fa-upload"></i>
+                <div class="input-methods" role="tablist" aria-label="Metode input foto">
+                    <button class="method-btn active" data-method="upload" role="tab" aria-selected="true" aria-controls="uploadArea" id="uploadTab">
+                        <i class="fas fa-upload" aria-hidden="true"></i>
                         Upload Foto
                     </button>
-                    <button class="method-btn" data-method="camera">
-                        <i class="fas fa-camera"></i>
+                    <button class="method-btn" data-method="camera" role="tab" aria-selected="false" aria-controls="cameraArea" id="cameraTab">
+                        <i class="fas fa-camera" aria-hidden="true"></i>
                         Ambil Foto
                     </button>
-                    <button class="method-btn" data-method="history">
-                        <i class="fas fa-history"></i>
+                    <button class="method-btn" data-method="history" role="tab" aria-selected="false" aria-controls="historyArea" id="historyTab">
+                        <i class="fas fa-history" aria-hidden="true"></i>
                         Riwayat Deteksi
                     </button>
                 </div>
 
                 <!-- Upload Area -->
-                <div class="upload-area active" id="uploadArea">
+                <div class="upload-area active" id="uploadArea" role="tabpanel" aria-labelledby="uploadTab">
                     <div class="upload-content">
-                        <div class="upload-icon">
+                        <div class="upload-icon" aria-hidden="true">
                             <i class="fas fa-cloud-upload-alt"></i>
                         </div>
                         <h3>Seret & Lepas Foto di Sini</h3>
                         <p>atau</p>
-                        <input type="file" id="fileInput" accept="image/*" hidden>
-                        <button class="btn btn-primary" id="uploadBtn">
-                            <i class="fas fa-folder-open"></i>
+                        <input type="file" id="fileInput" accept="image/*" hidden aria-label="Pilih file foto untuk dianalisis">
+                        <button class="btn btn-primary" id="uploadBtn" aria-describedby="uploadTips">
+                            <i class="fas fa-folder-open" aria-hidden="true"></i>
                             Pilih dari Galeri
                         </button>
-                        <p class="upload-tips">
-                            <i class="fas fa-info-circle"></i>
+                        <p class="upload-tips" id="uploadTips">
+                            <i class="fas fa-info-circle" aria-hidden="true"></i>
                             <strong>Tips:</strong> Pastikan foto fokus, pencahayaan cukup, dan hanya menampilkan daun yang terkena penyakit
                         </p>
                     </div>
