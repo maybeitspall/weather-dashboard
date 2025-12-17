@@ -1,182 +1,954 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- Tambahkan setelah <meta name="viewport"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>NILAMTRACE - Deteksi Penyakit</title>
-
-    <!-- Akses CSS dari folder assets -->
-    <link rel="stylesheet" href="../assets/css/style.css" />
-    <link rel="stylesheet" href="../assets/css/upload.css" />
-  </head>
-  <body>
+    
+    <!-- Ikon Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Akses CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/upload.css">
+</head>
+<body>
+    <!-- Navigation Header -->
     <header>
-      <div class="header-container">
-        <div class="logo">
-          <img
-            src="../assets/images/nilam.png"
-            alt="Tanaman Nilam"
-            style="width: 100px; height: 100px" />
-          <h1>NILAMTRACE</h1>
-
+        <div class="header-container">
+            <!-- Hamburger Menu untuk Mobile -->
+            <button class="hamburger-btn" id="hamburgerBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <!-- Logo -->
+            <div class="logo">
+                <img src="../assets/images/nilam.png" alt="Tanaman Nilam" class="logo-img"/>
+                <div class="logo-text">
+                    <h1>NILAMTRACE</h1>
+                    <span id="locationInfo">Desa Teuladan</span>
+                </div>
+            </div>
+            
+            <!-- Profile Dropdown -->
+            <div class="profile-dropdown" id="profileDropdown">
+                <button class="profile-btn" id="profileBtn">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="profile-name">Petani Nilam</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="dropdown-header">
+                        <div class="dropdown-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="dropdown-info">
+                            <h4>Petani Nilam</h4>
+                            <p>petani@nilam.com</p>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="../auth/profile.html" class="dropdown-item">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Profil Saya</span>
+                    </a>
+                    <a href="../auth/profile.html#settings" class="dropdown-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Pengaturan</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item logout" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Keluar</span>
+                    </a>
+                </div>
+            </div>
         </div>
-        <nav>
-          <ul>
-            <!-- Akses halaman homepage -->
-            <li><a href="../homepage/homepage.html">Dashboard</a></li>
-            <li>
-              <a href="monitoring.html" class="active">Deteksi Penyakit</a>
-            </li>
-            <li>
-              <a href="../production/input-produksi.html">Input Produksi</a>
-            </li>
-            <!-- Tambahkan di dalam <nav><ul> di homepage.html dan monitoring.html -->
-            <li><a href="../auth/profile.html">Profil</a></li>
-          </ul>
-        </nav>
-      </div>
     </header>
 
-    <div class="container">
-      <div class="card">
-        <h2>Deteksi Kesehatan Tanaman Nilam (Menggunakan AI)</h2>
-
-        <!-- Tab untuk memilih metode input -->
-        <div class="input-methods">
-          <button class="method-btn active" data-method="upload">
-            Upload Foto
-          </button>
-          <button class="method-btn" data-method="camera">
-            Ambil Foto dengan Kamera
-          </button>
-        </div>
-
-        <!-- Area Upload Foto -->
-        <div class="upload-area active" id="uploadArea">
-          <div class="upload-icon">📷</div>
-          <h3>Tarik & Lepas Foto Daun Nilam di Sini</h3>
-          <p>atau</p>
-          <input
-            type="file"
-            id="fileInput"
-            accept="image/*"
-            style="display: none" />
-          <button class="btn" id="uploadBtn">Pilih dari Galeri</button>
-          <p style="margin-top: 1rem; font-size: 0.9rem; color: #666">
-            <strong>Penting:</strong> Pastikan foto fokus dan hanya menampilkan
-            1-2 daun yang terkena penyakit.
-          </p>
-        </div>
-
-        <!-- Area Kamera -->
-        <div class="camera-area" id="cameraArea">
-          <div class="camera-preview" id="cameraPreview">
-            <video id="videoElement" autoplay playsinline></video>
-            <canvas id="canvasElement" style="display: none"></canvas>
-          </div>
-          <div class="camera-controls">
-            <button class="btn" id="startCameraBtn">Aktifkan Kamera</button>
-            <button class="btn" id="captureBtn" style="display: none">
-              Ambil Foto
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="../assets/images/nilam.png" alt="Logo Nilam"/>
+                <h3>NILAMTRACE</h3>
+            </div>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
             </button>
-            <button
-              class="btn btn-secondary"
-              id="retakeBtn"
-              style="display: none">
-              Ambil Ulang
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="../homepage/homepage.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            
+            <a href="monitoring.html" class="menu-item active">
+                <i class="fas fa-camera"></i>
+                <span>Deteksi Penyakit</span>
+            </a>
+            
+            <a href="../production/input-produksi.html" class="menu-item">
+                <i class="fas fa-seedling"></i>
+                <span>Input Produksi</span>
+            </a>
+            
+            <a href="monitoring.html" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Monitoring Tanaman</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Jadwal Panen</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-file-alt"></i>
+                <span>Laporan</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>Panduan</span>
+            </a>
+            
+            <div class="menu-divider"></div>
+            
+            <a href="../auth/profile.html" class="menu-item">
+                <i class="fas fa-user-cog"></i>
+                <span>Pengaturan Akun</span>
+            </a>
+            
+            <a href="#" class="menu-item" id="themeToggle">
+                <i class="fas fa-moon"></i>
+                <span>Mode Gelap</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <h4>Petani Nilam</h4>
+                    <p>Desa Teuladan</p>
+                </div>
+            </div>
+            <button class="logout-btn" id="sidebarLogout">
+                <i class="fas fa-sign-out-alt"></i>
             </button>
-          </div>
-          <div class="camera-result" id="cameraResult" style="display: none">
-            <img id="capturedImage" src="" alt="Foto yang diambil" />
-            <p>
-              Foto berhasil diambil. Klik "Analisis dengan AI" untuk memproses.
-            </p>
-          </div>
         </div>
+    </nav>
 
-        <div style="text-align: center; margin-top: 2rem">
-          <button class="btn" id="analyzeBtn" style="display: none">
-            Analisis dengan AI
-          </button>
+    <!-- Overlay untuk mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="header-left">
+                    <h1><i class="fas fa-camera"></i> Deteksi Penyakit Tanaman Nilam</h1>
+                    <p class="page-subtitle">Gunakan AI untuk mendeteksi penyakit pada tanaman nilam secara akurat</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-help">
+                        <i class="fas fa-question-circle"></i>
+                        Panduan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Upload Section -->
+            <div class="card upload-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-cloud-upload-alt"></i> Upload Foto Daun Nilam</h2>
+                    <p>Upload foto daun nilam untuk dianalisis oleh sistem AI kami</p>
+                </div>
+                
+                <!-- Input Methods Tabs -->
+                <div class="input-methods">
+                    <button class="method-btn active" data-method="upload">
+                        <i class="fas fa-upload"></i>
+                        Upload Foto
+                    </button>
+                    <button class="method-btn" data-method="camera">
+                        <i class="fas fa-camera"></i>
+                        Ambil Foto
+                    </button>
+                    <button class="method-btn" data-method="history">
+                        <i class="fas fa-history"></i>
+                        Riwayat Deteksi
+                    </button>
+                </div>
+
+                <!-- Upload Area -->
+                <div class="upload-area active" id="uploadArea">
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Seret & Lepas Foto di Sini</h3>
+                        <p>atau</p>
+                        <input type="file" id="fileInput" accept="image/*" hidden>
+                        <button class="btn btn-primary" id="uploadBtn">
+                            <i class="fas fa-folder-open"></i>
+                            Pilih dari Galeri
+                        </button>
+                        <p class="upload-tips">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Tips:</strong> Pastikan foto fokus, pencahayaan cukup, dan hanya menampilkan daun yang terkena penyakit
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Camera Area -->
+                <div class="camera-area" id="cameraArea">
+                    <div class="camera-container">
+                        <div class="camera-preview" id="cameraPreview">
+                            <video id="videoElement" autoplay playsinline></video>
+                            <canvas id="canvasElement" style="display: none"></canvas>
+                        </div>
+                        <div class="camera-controls">
+                            <button class="btn btn-primary" id="startCameraBtn">
+                                <i class="fas fa-video"></i>
+                                Aktifkan Kamera
+                            </button>
+                            <button class="btn btn-success" id="captureBtn" style="display: none">
+                                <i class="fas fa-camera"></i>
+                                Ambil Foto
+                            </button>
+                            <button class="btn btn-secondary" id="retakeBtn" style="display: none">
+                                <i class="fas fa-redo"></i>
+                                Ambil Ulang
+                            </button>
+                        </div>
+                        <div class="camera-result" id="cameraResult" style="display: none">
+                            <div class="result-preview">
+                                <img id="capturedImage" src="" alt="Foto yang diambil">
+                            </div>
+                            <p class="result-message">Foto berhasil diambil. Klik "Analisis dengan AI" untuk memproses.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Area -->
+                <div class="history-area" id="historyArea">
+                    <div class="history-list" id="detectionHistory">
+                        <!-- History items will be loaded here -->
+                        <div class="history-empty">
+                            <i class="fas fa-history"></i>
+                            <p>Belum ada riwayat deteksi</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analyze Button -->
+                <div class="analyze-section">
+                    <button class="btn btn-analyze" id="analyzeBtn">
+                        <i class="fas fa-robot"></i>
+                        Analisis dengan AI
+                    </button>
+                    <p class="analyze-note">
+                        <i class="fas fa-shield-alt"></i>
+                        Analisis menggunakan model AI dengan akurasi 95%
+                    </p>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="resultsSection" style="display: none">
+                <div class="card">
+                    <div class="section-header">
+                        <h2><i class="fas fa-chart-line"></i> Hasil Analisis AI</h2>
+                        <div class="result-status">
+                            <span class="badge badge-warning">Penyakit Terdeteksi</span>
+                            <span class="accuracy">Akurasi: <strong>92%</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="results-content">
+                        <div class="result-grid">
+                            <div class="result-card">
+                                <div class="result-header">
+                                    <i class="fas fa-bug"></i>
+                                    <h3>Penyakit Terdeteksi</h3>
+                                </div>
+                                <div class="result-body">
+                                    <h4 class="disease-name">Penyakit Budok</h4>
+                                    <p class="disease-desc">Gejala penyakit budok pada batang dan daun nilam. Terlihat bintil-bintil kasar berwarna kecokelatan.</p>
+                                </div>
+                            </div>
+
+                            <div class="result-card">
+                                <div class="result-header">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <h3>Tingkat Keparahan</h3>
+                                </div>
+                                <div class="result-body">
+                                    <div class="severity-level">
+                                        <div class="severity-progress">
+                                            <div class="progress-bar" style="width: 80%"></div>
+                                        </div>
+                                        <span class="severity-value">80% (Parah)</span>
+                                    </div>
+                                    <p class="severity-desc">Penyakit sudah menyebar ke beberapa bagian tanaman</p>
+                                </div>
+                            </div>
+
+                            <div class="result-card">
+                                <div class="result-header">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    <h3>Waktu Deteksi</h3>
+                                </div>
+                                <div class="result-body">
+                                    <div class="detection-time">
+                                        <i class="far fa-clock"></i>
+                                        <span>Hari Ini, 14:30 WIB</span>
+                                    </div>
+                                    <p class="detection-loc">Lokasi: Blok A, Desa Teuladan</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recommendations -->
+                        <div class="recommendations-card">
+                            <div class="recommendations-header">
+                                <i class="fas fa-lightbulb"></i>
+                                <h3>Rekomendasi Penanganan</h3>
+                            </div>
+                            <div class="recommendations-body">
+                                <div class="recommendation-list">
+                                    <div class="recommendation-item urgent">
+                                        <div class="rec-icon">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                        </div>
+                                        <div class="rec-content">
+                                            <h4>Isolasi Tanaman</h4>
+                                            <p>Segera pisahkan tanaman yang terinfeksi untuk mencegah penyebaran ke tanaman sehat.</p>
+                                        </div>
+                                    </div>
+                                    <div class="recommendation-item">
+                                        <div class="rec-icon">
+                                            <i class="fas fa-spray-can"></i>
+                                        </div>
+                                        <div class="rec-content">
+                                            <h4>Aplikasi Fungisida</h4>
+                                            <p>Gunakan fungisida [Nama Bahan Aktif] dengan dosis 2 gram/liter air setiap 7 hari.</p>
+                                        </div>
+                                    </div>
+                                    <div class="recommendation-item">
+                                        <div class="rec-icon">
+                                            <i class="fas fa-cut"></i>
+                                        </div>
+                                        <div class="rec-content">
+                                            <h4>Pemangkasan</h4>
+                                            <p>Pangkas bagian tanaman yang terinfeksi parah dan bakar untuk mencegah penyebaran spora.</p>
+                                        </div>
+                                    </div>
+                                    <div class="recommendation-item">
+                                        <div class="rec-icon">
+                                            <i class="fas fa-tint"></i>
+                                        </div>
+                                        <div class="rec-content">
+                                            <h4>Pengaturan Irigasi</h4>
+                                            <p>Kurangi penyiraman dan pastikan drainase baik untuk mengurangi kelembaban berlebih.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="action-buttons">
+                            <button class="btn btn-success" id="saveResultBtn">
+                                <i class="fas fa-save"></i>
+                                Simpan Hasil
+                            </button>
+                            <button class="btn btn-info" id="shareResultBtn">
+                                <i class="fas fa-share-alt"></i>
+                                Bagikan
+                            </button>
+                            <button class="btn btn-warning" id="newDetectionBtn">
+                                <i class="fas fa-plus"></i>
+                                Deteksi Baru
+                            </button>
+                            <button class="btn btn-secondary" id="printResultBtn">
+                                <i class="fas fa-print"></i>
+                                Cetak Laporan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Disease Database -->
+            <div class="card disease-db">
+                <div class="section-header">
+                    <h2><i class="fas fa-database"></i> Database Penyakit Nilam</h2>
+                    <p>Kenali berbagai penyakit yang umum menyerang tanaman nilam</p>
+                </div>
+
+                <div class="disease-list">
+                    <div class="disease-item">
+                        <div class="disease-image">
+                            <img src="../assets/images/nilam.png" alt="Budok">
+                        </div>
+                        <div class="disease-info">
+                            <h3>Penyakit Budok</h3>
+                            <p class="disease-symptoms">
+                                <strong>Gejala:</strong> Bintil-bintil kasar pada batang dan daun, warna kecokelatan, pertumbuhan terhambat
+                            </p>
+                            <div class="disease-meta">
+                                <span class="disease-severity high">Tingkat Bahaya: Tinggi</span>
+                                <span class="disease-season">Musim: Hujan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="disease-item">
+                        <div class="disease-image">
+                            <img src="../assets/images/nilam.png" alt="Busuk Batang">
+                        </div>
+                        <div class="disease-info">
+                            <h3>Busuk Batang (Phythophora)</h3>
+                            <p class="disease-symptoms">
+                                <strong>Gejala:</strong> Batang membusuk, daun layu, warna coklat pada pangkal batang
+                            </p>
+                            <div class="disease-meta">
+                                <span class="disease-severity medium">Tingkat Bahaya: Sedang</span>
+                                <span class="disease-season">Musim: Lembab</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="disease-item">
+                        <div class="disease-image">
+                            <img src="../assets/images/nilam.png" alt="Bercak Daun">
+                        </div>
+                        <div class="disease-info">
+                            <h3>Bercak Daun</h3>
+                            <p class="disease-symptoms">
+                                <strong>Gejala:</strong> Bercak-bercak coklat pada daun, daun mengering, pertumbuhan lambat
+                            </p>
+                            <div class="disease-meta">
+                                <span class="disease-severity low">Tingkat Bahaya: Rendah</span>
+                                <span class="disease-season">Musim: Panas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Section -->
+            <div class="card stats-card">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-pie"></i> Statistik Deteksi</h2>
+                    <p>Data deteksi penyakit dalam 30 hari terakhir</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon success">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Tanaman Sehat</h3>
+                            <div class="stat-value">85%</div>
+                            <p class="stat-desc">Dari total tanaman yang dideteksi</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-icon warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Penyakit Terdeteksi</h3>
+                            <div class="stat-value">15%</div>
+                            <p class="stat-desc">Dari total deteksi</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-icon info">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Deteksi</h3>
+                            <div class="stat-value">47</div>
+                            <p class="stat-desc">Foto dianalisis</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-icon primary">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Akurasi AI</h3>
+                            <div class="stat-value">95%</div>
+                            <p class="stat-desc">Tingkat keakuratan</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
+    </main>
 
-      <div class="result-container" id="resultContainer" style="display: none">
-        <div class="result-header">
-          <h2>Hasil Analisis AI</h2>
-        </div>
-
-        <div class="card">
-          <h3>Identifikasi</h3>
-          <p>
-            Terdeteksi:
-            <span class="detected">Penyakit Budok</span>
-          </p>
-          <p>
-            Deskripsi:
-            <span class="description"
-              >: Gejala penyakit budok pada batang dan daun nilam. Pada batang
-              dan daun terlihat bintil-bintil kasar berwarna kecokelatan</span
-            >
-          </p>
-          <p>Tingkat Keparahan: <span class="detected">Parah (80%)</span></p>
-          <p>Akurasi Model: <span class="accuracy">92%</span></p>
-        </div>
-
-        <div class="recommendation">
-          <h3>Rekomendasi Penanganan</h3>
-          <p>
-            Isolasikan tanaman sakit, segera aplikasikan fungisida [Nama Bahan
-            Aktif] pada dosis [X] gram/liter air.
-          </p>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Riwayat Foto</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Tanggal</th>
-              <th>Foto</th>
-              <th>Hasil Analisis</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>15/10/2023</td>
-              <td>daun_nilam_001.jpg</td>
-              <td>Busuk Batang (45%)</td>
-              <td>Selesai</td>
-            </tr>
-            <tr>
-              <td>10/10/2023</td>
-              <td>daun_nilam_002.jpg</td>
-              <td>Bercak Daun (15%)</td>
-              <td>Selesai</td>
-            </tr>
-            <tr>
-              <td>05/10/2023</td>
-              <td>daun_nilam_003.jpg</td>
-              <td>Jamur Akar (10%)</td>
-              <td>Selesai</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
+    <!-- Footer -->
     <footer>
-      <p>
-        NILAMTRACE - Dashboard Analitik Pertanian untuk Monitoring Produksi dan
-        Kesehatan Tanaman Nilam
-      </p>
-      <p>Desa Teuladan, Kecamatan Seulimum, Kabupaten Aceh Besar</p>
+        <div class="footer-content">
+            <p>NILAMTRACE - Sistem Deteksi Penyakit Tanaman Nilam Berbasis AI</p>
+            <p>Desa Teuladan, Kecamatan Seulimum, Kabupaten Aceh Besar</p>
+            <div class="footer-info">
+                <span id="detectionInfo">Total Deteksi: 0 | Akurasi: 95%</span>
+                <span class="divider">|</span>
+                <span id="lastDetection">Deteksi Terakhir: -</span>
+            </div>
+        </div>
     </footer>
 
-    <!-- Akses JavaScript dari folder assets -->
+    <!-- JavaScript -->
     <script src="../assets/js/upload.js"></script>
-  </body>
+    <script>
+        // Navigation and UI Controller
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load user data
+            function loadUserData() {
+                const userData = JSON.parse(localStorage.getItem('user')) || {
+                    name: 'Petani Nilam',
+                    email: 'petani@nilam.com',
+                    village: 'Desa Teuladan'
+                };
+                
+                // Update profile elements
+                document.querySelectorAll('.profile-name, .dropdown-info h4').forEach(el => {
+                    if (el.classList.contains('profile-name')) {
+                        el.textContent = userData.name;
+                    } else {
+                        el.textContent = userData.name;
+                    }
+                });
+                
+                document.querySelector('.dropdown-info p').textContent = userData.email;
+                document.querySelector('.user-details h4').textContent = userData.name;
+                document.querySelector('.user-details p').textContent = userData.village;
+            }
+            
+            // Navigation Control
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const closeSidebar = document.getElementById('closeSidebar');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const profileBtn = document.getElementById('profileBtn');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            
+            // Toggle Sidebar
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                document.body.classList.toggle('sidebar-active');
+            }
+            
+            // Toggle Profile Dropdown
+            function toggleProfileDropdown() {
+                dropdownMenu.classList.toggle('show');
+                profileBtn.classList.toggle('active');
+            }
+            
+            // Event Listeners
+            hamburgerBtn.addEventListener('click', toggleSidebar);
+            closeSidebar.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+            
+            profileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleProfileDropdown();
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!profileBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('show');
+                    profileBtn.classList.remove('active');
+                }
+            });
+            
+            // Logout buttons
+            const logoutBtns = document.querySelectorAll('#logoutBtn, #sidebarLogout');
+            logoutBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Apakah Anda yakin ingin keluar?')) {
+                        localStorage.removeItem('user');
+                        window.location.href = '../auth/login.html';
+                    }
+                });
+            });
+            
+            // Theme Toggle
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    document.body.classList.toggle('dark-mode');
+                    const icon = this.querySelector('i');
+                    const text = this.querySelector('span');
+                    
+                    if (document.body.classList.contains('dark-mode')) {
+                        icon.className = 'fas fa-sun';
+                        text.textContent = 'Mode Terang';
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        icon.className = 'fas fa-moon';
+                        text.textContent = 'Mode Gelap';
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+                
+                // Load saved theme
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme === 'dark') {
+                    document.body.classList.add('dark-mode');
+                    const icon = themeToggle.querySelector('i');
+                    const text = themeToggle.querySelector('span');
+                    icon.className = 'fas fa-sun';
+                    text.textContent = 'Mode Terang';
+                }
+            }
+            
+            // Input Methods Tabs
+            const methodBtns = document.querySelectorAll('.method-btn');
+            const uploadArea = document.getElementById('uploadArea');
+            const cameraArea = document.getElementById('cameraArea');
+            const historyArea = document.getElementById('historyArea');
+            
+            methodBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const method = this.dataset.method;
+                    
+                    // Update active tab
+                    methodBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Show corresponding area
+                    uploadArea.classList.remove('active');
+                    cameraArea.classList.remove('active');
+                    historyArea.classList.remove('active');
+                    
+                    if (method === 'upload') {
+                        uploadArea.classList.add('active');
+                    } else if (method === 'camera') {
+                        cameraArea.classList.add('active');
+                    } else if (method === 'history') {
+                        historyArea.classList.add('active');
+                        loadDetectionHistory();
+                    }
+                });
+            });
+            
+            // Analyze Button
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const resultsSection = document.getElementById('resultsSection');
+            
+            analyzeBtn.addEventListener('click', function() {
+                // Simulate analysis process
+                analyzeBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menganalisis...';
+                analyzeBtn.disabled = true;
+                
+                setTimeout(() => {
+                    // Show results
+                    resultsSection.style.display = 'block';
+                    analyzeBtn.innerHTML = '<i class="fas fa-robot"></i> Analisis dengan AI';
+                    analyzeBtn.disabled = false;
+                    
+                    // Scroll to results
+                    resultsSection.scrollIntoView({ behavior: 'smooth' });
+                    
+                    // Save to history
+                    saveDetectionToHistory();
+                    
+                    // Update statistics
+                    updateDetectionStats();
+                }, 2000);
+            });
+            
+            // Action Buttons
+            const saveResultBtn = document.getElementById('saveResultBtn');
+            const shareResultBtn = document.getElementById('shareResultBtn');
+            const newDetectionBtn = document.getElementById('newDetectionBtn');
+            const printResultBtn = document.getElementById('printResultBtn');
+            
+            if (saveResultBtn) {
+                saveResultBtn.addEventListener('click', function() {
+                    alert('Hasil deteksi berhasil disimpan ke riwayat!');
+                });
+            }
+            
+            if (shareResultBtn) {
+                shareResultBtn.addEventListener('click', function() {
+                    alert('Fitur berbagi akan segera tersedia!');
+                });
+            }
+            
+            if (newDetectionBtn) {
+                newDetectionBtn.addEventListener('click', function() {
+                    resultsSection.style.display = 'none';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    
+                    // Reset to upload tab
+                    methodBtns[0].click();
+                });
+            }
+            
+            if (printResultBtn) {
+                printResultBtn.addEventListener('click', function() {
+                    window.print();
+                });
+            }
+            
+            // Load detection history from localStorage
+            function loadDetectionHistory() {
+                const historyList = document.getElementById('detectionHistory');
+                const detections = JSON.parse(localStorage.getItem('detections')) || [];
+                
+                if (detections.length === 0) {
+                    historyList.innerHTML = `
+                        <div class="history-empty">
+                            <i class="fas fa-history"></i>
+                            <p>Belum ada riwayat deteksi</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                let html = '';
+                detections.forEach((detection, index) => {
+                    html += `
+                        <div class="history-item">
+                            <div class="history-icon">
+                                <i class="fas fa-${detection.severity === 'high' ? 'exclamation-triangle' : 'exclamation-circle'}"></i>
+                            </div>
+                            <div class="history-content">
+                                <h4>${detection.disease}</h4>
+                                <p>${detection.date} • ${detection.severity === 'high' ? 'Parah' : 'Sedang'} (${detection.accuracy}%)</p>
+                            </div>
+                            <button class="history-action" onclick="viewDetection(${index})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+                
+                historyList.innerHTML = html;
+            }
+            
+            // Save detection to history
+            function saveDetectionToHistory() {
+                const detections = JSON.parse(localStorage.getItem('detections')) || [];
+                
+                const newDetection = {
+                    disease: 'Penyakit Budok',
+                    severity: 'high',
+                    accuracy: '92',
+                    date: new Date().toLocaleDateString('id-ID', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }),
+                    location: 'Blok A, Desa Teuladan',
+                    recommendations: [
+                        'Isolasi tanaman yang terinfeksi',
+                        'Aplikasi fungisida setiap 7 hari',
+                        'Pemangkasan bagian terinfeksi',
+                        'Pengaturan irigasi yang tepat'
+                    ]
+                };
+                
+                detections.unshift(newDetection); // Add to beginning
+                localStorage.setItem('detections', JSON.stringify(detections));
+            }
+            
+            // Update detection statistics
+            function updateDetectionStats() {
+                const detections = JSON.parse(localStorage.getItem('detections')) || [];
+                const healthyPercent = detections.length > 0 ? 85 - (detections.length * 2) : 85;
+                
+                document.querySelector('.stat-value.success').textContent = `${Math.max(healthyPercent, 50)}%`;
+                document.querySelector('.stat-value.warning').textContent = `${100 - healthyPercent}%`;
+                document.querySelector('.stat-value.info').textContent = detections.length;
+                
+                document.getElementById('detectionInfo').textContent = 
+                    `Total Deteksi: ${detections.length} | Akurasi: 95%`;
+                
+                if (detections.length > 0) {
+                    document.getElementById('lastDetection').textContent = 
+                        `Deteksi Terakhir: ${detections[0].date}`;
+                }
+            }
+            
+            // Initialize
+            loadUserData();
+            loadDetectionHistory();
+            updateDetectionStats();
+            
+            // Mobile detection for sidebar
+            const isMobile = window.innerWidth <= 1024;
+            if (isMobile) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('active');
+            }
+            
+            // Resize handler
+            window.addEventListener('resize', function() {
+                const isNowMobile = window.innerWidth <= 1024;
+                
+                if (isNowMobile && !isMobile) {
+                    // Switched to mobile
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.classList.remove('sidebar-active');
+                } else if (!isNowMobile && isMobile) {
+                    // Switched to desktop
+                    sidebar.classList.add('active');
+                }
+            });
+        });
+        
+        // View detection details
+        function viewDetection(index) {
+            const detections = JSON.parse(localStorage.getItem('detections')) || [];
+            if (detections[index]) {
+                const detection = detections[index];
+                alert(`Detail Deteksi:\n\nPenyakit: ${detection.disease}\nKeparahan: ${detection.severity === 'high' ? 'Parah' : 'Sedang'}\nAkurasi: ${detection.accuracy}%\nTanggal: ${detection.date}\nLokasi: ${detection.location}`);
+            }
+        }
+        
+        // Enhanced upload functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const uploadBtn = document.getElementById('uploadBtn');
+            const fileInput = document.getElementById('fileInput');
+            const uploadArea = document.getElementById('uploadArea');
+            
+            if (uploadBtn && fileInput) {
+                uploadBtn.addEventListener('click', () => fileInput.click());
+                
+                fileInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        handleImageFile(this.files[0]);
+                    }
+                });
+                
+                // Drag and drop functionality
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, preventDefaults, false);
+                });
+                
+                function preventDefaults(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, highlight, false);
+                });
+                
+                ['dragleave', 'drop'].forEach(eventName => {
+                    uploadArea.addEventListener(eventName, unhighlight, false);
+                });
+                
+                function highlight() {
+                    uploadArea.classList.add('highlight');
+                }
+                
+                function unhighlight() {
+                    uploadArea.classList.remove('highlight');
+                }
+                
+                uploadArea.addEventListener('drop', handleDrop, false);
+                
+                function handleDrop(e) {
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    
+                    if (files.length && files[0].type.startsWith('image/')) {
+                        fileInput.files = files;
+                        handleImageFile(files[0]);
+                    } else {
+                        alert('Silakan unggah file gambar yang valid.');
+                    }
+                }
+            }
+            
+            function handleImageFile(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    uploadArea.innerHTML = `
+                        <div class="upload-preview">
+                            <img src="${e.target.result}" alt="Preview">
+                            <div class="preview-actions">
+                                <button class="btn btn-secondary" id="changePhotoBtn">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    Ganti Foto
+                                </button>
+                                <button class="btn btn-success" id="usePhotoBtn">
+                                    <i class="fas fa-check"></i>
+                                    Gunakan Foto Ini
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.getElementById('changePhotoBtn').addEventListener('click', resetUploadArea);
+                    document.getElementById('usePhotoBtn').addEventListener('click', function() {
+                        document.getElementById('analyzeBtn').disabled = false;
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+            
+            function resetUploadArea() {
+                uploadArea.innerHTML = `
+                    <div class="upload-content">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3>Seret & Lepas Foto di Sini</h3>
+                        <p>atau</p>
+                        <input type="file" id="fileInput" accept="image/*" hidden>
+                        <button class="btn btn-primary" id="uploadBtn">
+                            <i class="fas fa-folder-open"></i>
+                            Pilih dari Galeri
+                        </button>
+                        <p class="upload-tips">
+                            <i class="fas fa-info-circle"></i>
+                            <strong>Tips:</strong> Pastikan foto fokus, pencahayaan cukup, dan hanya menampilkan daun yang terkena penyakit
+                        </p>
+                    </div>
+                `;
+                
+                // Re-attach event listeners
+                const newUploadBtn = document.getElementById('uploadBtn');
+                const newFileInput = document.getElementById('fileInput');
+                
+                newUploadBtn.addEventListener('click', () => newFileInput.click());
+                newFileInput.addEventListener('change', function() {
+                    if (this.files && this.files[0]) {
+                        handleImageFile(this.files[0]);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
 </html>
