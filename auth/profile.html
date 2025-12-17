@@ -455,6 +455,36 @@
             if (savedTheme) {
                 document.getElementById('theme').value = savedTheme;
             }
+            
+            // Theme Toggle
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    document.body.classList.toggle('dark-mode');
+                    const icon = this.querySelector('i');
+                    const text = this.querySelector('span');
+                    
+                    if (document.body.classList.contains('dark-mode')) {
+                        icon.className = 'fas fa-sun';
+                        text.textContent = 'Mode Terang';
+                        localStorage.setItem('theme', 'dark');
+                    } else {
+                        icon.className = 'fas fa-moon';
+                        text.textContent = 'Mode Gelap';
+                        localStorage.setItem('theme', 'light');
+                    }
+                });
+                
+                // Load saved theme
+                const savedThemeToggle = localStorage.getItem('theme');
+                if (savedThemeToggle === 'dark') {
+                    document.body.classList.add('dark-mode');
+                    const icon = themeToggle.querySelector('i');
+                    const text = themeToggle.querySelector('span');
+                    icon.className = 'fas fa-sun';
+                    text.textContent = 'Mode Terang';
+                }
+            }
         });
         
         function loadUserData() {
