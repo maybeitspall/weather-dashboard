@@ -10,8 +10,133 @@ class ProductionController {
     init() {
         this.setupTabs();
         this.setupForms();
+        this.setupFilters();
+        this.setupCalculator();
+        this.setupButtons();
         this.loadProductionHistory();
         this.loadPlantsList();
+        this.updatePlantStats();
+    }
+    
+    setupFilters() {
+        // Production history filters
+        const periodFilter = document.getElementById('filterPeriod');
+        const productFilter = document.getElementById('filterProduct');
+        
+        if (periodFilter) {
+            periodFilter.addEventListener('change', () => this.loadProductionHistory());
+        }
+        
+        if (productFilter) {
+            productFilter.addEventListener('change', () => this.loadProductionHistory());
+        }
+        
+        // Plant filters
+        const plantSearch = document.getElementById('plantSearch');
+        const plantStatusFilter = document.getElementById('plantStatusFilter');
+        
+        if (plantSearch) {
+            plantSearch.addEventListener('input', () => this.loadPlantsList());
+        }
+        
+        if (plantStatusFilter) {
+            plantStatusFilter.addEventListener('change', () => this.loadPlantsList());
+        }
+    }
+    
+    setupCalculator() {
+        const calcJumlah = document.getElementById('calcJumlah');
+        const calcHarga = document.getElementById('calcHarga');
+        const calcTotal = document.getElementById('calcTotal');
+        const applyCalcBtn = document.getElementById('applyCalcBtn');
+        
+        const updateCalcTotal = () => {
+            if (calcJumlah && calcHarga && calcTotal) {
+                const jumlah = parseFloat(calcJumlah.value) || 0;
+                const harga = parseFloat(calcHarga.value) || 0;
+                const total = jumlah * harga;
+                calcTotal.textContent = total.toLocaleString('id-ID');
+            }
+        };
+        
+        if (calcJumlah) calcJumlah.addEventListener('input', updateCalcTotal);
+        if (calcHarga) calcHarga.addEventListener('input', updateCalcTotal);
+        
+        if (applyCalcBtn) {
+            applyCalcBtn.addEventListener('click', () => {
+                const jumlah = parseFloat(calcJumlah.value) || 0;
+                const harga = parseFloat(calcHarga.value) || 0;
+                
+                const jumlahProduksiInput = document.getElementById('jumlahProduksi');
+                const hargaJualInput = document.getElementById('hargaJual');
+                
+                if (jumlahProduksiInput) {
+                    jumlahProduksiInput.value = jumlah;
+                    jumlahProduksiInput.dispatchEvent(new Event('input'));
+                }
+                
+                if (hargaJualInput) {
+                    hargaJualInput.value = harga;
+                    hargaJualInput.dispatchEvent(new Event('input'));
+                }
+                
+                if (window.appController) {
+                    window.appController.showNotification('Nilai telah diterapkan ke form produksi!', 'success');
+                } else {
+                    alert('Nilai telah diterapkan ke form produksi!');
+                }
+            });
+        }
+    }
+    
+    setupButtons() {
+        // Clear history button
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        if (clearHistoryBtn) {
+            clearHistoryBtn.addEventListener('click', () => {
+                if (confirm('Apakah Anda yakin ingin menghapus semua riwayat produksi?')) {
+                    localStorage.removeItem('productions');
+                    this.loadProductionHistory();
+                    
+                    if (window.appController) {
+                        window.appController.showNotification('Riwayat produksi berhasil dihapus!', 'success');
+                    } else {
+                        alert('Riwayat produksi berhasil dihapus!');
+                    }
+                }
+            });
+        }
+        
+        // Export buttons
+        document.querySelectorAll('.export-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const type = this.classList.contains('pdf') ? 'PDF' :
+                           this.classList.contains('excel') ? 'Excel' :
+                           this.classList.contains('csv') ? 'CSV' : 'Print';
+                
+                if (window.appController) {
+                    window.appController.showNotification(`Fitur ekspor ${type} akan segera tersedia!`, 'info');
+                } else {
+                    alert(`Fitur ekspor ${type} akan segera tersedia!`);
+                }
+            });
+        });
+        
+        // Quick guide button
+        const quickGuideBtn = document.getElementById('quickGuideBtn');
+        if (quickGuideBtn) {
+            quickGuideBtn.addEventListener('click', () => {
+                const message = `Panduan Penggunaan:
+
+1. Pilih tab "Input Produksi Panen" untuk mencatat hasil panen
+2. Pilih tab "Input Data Tanaman" untuk mengelola data tanaman
+3. Gunakan tab "Riwayat Produksi" untuk melihat dan mengelola data historis
+4. Gunakan filter untuk mencari data spesifik
+5. Data otomatis tersimpan di browser Anda`;
+                
+                alert(message);
+            });
+        }
     }
     
     setupTabs() {
@@ -63,14 +188,19 @@ class ProductionController {
         
         // Auto-calculate production value
         const quantityInput = document.getElementById('jumlahProduksi');
-        const priceInput = document.getElementById('hargaPerKg');
-        const totalInput = document.getElementById('totalPendapatan');
+        const priceInput = document.getElementById('hargaJual');
+        const totalDisplay = document.getElementById('totalPendapatanDisplay');
         
-        if (quantityInput && priceInput && totalInput) {
+        if (quantityInput && priceInput && totalDisplay) {
             const calculateTotal = () => {
                 const quantity = parseFloat(quantityInput.value) || 0;
                 const price = parseFloat(priceInput.value) || 0;
-                totalInput.value = (quantity * price).toFixed(0);
+                const total = quantity * price;
+                
+                const totalValue = totalDisplay.querySelector('.total-value');
+                if (totalValue) {
+                    totalValue.textContent = total.toLocaleString('id-ID');
+                }
             };
             
             quantityInput.addEventListener('input', calculateTotal);
@@ -111,120 +241,327 @@ class ProductionController {
     }
     
     handleProductionSubmit(e) {
-        const formData = new FormData(e.target);
-        const productionData = {
-            id: Date.now(),
-            tanggal: formData.get('tanggal'),
-            jenisProduk: formData.get('jenisProduk'),
-            jumlahProduksi: parseFloat(formData.get('jumlahProduksi')),
-            hargaPerKg: parseFloat(formData.get('hargaPerKg')),
-            totalPendapatan: parseFloat(formData.get('totalPendapatan')),
-            keterangan: formData.get('keterangan'),
-            createdAt: new Date().toISOString()
-        };
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
         
-        // Validate required fields
-        if (!productionData.tanggal || !productionData.jenisProduk || !productionData.jumlahProduksi) {
+        // Show loading state
+        if (submitBtn) {
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+        }
+        
+        // Validate form
+        if (!this.validateForm(form)) {
+            if (submitBtn) {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            }
+            
             if (window.appController) {
-                window.appController.showNotification('Mohon lengkapi semua field yang wajib diisi', 'warning');
+                window.appController.showNotification('Mohon perbaiki kesalahan pada form', 'error');
+            } else {
+                alert('Mohon lengkapi semua field yang wajib diisi');
+            }
+            
+            // Focus on first error field
+            const firstError = form.querySelector('.error');
+            if (firstError) {
+                firstError.focus();
             }
             return;
         }
         
-        // Save to localStorage
-        const productions = JSON.parse(localStorage.getItem('productions')) || [];
-        productions.push(productionData);
-        localStorage.setItem('productions', JSON.stringify(productions));
-        
-        // Reset form
-        e.target.reset();
-        
-        // Reload history
-        this.loadProductionHistory();
-        
-        if (window.appController) {
-            window.appController.showNotification('Data produksi berhasil disimpan!', 'success');
+        try {
+            const formData = new FormData(form);
+            const jumlahProduksi = parseFloat(formData.get('jumlahProduksi'));
+            const hargaJual = parseFloat(formData.get('hargaJual'));
+            
+            const productionData = {
+                id: Date.now().toString(),
+                tanggal: formData.get('tanggal'),
+                jenisProduk: formData.get('jenisProduk'),
+                jumlahProduksi: jumlahProduksi,
+                hargaJual: hargaJual,
+                totalPendapatan: jumlahProduksi * hargaJual,
+                kualitas: formData.get('kualitas'),
+                lokasiPanen: formData.get('lokasiPanen'),
+                keterangan: formData.get('keterangan'),
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            const productions = JSON.parse(localStorage.getItem('productions')) || [];
+            productions.push(productionData);
+            localStorage.setItem('productions', JSON.stringify(productions));
+            
+            // Reset form
+            form.reset();
+            
+            // Reset total display
+            const totalDisplay = document.getElementById('totalPendapatanDisplay');
+            if (totalDisplay) {
+                const totalValue = totalDisplay.querySelector('.total-value');
+                if (totalValue) {
+                    totalValue.textContent = '0';
+                }
+            }
+            
+            // Reload history
+            this.loadProductionHistory();
+            this.updateDashboardStats();
+            
+            if (window.appController) {
+                window.appController.showNotification('Data produksi berhasil disimpan!', 'success');
+            } else {
+                alert('Data produksi berhasil disimpan!');
+            }
+        } catch (error) {
+            console.error('Error saving production data:', error);
+            if (window.appController) {
+                window.appController.showNotification('Terjadi kesalahan saat menyimpan data', 'error');
+            } else {
+                alert('Terjadi kesalahan saat menyimpan data');
+            }
+        } finally {
+            // Remove loading state
+            if (submitBtn) {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            }
         }
     }
     
     handlePlantSubmit(e) {
-        const formData = new FormData(e.target);
-        const plantData = {
-            id: Date.now(),
-            namaVarietas: formData.get('namaVarietas'),
-            jumlahBatang: parseInt(formData.get('jumlahBatang')),
-            tanggalTanam: formData.get('tanggalTanam'),
-            luasLahan: parseFloat(formData.get('luasLahan')),
-            statusTanaman: formData.get('statusTanaman'),
-            keterangan: formData.get('keterangan'),
-            createdAt: new Date().toISOString()
-        };
+        const form = e.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
         
-        // Validate required fields
-        if (!plantData.namaVarietas || !plantData.jumlahBatang || !plantData.tanggalTanam) {
+        // Show loading state
+        if (submitBtn) {
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+        }
+        
+        // Validate form
+        if (!this.validateForm(form)) {
+            if (submitBtn) {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            }
+            
             if (window.appController) {
-                window.appController.showNotification('Mohon lengkapi semua field yang wajib diisi', 'warning');
+                window.appController.showNotification('Mohon perbaiki kesalahan pada form', 'error');
+            } else {
+                alert('Mohon lengkapi semua field yang wajib diisi');
+            }
+            
+            // Focus on first error field
+            const firstError = form.querySelector('.error');
+            if (firstError) {
+                firstError.focus();
             }
             return;
         }
         
-        // Save to localStorage
-        const plants = JSON.parse(localStorage.getItem('plants')) || [];
-        plants.push(plantData);
-        localStorage.setItem('plants', JSON.stringify(plants));
-        
-        // Reset form
-        e.target.reset();
-        
-        // Reload list
-        this.loadPlantsList();
-        
-        if (window.appController) {
-            window.appController.showNotification('Data tanaman berhasil disimpan!', 'success');
+        try {
+            const formData = new FormData(form);
+            const plantData = {
+                id: Date.now().toString(),
+                namaVarietas: formData.get('namaVarietas'),
+                tanggalTanam: formData.get('tanggalTanam'),
+                jumlahBatang: parseInt(formData.get('jumlahBatang')),
+                luasLahan: parseFloat(formData.get('luasLahan')),
+                lokasiTanam: formData.get('lokasiTanam'),
+                statusTanaman: formData.get('statusTanaman'),
+                catatanTanaman: formData.get('catatanTanaman'),
+                createdAt: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            const plants = JSON.parse(localStorage.getItem('plants')) || [];
+            plants.push(plantData);
+            localStorage.setItem('plants', JSON.stringify(plants));
+            
+            // Reset form
+            form.reset();
+            
+            // Reload list
+            this.loadPlantsList();
+            this.updatePlantStats();
+            
+            if (window.appController) {
+                window.appController.showNotification('Data tanaman berhasil disimpan!', 'success');
+            } else {
+                alert('Data tanaman berhasil disimpan!');
+            }
+        } catch (error) {
+            console.error('Error saving plant data:', error);
+            if (window.appController) {
+                window.appController.showNotification('Terjadi kesalahan saat menyimpan data', 'error');
+            } else {
+                alert('Terjadi kesalahan saat menyimpan data');
+            }
+        } finally {
+            // Remove loading state
+            if (submitBtn) {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            }
         }
     }
     
     loadProductionHistory() {
         const productions = JSON.parse(localStorage.getItem('productions')) || [];
-        const historyContainer = document.getElementById('productionHistory');
+        const tbody = document.querySelector('#riwayatProduksi tbody');
         
-        if (!historyContainer) return;
+        if (!tbody) return;
         
         if (productions.length === 0) {
-            historyContainer.innerHTML = `
-                <div class="empty-state">
-                    <i class="fas fa-clipboard-list"></i>
-                    <h3>Belum Ada Data Produksi</h3>
-                    <p>Tambahkan data produksi pertama Anda</p>
-                </div>
+            tbody.innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="7" class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <p>Belum ada data produksi. Mulai dengan input data produksi pertama Anda.</p>
+                    </td>
+                </tr>
             `;
+            this.updateSummaryInfo([]);
             return;
         }
         
-        historyContainer.innerHTML = '';
-        productions.slice(-10).reverse().forEach(production => {
-            const historyItem = document.createElement('div');
-            historyItem.className = 'history-item';
-            
-            const productName = this.getProductName(production.jenisProduk);
-            const date = new Date(production.tanggal).toLocaleDateString('id-ID');
-            
-            historyItem.innerHTML = `
-                <div class="history-content">
-                    <h4>${productName}</h4>
-                    <p><strong>Jumlah:</strong> ${production.jumlahProduksi} kg</p>
-                    <p><strong>Pendapatan:</strong> Rp ${production.totalPendapatan?.toLocaleString('id-ID') || 0}</p>
-                    <span class="date">${date}</span>
-                </div>
-                <div class="history-actions">
-                    <button class="btn btn-sm btn-danger" onclick="productionController.deleteProduction(${production.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
+        // Apply filters
+        const periodFilter = document.getElementById('filterPeriod')?.value || 'all';
+        const productFilter = document.getElementById('filterProduct')?.value || 'all';
+        
+        let filteredProductions = productions;
+        
+        // Period filter
+        if (periodFilter !== 'all') {
+            const now = new Date();
+            filteredProductions = filteredProductions.filter(prod => {
+                const prodDate = new Date(prod.tanggal);
+                
+                switch(periodFilter) {
+                    case 'today':
+                        return prodDate.toDateString() === now.toDateString();
+                    case 'week':
+                        const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                        return prodDate >= weekAgo;
+                    case 'month':
+                        return prodDate.getMonth() === now.getMonth() && 
+                               prodDate.getFullYear() === now.getFullYear();
+                    case 'year':
+                        return prodDate.getFullYear() === now.getFullYear();
+                    default:
+                        return true;
+                }
+            });
+        }
+        
+        // Product filter
+        if (productFilter !== 'all') {
+            filteredProductions = filteredProductions.filter(prod => prod.jenisProduk === productFilter);
+        }
+        
+        if (filteredProductions.length === 0) {
+            tbody.innerHTML = `
+                <tr class="empty-row">
+                    <td colspan="7" class="empty-state">
+                        <i class="fas fa-filter"></i>
+                        <p>Tidak ada data produksi dengan filter yang dipilih.</p>
+                    </td>
+                </tr>
             `;
+            this.updateSummaryInfo([]);
+            return;
+        }
+        
+        // Sort by date (newest first)
+        filteredProductions.sort((a, b) => new Date(b.tanggal) - new Date(a.tanggal));
+        
+        // Build table rows
+        let html = '';
+        filteredProductions.forEach(prod => {
+            const productNames = {
+                'daun_segar': 'Daun Segar',
+                'minyak_nilam': 'Minyak Nilam',
+                'sabut_nilam': 'Sabut Nilam',
+                'bibit': 'Bibit',
+                'lainnya': 'Lainnya'
+            };
             
-            historyContainer.appendChild(historyItem);
+            const qualityColors = {
+                'premium': 'success',
+                'standar': 'warning',
+                'ekonomi': 'secondary'
+            };
+            
+            const formatRupiah = (angka) => {
+                return new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR',
+                    minimumFractionDigits: 0
+                }).format(angka);
+            };
+            
+            const formatDate = (dateString) => {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
+            };
+            
+            html += `
+                <tr>
+                    <td>${formatDate(prod.tanggal)}</td>
+                    <td>${productNames[prod.jenisProduk] || prod.jenisProduk}</td>
+                    <td>${(prod.jumlahProduksi || 0).toFixed(1)} kg</td>
+                    <td>${formatRupiah(prod.hargaJual || 0)}</td>
+                    <td>${formatRupiah(prod.totalPendapatan || 0)}</td>
+                    <td>
+                        <span class="quality-badge ${qualityColors[prod.kualitas] || ''}">
+                            ${prod.kualitas || '-'}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-action view" onclick="viewProduction('${prod.id}')" aria-label="Lihat detail">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-action delete" onclick="deleteProduction('${prod.id}')" aria-label="Hapus produksi">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `;
         });
+        
+        tbody.innerHTML = html;
+        this.updateSummaryInfo(filteredProductions);
+    }
+    
+    updateSummaryInfo(productions) {
+        const totalProduction = productions.reduce((sum, prod) => sum + (prod.jumlahProduksi || 0), 0);
+        const totalRevenue = productions.reduce((sum, prod) => sum + (prod.totalPendapatan || 0), 0);
+        const avgPrice = totalProduction > 0 ? totalRevenue / totalProduction : 0;
+        
+        const formatRupiah = (angka) => {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(angka);
+        };
+        
+        const totalProductionEl = document.getElementById('totalProductionSum');
+        const totalRevenueEl = document.getElementById('totalRevenueSum');
+        const avgPriceEl = document.getElementById('avgPriceSum');
+        
+        if (totalProductionEl) totalProductionEl.textContent = `${totalProduction.toFixed(1)} kg`;
+        if (totalRevenueEl) totalRevenueEl.textContent = formatRupiah(totalRevenue);
+        if (avgPriceEl) avgPriceEl.textContent = formatRupiah(avgPrice);
     }
     
     loadPlantsList() {
@@ -235,40 +572,95 @@ class ProductionController {
         
         if (plants.length === 0) {
             plantsContainer.innerHTML = `
-                <div class="empty-state">
+                <div class="empty-plants">
                     <i class="fas fa-seedling"></i>
-                    <h3>Belum Ada Data Tanaman</h3>
-                    <p>Tambahkan data tanaman pertama Anda</p>
+                    <p>Belum ada data tanaman. Tambahkan data tanaman terlebih dahulu.</p>
                 </div>
             `;
             return;
         }
         
-        plantsContainer.innerHTML = '';
-        plants.slice(-10).reverse().forEach(plant => {
-            const plantItem = document.createElement('div');
-            plantItem.className = 'plant-item';
-            
-            const plantDate = new Date(plant.tanggalTanam).toLocaleDateString('id-ID');
-            const statusClass = this.getStatusClass(plant.statusTanaman);
-            
-            plantItem.innerHTML = `
-                <div class="plant-content">
-                    <h4>${plant.namaVarietas}</h4>
-                    <p><strong>Jumlah:</strong> ${plant.jumlahBatang} batang</p>
-                    <p><strong>Luas Lahan:</strong> ${plant.luasLahan} m²</p>
-                    <p><strong>Status:</strong> <span class="status ${statusClass}">${this.getStatusText(plant.statusTanaman)}</span></p>
-                    <span class="date">Ditanam: ${plantDate}</span>
-                </div>
-                <div class="plant-actions">
-                    <button class="btn btn-sm btn-danger" onclick="productionController.deletePlant(${plant.id})">
-                        <i class="fas fa-trash"></i>
-                    </button>
+        // Get filter values
+        const searchTerm = document.getElementById('plantSearch')?.value.toLowerCase() || '';
+        const statusFilter = document.getElementById('plantStatusFilter')?.value || 'all';
+        
+        let filteredPlants = plants;
+        
+        // Apply search filter
+        if (searchTerm) {
+            filteredPlants = filteredPlants.filter(plant =>
+                plant.namaVarietas.toLowerCase().includes(searchTerm) ||
+                (plant.lokasiTanam && plant.lokasiTanam.toLowerCase().includes(searchTerm))
+            );
+        }
+        
+        // Apply status filter
+        if (statusFilter !== 'all') {
+            filteredPlants = filteredPlants.filter(plant => plant.statusTanaman === statusFilter);
+        }
+        
+        if (filteredPlants.length === 0) {
+            plantsContainer.innerHTML = `
+                <div class="empty-plants">
+                    <i class="fas fa-search"></i>
+                    <p>Tidak ditemukan tanaman dengan kriteria tersebut.</p>
                 </div>
             `;
+            return;
+        }
+        
+        // Build HTML
+        let html = '';
+        filteredPlants.forEach(plant => {
+            const statusClass = this.getStatusClass(plant.statusTanaman);
+            const statusText = this.getStatusText(plant.statusTanaman);
+            const age = calculateAge(plant.tanggalTanam);
             
-            plantsContainer.appendChild(plantItem);
+            html += `
+                <div class="plant-item ${statusClass}">
+                    <div class="plant-icon">
+                        <i class="fas fa-seedling"></i>
+                    </div>
+                    <div class="plant-info">
+                        <h4>${plant.namaVarietas}</h4>
+                        <div class="plant-details">
+                            <span class="plant-detail">
+                                <i class="fas fa-tree"></i>
+                                ${plant.jumlahBatang} batang
+                            </span>
+                            <span class="plant-detail">
+                                <i class="fas fa-ruler"></i>
+                                ${plant.luasLahan} m²
+                            </span>
+                            <span class="plant-detail">
+                                <i class="fas fa-calendar"></i>
+                                ${age} hari
+                            </span>
+                        </div>
+                        <p class="plant-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${plant.lokasiTanam || '-'}
+                        </p>
+                    </div>
+                    <div class="plant-status">
+                        <span class="status-badge ${statusClass}">${statusText}</span>
+                        <div class="plant-actions">
+                            <button class="btn-action edit" onclick="editPlant('${plant.id}')" aria-label="Edit tanaman">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-action delete" onclick="deletePlant('${plant.id}')" aria-label="Hapus tanaman">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
         });
+        
+        plantsContainer.innerHTML = html;
+        
+        // Update plant statistics
+        this.updatePlantStats();
     }
     
     deleteProduction(id) {
@@ -322,13 +714,141 @@ class ProductionController {
             aktif: 'Aktif',
             panen: 'Siap Panen',
             baru: 'Baru Tanam',
-            'masa-pemeliharaan': 'Masa Pemeliharaan'
+            'masa-pemeliharaan': 'Masa Pemeliharaan',
+            sakit: 'Sakit'
         };
         return statusTexts[status] || status;
+    }
+    
+    setupFormValidation(form) {
+        const fields = form.querySelectorAll('input[required], select[required], textarea[required]');
+        
+        fields.forEach(field => {
+            // Validation rules based on field type and attributes
+            const rules = {
+                required: field.hasAttribute('required')
+            };
+            
+            // Add specific rules based on field type
+            if (field.type === 'email') {
+                rules.email = true;
+            }
+            
+            if (field.type === 'number') {
+                rules.number = true;
+                if (field.hasAttribute('min')) {
+                    rules.min = parseFloat(field.getAttribute('min'));
+                }
+                if (field.hasAttribute('max')) {
+                    rules.max = parseFloat(field.getAttribute('max'));
+                }
+            }
+            
+            if (field.hasAttribute('minlength')) {
+                rules.minLength = parseInt(field.getAttribute('minlength'));
+            }
+            
+            if (field.hasAttribute('maxlength')) {
+                rules.maxLength = parseInt(field.getAttribute('maxlength'));
+            }
+            
+            // Add blur validation
+            field.addEventListener('blur', () => {
+                if (window.AppUtils) {
+                    window.AppUtils.validateField(field, rules);
+                }
+            });
+            
+            // Add input validation for immediate feedback
+            field.addEventListener('input', () => {
+                if (field.classList.contains('error') && window.AppUtils) {
+                    window.AppUtils.validateField(field, rules);
+                }
+            });
+        });
+    }
+    
+    validateForm(form) {
+        const fields = form.querySelectorAll('input[required], select[required], textarea[required]');
+        let isValid = true;
+        
+        fields.forEach(field => {
+            const rules = {
+                required: field.hasAttribute('required')
+            };
+            
+            if (field.type === 'email') rules.email = true;
+            if (field.type === 'number') {
+                rules.number = true;
+                if (field.hasAttribute('min')) rules.min = parseFloat(field.getAttribute('min'));
+                if (field.hasAttribute('max')) rules.max = parseFloat(field.getAttribute('max'));
+            }
+            if (field.hasAttribute('minlength')) rules.minLength = parseInt(field.getAttribute('minlength'));
+            if (field.hasAttribute('maxlength')) rules.maxLength = parseInt(field.getAttribute('maxlength'));
+            
+            if (window.AppUtils && !window.AppUtils.validateField(field, rules)) {
+                isValid = false;
+            }
+        });
+        
+        return isValid;
+    }
+    
+    updateDashboardStats() {
+        const productions = JSON.parse(localStorage.getItem('productions')) || [];
+        const plants = JSON.parse(localStorage.getItem('plants')) || [];
+        
+        const totalProduction = productions.reduce((sum, prod) => sum + (prod.jumlahProduksi || 0), 0);
+        const totalPlants = plants.reduce((sum, plant) => sum + (plant.jumlahBatang || 0), 0);
+        
+        const dataStatsElement = document.getElementById('dataStats');
+        if (dataStatsElement) {
+            dataStatsElement.textContent = `Total Produksi: ${totalProduction.toFixed(1)} kg | Total Tanaman: ${totalPlants} batang`;
+        }
+        
+        const lastUpdateElement = document.getElementById('lastUpdate');
+        if (lastUpdateElement) {
+            lastUpdateElement.textContent = `Update Terakhir: ${new Date().toLocaleDateString('id-ID', { 
+                day: 'numeric', 
+                month: 'short', 
+                year: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit' 
+            })}`;
+        }
+    }
+    
+    updatePlantStats() {
+        const plants = JSON.parse(localStorage.getItem('plants')) || [];
+        
+        const stats = {
+            active: plants.filter(p => p.statusTanaman === 'aktif').length,
+            ready: plants.filter(p => p.statusTanaman === 'panen').length,
+            new: plants.filter(p => p.statusTanaman === 'baru').length,
+            sick: plants.filter(p => p.statusTanaman === 'sakit').length
+        };
+        
+        // Update stat displays
+        Object.keys(stats).forEach(key => {
+            const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+            const element = document.getElementById(`plant${capitalizedKey}Count`);
+            if (element) {
+                element.textContent = stats[key];
+            }
+        });
+        
+        this.updateDashboardStats();
     }
 }
 
 // Global functions called from HTML
+function calculateAge(tanggalTanam) {
+    const tanamDate = new Date(tanggalTanam);
+    const today = new Date();
+    const diffTime = Math.abs(today - tanamDate);
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+}
+
 function editPlant(id) {
     const plants = JSON.parse(localStorage.getItem('plants')) || [];
     const plant = plants.find(p => p.id === id);
@@ -336,6 +856,28 @@ function editPlant(id) {
     if (plant) {
         if (window.appController) {
             window.appController.showNotification(`Edit tanaman: ${plant.namaVarietas} - Fitur edit akan segera tersedia!`, 'info');
+        } else {
+            alert(`Edit tanaman: ${plant.namaVarietas}\n\nFitur edit akan segera tersedia!`);
+        }
+    }
+}
+
+function deletePlant(id) {
+    if (confirm('Apakah Anda yakin ingin menghapus data tanaman ini?')) {
+        let plants = JSON.parse(localStorage.getItem('plants')) || [];
+        plants = plants.filter(p => p.id !== id);
+        localStorage.setItem('plants', JSON.stringify(plants));
+        
+        // Reload the plants list
+        if (window.productionController) {
+            window.productionController.loadPlantsList();
+            window.productionController.updatePlantStats();
+        }
+        
+        if (window.appController) {
+            window.appController.showNotification('Data tanaman berhasil dihapus!', 'success');
+        } else {
+            alert('Data tanaman berhasil dihapus!');
         }
     }
 }
@@ -358,11 +900,33 @@ function viewProduction(id) {
 Tanggal: ${new Date(production.tanggal).toLocaleDateString('id-ID')}
 Jenis: ${productNames[production.jenisProduk] || production.jenisProduk}
 Jumlah: ${production.jumlahProduksi} kg
-Harga/kg: Rp ${production.hargaPerKg?.toLocaleString('id-ID') || 0}
-Total: Rp ${production.totalPendapatan?.toLocaleString('id-ID') || 0}
+Harga/kg: Rp ${(production.hargaJual || 0).toLocaleString('id-ID')}
+Total: Rp ${(production.totalPendapatan || 0).toLocaleString('id-ID')}
+Kualitas: ${production.kualitas || '-'}
+Lokasi: ${production.lokasiPanen || '-'}
 Keterangan: ${production.keterangan || '-'}`;
         
         alert(message);
+    }
+}
+
+function deleteProduction(id) {
+    if (confirm('Apakah Anda yakin ingin menghapus data produksi ini?')) {
+        let productions = JSON.parse(localStorage.getItem('productions')) || [];
+        productions = productions.filter(p => p.id !== id);
+        localStorage.setItem('productions', JSON.stringify(productions));
+        
+        // Reload the production history
+        if (window.productionController) {
+            window.productionController.loadProductionHistory();
+            window.productionController.updateDashboardStats();
+        }
+        
+        if (window.appController) {
+            window.appController.showNotification('Data produksi berhasil dihapus!', 'success');
+        } else {
+            alert('Data produksi berhasil dihapus!');
+        }
     }
 }
 
