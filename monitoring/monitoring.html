@@ -559,8 +559,11 @@
             
             // Toggle Profile Dropdown
             function toggleProfileDropdown() {
-                dropdownMenu.classList.toggle('show');
-                profileBtn.classList.toggle('active');
+                const profileDropdown = document.getElementById('profileDropdown');
+                if (dropdownMenu && profileDropdown) {
+                    dropdownMenu.classList.toggle('show');
+                    profileDropdown.classList.toggle('active');
+                }
             }
             
             // Event Listeners
@@ -568,16 +571,21 @@
             closeSidebar.addEventListener('click', toggleSidebar);
             overlay.addEventListener('click', toggleSidebar);
             
-            profileBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                toggleProfileDropdown();
-            });
+            if (profileBtn) {
+                profileBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    toggleProfileDropdown();
+                });
+            }
             
             // Close dropdown when clicking outside
             document.addEventListener('click', function(e) {
-                if (!profileBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-                    dropdownMenu.classList.remove('show');
-                    profileBtn.classList.remove('active');
+                const profileDropdown = document.getElementById('profileDropdown');
+                if (profileBtn && dropdownMenu && profileDropdown) {
+                    if (!profileBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                        dropdownMenu.classList.remove('show');
+                        profileDropdown.classList.remove('active');
+                    }
                 }
             });
             
