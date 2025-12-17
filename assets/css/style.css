@@ -217,6 +217,8 @@ a:focus {
         transform: rotate(360deg);
     }
 }
+
+body {
     overflow-x: hidden;
     transition: background-color var(--transition-normal);
 }
@@ -2128,11 +2130,6 @@ textarea:disabled {
 /* ====================== */
 /* SCREEN READER IMPROVEMENTS */
 /* ====================== */
-
-/* Better screen reader support for icons */
-[aria-hidden="true"] {
-    speak: none;
-}
 
 /* Improved table accessibility */
 table {
