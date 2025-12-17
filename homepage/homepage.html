@@ -2,300 +2,607 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <!-- Tambahkan setelah <meta name="viewport"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>NILAMTRACE - Dashboard Utama</title>
     
-    <!-- Akses CSS dari folder assets -->
+    <!-- Ikon Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Akses CSS -->
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/chart.css">
     
-    <!-- Chart.js dari CDN -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- Font Awesome untuk ikon -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Navigation Header -->
     <header>
         <div class="header-container">
+            <!-- Hamburger Menu untuk Mobile -->
+            <button class="hamburger-btn" id="hamburgerBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <!-- Logo -->
             <div class="logo">
-                <img src="../assets/images/nilam.png" alt="Tanaman Nilam" style="width: 100px; height: 100px;"/>
-                <div>
+                <img src="../assets/images/nilam.png" alt="Tanaman Nilam" class="logo-img"/>
+                <div class="logo-text">
                     <h1>NILAMTRACE</h1>
                     <span id="locationInfo">Desa Teuladan</span>
                 </div>
             </div>
-            <nav>
-                <ul>
-                    <li><a href="homepage.html" class="active">Dashboard</a></li>
-                    <li><a href="../monitoring/monitoring.html">Deteksi Penyakit</a></li>
-                    <li><a href="../production/input-produksi.html">Input Produksi</a></li>
-                    <li><a href="../auth/profile.html">Profil</a></li>
-                </ul>
-            </nav>
+            
+            <!-- Profile Dropdown -->
+            <div class="profile-dropdown" id="profileDropdown">
+                <button class="profile-btn" id="profileBtn">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="profile-name">Petani Nilam</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="dropdown-header">
+                        <div class="dropdown-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="dropdown-info">
+                            <h4>Petani Nilam</h4>
+                            <p>petani@nilam.com</p>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="../auth/profile.html" class="dropdown-item">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Profil Saya</span>
+                    </a>
+                    <a href="../auth/profile.html#settings" class="dropdown-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Pengaturan</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item logout" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Keluar</span>
+                    </a>
+                </div>
+            </div>
         </div>
     </header>
 
-    <div class="container">
-        <!-- Welcome Section -->
-        <div class="card">
-            <div class="dashboard-header">
-                <h2>Dashboard Utama</h2>
-                <div class="last-update">
-                    <span id="lastUpdateTime"></span>
-                    <button id="refreshBtn" class="refresh-btn">
-                        <i class="fas fa-sync-alt"></i>
-                    </button>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="../assets/images/nilam.png" alt="Logo Nilam"/>
+                <h3>NILAMTRACE</h3>
+            </div>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="homepage.html" class="menu-item active">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            
+            <a href="../monitoring/monitoring.html" class="menu-item">
+                <i class="fas fa-camera"></i>
+                <span>Deteksi Penyakit</span>
+            </a>
+            
+            <a href="../production/input-produksi.html" class="menu-item">
+                <i class="fas fa-seedling"></i>
+                <span>Input Produksi</span>
+            </a>
+            
+            <a href="../monitoring/monitoring.html" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Monitoring Tanaman</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Jadwal Panen</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-file-alt"></i>
+                <span>Laporan</span>
+            </a>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-book"></i>
+                <span>Panduan</span>
+            </a>
+            
+            <div class="menu-divider"></div>
+            
+            <a href="../auth/profile.html" class="menu-item">
+                <i class="fas fa-user-cog"></i>
+                <span>Pengaturan Akun</span>
+            </a>
+            
+            <a href="#" class="menu-item" id="themeToggle">
+                <i class="fas fa-moon"></i>
+                <span>Mode Gelap</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <h4>Petani Nilam</h4>
+                    <p>Desa Teuladan</p>
                 </div>
             </div>
-            
-            <div id="welcomeMessage">
-                <p>Selamat datang di NILAMTRACE, sistem monitoring tanaman nilam terpadu.</p>
-            </div>
+            <button class="logout-btn" id="sidebarLogout">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
         </div>
+    </nav>
 
-        <!-- Quick Actions -->
-        <div class="card">
-            <h2>Aksi Cepat</h2>
-            <div class="quick-actions">
-                <a href="../production/input-produksi.html" class="action-btn">
-                    <div class="action-icon">
-                        <i class="fas fa-plus-circle"></i>
+    <!-- Overlay untuk mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="container">
+            <!-- Dashboard Header -->
+            <div class="dashboard-header">
+                <h1>Dashboard Utama</h1>
+                <div class="header-actions">
+                    <div class="last-update">
+                        <span id="lastUpdateTime"></span>
+                        <button id="refreshBtn" class="refresh-btn">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
                     </div>
-                    <h4>Input Produksi</h4>
-                    <p>Catat hasil panen</p>
-                </a>
-                
-                <a href="../monitoring/monitoring.html" class="action-btn">
-                    <div class="action-icon">
-                        <i class="fas fa-camera"></i>
-                    </div>
-                    <h4>Deteksi Penyakit</h4>
-                    <p>Periksa kesehatan tanaman</p>
-                </a>
-                
-                <a href="../production/input-produksi.html#tab-tanaman" class="action-btn">
-                    <div class="action-icon">
-                        <i class="fas fa-seedling"></i>
-                    </div>
-                    <h4>Tambah Tanaman</h4>
-                    <p>Input data tanaman baru</p>
-                </a>
-                
-                <a href="#" class="action-btn" id="viewReportBtn">
-                    <div class="action-icon">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
-                    <h4>Lihat Laporan</h4>
-                    <p>Analisis data produksi</p>
-                </a>
+                </div>
             </div>
-        </div>
 
-        <!-- Main Stats -->
-        <div class="card">
-            <h2>Statistik Utama</h2>
+            <!-- Welcome Message -->
+            <div class="welcome-card card">
+                <div class="welcome-content">
+                    <div class="welcome-text">
+                        <h2 id="greetingMessage">Selamat Pagi!</h2>
+                        <p>Selamat datang di NILAMTRACE, sistem monitoring tanaman nilam terpadu. Dashboard ini menampilkan data real-time dari input produksi dan tanaman Anda.</p>
+                    </div>
+                    <div class="welcome-weather">
+                        <i class="fas fa-cloud-sun"></i>
+                        <div class="weather-info">
+                            <span class="weather-temp">28°C</span>
+                            <span class="weather-desc">Cerah Berawan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <h3>Total Tanaman</h3>
-                    <div class="stat-value" id="totalTanaman">0 Batang</div>
-                    <div class="health-status">
-                        <div class="health-progress">
-                            <div class="health-bar" id="healthBar"></div>
-                        </div>
-                        <div class="health-percentage" id="healthPercentage">0%</div>
+                    <div class="stat-icon">
+                        <i class="fas fa-seedling"></i>
                     </div>
-                    <small id="activePlantsInfo">Tanaman aktif: 0</small>
-                </div>
-
-                <div class="stat-card">
-                    <h3>Estimasi Produksi</h3>
-                    <div class="stat-value" id="estimasiProduksi">0 kg/Bulan</div>
-                    <div class="production-summary">
-                        <div class="summary-item">
-                            <div class="summary-label">Bulan Ini</div>
-                            <div class="summary-value" id="thisMonthProduction">0 kg</div>
-                        </div>
-                        <div class="summary-item">
-                            <div class="summary-label">Total</div>
-                            <div class="summary-value" id="totalProduction">0 kg</div>
-                        </div>
+                    <div class="stat-info">
+                        <h3>Total Tanaman</h3>
+                        <div class="stat-value" id="totalTanaman">0</div>
+                        <span class="stat-unit">Batang</span>
+                    </div>
+                    <div class="stat-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>5%</span>
                     </div>
                 </div>
 
                 <div class="stat-card">
-                    <h3>Status Kesehatan</h3>
-                    <div class="status-warning">
-                        <span id="statusKesehatan">MENUNGGU DATA</span>
+                    <div class="stat-icon">
+                        <i class="fas fa-weight"></i>
                     </div>
-                    <div class="detailed-stats compact">
-                        <div class="stat-detail">
-                            <div class="value" id="healthyPlants">0</div>
-                            <div class="label">Sehat</div>
-                        </div>
-                        <div class="stat-detail">
-                            <div class="value" id="readyToHarvest">0</div>
-                            <div class="label">Siap Panen</div>
-                        </div>
+                    <div class="stat-info">
+                        <h3>Estimasi Produksi</h3>
+                        <div class="stat-value" id="estimasiProduksi">0</div>
+                        <span class="stat-unit">kg/Bulan</span>
+                    </div>
+                    <div class="stat-trend trend-up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>12%</span>
                     </div>
                 </div>
 
                 <div class="stat-card">
-                    <h3>Luas Lahan</h3>
-                    <div class="stat-value" id="luasLahan">0 m²</div>
-                    <div class="productivity-detail">
-                        <div class="value" id="productivityRate">0 g</div>
-                        <div class="label">Produktivitas/Tanaman</div>
+                    <div class="stat-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Kesehatan Tanaman</h3>
+                        <div class="stat-value" id="healthPercentage">0%</div>
+                        <span class="stat-unit" id="healthStatus">Baik</span>
+                    </div>
+                    <div class="health-progress">
+                        <div class="health-bar" id="healthBar"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Luas Lahan</h3>
+                        <div class="stat-value" id="luasLahan">0</div>
+                        <span class="stat-unit">m²</span>
+                    </div>
+                    <div class="stat-trend trend-neutral">
+                        <span>Stabil</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="chart-section card">
+                <div class="chart-header">
+                    <h2>Grafik Produksi 12 Bulan Terakhir</h2>
+                    <div class="chart-controls">
+                        <button class="chart-btn active" data-chart="production">
+                            <i class="fas fa-chart-line"></i>
+                            Produksi
+                        </button>
+                        <button class="chart-btn" data-chart="revenue">
+                            <i class="fas fa-money-bill-wave"></i>
+                            Pendapatan
+                        </button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="productionChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Recent Activity & Alerts -->
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Aktivitas Terbaru</h2>
+                        <a href="#" class="view-all">Lihat Semua</a>
+                    </div>
+                    <div class="activity-list" id="recentActivities">
+                        <div class="activity-item">
+                            <div class="activity-icon success">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Tanaman baru ditambahkan: Nilam Aceh</p>
+                                <span class="activity-time">2 jam yang lalu</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon warning">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Deteksi penyakit: Busuk Batang terdeteksi</p>
+                                <span class="activity-time">1 hari yang lalu</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon info">
+                                <i class="fas fa-weight"></i>
+                            </div>
+                            <div class="activity-content">
+                                <p>Input produksi: 50 kg Daun Segar</p>
+                                <span class="activity-time">2 hari yang lalu</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Notifikasi</h2>
+                        <button class="clear-all" id="clearNotifications">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="notifications-list" id="notificationsList">
+                        <div class="notification-item important">
+                            <div class="notification-icon">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p>3 tanaman siap panen. Segera lakukan panen!</p>
+                                <span class="notification-time">Hari ini</span>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p>Jadwal pemupukan minggu depan</p>
+                                <span class="notification-time">Besok</span>
+                            </div>
+                        </div>
+                        <div class="notification-item">
+                            <div class="notification-icon">
+                                <i class="fas fa-cloud-sun-rain"></i>
+                            </div>
+                            <div class="notification-content">
+                                <p>Perkiraan hujan besok, siapkan penutup tanaman</p>
+                                <span class="notification-time">2 hari lagi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="card">
+                <h2>Aksi Cepat</h2>
+                <div class="quick-actions-grid">
+                    <a href="../production/input-produksi.html" class="quick-action">
+                        <div class="action-icon primary">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <h3>Input Produksi</h3>
+                        <p>Catat hasil panen terbaru</p>
+                    </a>
+                    
+                    <a href="../monitoring/monitoring.html" class="quick-action">
+                        <div class="action-icon warning">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3>Deteksi Penyakit</h3>
+                        <p>Periksa kesehatan tanaman</p>
+                    </a>
+                    
+                    <a href="../production/input-produksi.html#tab-tanaman" class="quick-action">
+                        <div class="action-icon success">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <h3>Tambah Tanaman</h3>
+                        <p>Input data tanaman baru</p>
+                    </a>
+                    
+                    <a href="#" class="quick-action" id="generateReport">
+                        <div class="action-icon info">
+                            <i class="fas fa-file-pdf"></i>
+                        </div>
+                        <h3>Buat Laporan</h3>
+                        <p>Generate laporan bulanan</p>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Contact Section -->
+            <div class="card contact-card">
+                <div class="contact-header">
+                    <h2><i class="fas fa-headset"></i> Bantuan & Dukungan</h2>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h4>Penyuluh Pertanian</h4>
+                            <p>Ahmad Fauzi</p>
+                            <p><i class="fas fa-phone"></i> 0812-3456-7890</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-info-circle"></i>
+                        </div>
+                        <div class="contact-info">
+                            <h4>Informasi Sistem</h4>
+                            <p>Versi: NILAMTRACE v2.0</p>
+                            <p>Status: <span class="status-active">Aktif</span></p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </main>
 
-        <!-- Production Chart -->
-        <div class="card">
-            <h2>Grafik Produksi 12 Bulan Terakhir</h2>
-            <div class="chart-container">
-                <canvas id="productionChart"></canvas>
-            </div>
-            <div class="chart-controls">
-                <div>
-                    <small>Periode: <span id="chartPeriod"></span></small>
-                </div>
-                <div>
-                    <button id="toggleChartType" class="chart-toggle-btn">
-                        <i class="fas fa-chart-line"></i> Ganti Grafik
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Alerts and Notifications -->
-        <div class="card">
-            <h2>Notifikasi & Peringatan</h2>
-            <div id="alertsContainer">
-                <div class="alert-box">
-                    <div class="alert-icon">
-                        <i class="fas fa-info-circle"></i>
-                    </div>
-                    <div class="alert-content">
-                        <h4>Memuat data...</h4>
-                        <p>Sedang mengambil data terbaru dari sistem.</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div id="quickTips" class="quick-tips">
-                <h3>Tips Perawatan</h3>
-                <ul>
-                    <li>Periksa kelembaban tanah setiap pagi</li>
-                    <li>Semprot fungisida preventif setiap 2 minggu</li>
-                    <li>Pemupukan dilakukan setiap 1-2 bulan</li>
-                    <li>Pantau tanda-tanda penyakit sejak dini</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Recent Activities -->
-        <div class="card">
-            <h2>Aktivitas Terbaru</h2>
-            <div class="activity-list" id="recentActivities">
-                <div class="activity-item">
-                    <div class="activity-icon">
-                        <i class="fas fa-sync-alt"></i>
-                    </div>
-                    <div class="activity-content">
-                        <p>Memuat aktivitas terbaru...</p>
-                        <div class="activity-time">Sekarang</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Production Summary Table -->
-        <div class="card">
-            <h2>Ringkasan Produksi</h2>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Bulan</th>
-                            <th>Jenis Produk</th>
-                            <th>Jumlah (kg)</th>
-                            <th>Pendapatan (Rp)</th>
-                            <th>Rata-rata Harga/kg</th>
-                        </tr>
-                    </thead>
-                    <tbody id="productionSummaryTable">
-                        <tr>
-                            <td colspan="5" class="empty-state">Memuat data produksi...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Plant Status Overview -->
-        <div class="card">
-            <h2>Status Tanaman</h2>
-            <div id="plantStatusOverview">
-                <div class="detailed-stats full-grid">
-                    <div class="stat-detail">
-                        <div class="value" id="plantStatusAktif">0</div>
-                        <div class="label">Tanaman Aktif</div>
-                        <div class="trend trend-up" id="trendAktif">-</div>
-                    </div>
-                    <div class="stat-detail">
-                        <div class="value" id="plantStatusPanen">0</div>
-                        <div class="label">Siap Panen</div>
-                        <div class="trend" id="trendPanen">-</div>
-                    </div>
-                    <div class="stat-detail">
-                        <div class="value" id="plantStatusBaru">0</div>
-                        <div class="label">Tanaman Baru</div>
-                        <div class="trend trend-up" id="trendBaru">-</div>
-                    </div>
-                    <div class="stat-detail">
-                        <div class="value" id="plantStatusPemeliharaan">0</div>
-                        <div class="label">Pemeliharaan</div>
-                        <div class="trend" id="trendPemeliharaan">-</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Contact Information -->
-        <div class="card">
-            <h2>Kontak & Informasi</h2>
-            <div class="contact-grid">
-                <div>
-                    <h3>Nomor Pengaduan</h3>
-                    <p><strong>Naufal Fadhillah</strong></p>
-                    <p>📞 0895-4024-32636</p>
-                    <p>✉️ nfadhillah206@gmail.com</p>
-                    <p class="consultation-hours">Jam konsultasi: Senin-Jumat, 08:00-16:00</p>
-                </div>
-                <div>
-                    <h3>Informasi Sistem</h3>
-                    <p><strong>Versi:</strong> NILAMTRACE v2.0</p>
-                    <p><strong>Status:</strong> <span id="systemStatus" class="badge badge-success">Online</span></p>
-                    <p><strong>Update Terakhir:</strong> <span id="systemLastUpdate">-</span></p>
-                    <p><strong>Lokasi:</strong> Desa Teuladan, Kec. Seulimum, Kab. Aceh Besar</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <!-- Footer -->
     <footer>
-        <p>NILAMTRACE - Dashboard Analitik Pertanian untuk Monitoring Produksi dan Kesehatan Tanaman Nilam</p>
-        <p>Desa Teuladan, Kecamatan Seulimum, Kabupaten Aceh Besar</p>
-        <p class="footer-info">
-            <span id="dataInfo">Data diperbarui: -</span> | 
-            <span id="recordCount">Catatan: 0 produksi, 0 tanaman</span>
-        </p>
+        <div class="footer-content">
+            <p>NILAMTRACE - Dashboard Analitik Pertanian untuk Monitoring Produksi dan Kesehatan Tanaman Nilam</p>
+            <p>Desa Teuladan, Kecamatan Seulimum, Kabupaten Aceh Besar</p>
+            <div class="footer-info">
+                <span id="dataInfo">Data diperbarui: -</span>
+                <span class="divider">|</span>
+                <span id="recordCount">Catatan: 0 produksi, 0 tanaman</span>
+            </div>
+        </div>
     </footer>
 
-    <!-- Akses JavaScript dari folder assets -->
+    <!-- JavaScript -->
     <script src="../assets/js/main.js"></script>
+    <script>
+        // Mobile Detection
+        const isMobile = window.innerWidth <= 768;
+        
+        // Load user data
+        function loadUserData() {
+            const userData = JSON.parse(localStorage.getItem('user')) || {
+                name: 'Petani Nilam',
+                email: 'petani@nilam.com',
+                village: 'Desa Teuladan'
+            };
+            
+            // Update profile elements
+            document.querySelectorAll('.profile-name, .dropdown-info h4').forEach(el => {
+                if (el.classList.contains('profile-name')) {
+                    el.textContent = userData.name;
+                } else {
+                    el.textContent = userData.name;
+                }
+            });
+            
+            document.querySelector('.dropdown-info p').textContent = userData.email;
+            document.querySelector('.user-details h4').textContent = userData.name;
+            document.querySelector('.user-details p').textContent = userData.village;
+            
+            // Update avatar initials
+            const initials = userData.name.charAt(0).toUpperCase();
+            document.querySelectorAll('.profile-avatar, .dropdown-avatar, .user-avatar').forEach(avatar => {
+                if (!avatar.querySelector('i')) {
+                    avatar.innerHTML = `<span>${initials}</span>`;
+                }
+            });
+        }
+
+        // Navigation Control
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            
+            // Sidebar Toggle
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const closeSidebar = document.getElementById('closeSidebar');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+            const mainContent = document.getElementById('mainContent');
+            
+            // Profile Dropdown
+            const profileBtn = document.getElementById('profileBtn');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            
+            // Toggle Sidebar
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                overlay.classList.toggle('active');
+                document.body.classList.toggle('sidebar-active');
+            }
+            
+            // Toggle Profile Dropdown
+            function toggleProfileDropdown() {
+                dropdownMenu.classList.toggle('show');
+            }
+            
+            // Event Listeners
+            hamburgerBtn.addEventListener('click', toggleSidebar);
+            closeSidebar.addEventListener('click', toggleSidebar);
+            overlay.addEventListener('click', toggleSidebar);
+            
+            profileBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleProfileDropdown();
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!profileBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('show');
+                }
+            });
+            
+            // Logout buttons
+            const logoutBtns = document.querySelectorAll('#logoutBtn, #sidebarLogout');
+            logoutBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Apakah Anda yakin ingin keluar?')) {
+                        localStorage.removeItem('user');
+                        window.location.href = '../auth/login.html';
+                    }
+                });
+            });
+            
+            // Theme Toggle
+            const themeToggle = document.getElementById('themeToggle');
+            themeToggle.addEventListener('click', function() {
+                document.body.classList.toggle('dark-mode');
+                const icon = this.querySelector('i');
+                const text = this.querySelector('span');
+                
+                if (document.body.classList.contains('dark-mode')) {
+                    icon.className = 'fas fa-sun';
+                    text.textContent = 'Mode Terang';
+                } else {
+                    icon.className = 'fas fa-moon';
+                    text.textContent = 'Mode Gelap';
+                }
+            });
+            
+            // Mobile detection for sidebar
+            if (isMobile) {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+            } else {
+                sidebar.classList.add('active');
+            }
+            
+            // Update greeting based on time
+            const hour = new Date().getHours();
+            let greeting = "Selamat Siang!";
+            
+            if (hour < 12) greeting = "Selamat Pagi!";
+            else if (hour < 15) greeting = "Selamat Siang!";
+            else if (hour < 19) greeting = "Selamat Sore!";
+            else greeting = "Selamat Malam!";
+            
+            document.getElementById('greetingMessage').textContent = greeting;
+            
+            // Chart buttons
+            const chartBtns = document.querySelectorAll('.chart-btn');
+            chartBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    chartBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const chartType = this.dataset.chart;
+                    // Here you would switch chart data
+                    console.log(`Switch to ${chartType} chart`);
+                });
+            });
+            
+            // Clear notifications
+            document.getElementById('clearNotifications').addEventListener('click', function() {
+                if (confirm('Hapus semua notifikasi?')) {
+                    document.getElementById('notificationsList').innerHTML = 
+                        '<div class="empty-notifications">Tidak ada notifikasi</div>';
+                }
+            });
+            
+            // Generate report
+            document.getElementById('generateReport').addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Fitur laporan sedang dalam pengembangan!');
+            });
+            
+            // Close sidebar when clicking menu items on mobile
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (isMobile) {
+                        toggleSidebar();
+                    }
+                });
+            });
+        });
+        
+        // Resize handler
+        window.addEventListener('resize', function() {
+            const isNowMobile = window.innerWidth <= 768;
+            
+            if (isNowMobile && !isMobile) {
+                // Switched to mobile
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.classList.remove('sidebar-active');
+            } else if (!isNowMobile && isMobile) {
+                // Switched to desktop
+                sidebar.classList.add('active');
+            }
+        });
+    </script>
 </body>
 </html>
