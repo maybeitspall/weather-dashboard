@@ -170,11 +170,37 @@
 /* Responsif */
 @media (max-width: 768px) {
     .input-methods {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
     }
     
     .method-btn {
-        padding: 0.75rem 1rem;
+        flex: 1;
+        justify-content: center;
+        padding: var(--spacing-sm) var(--spacing-xs);
+        font-size: 0.75rem;
+        white-space: nowrap;
+        gap: var(--spacing-xs);
+        min-height: 44px;
+        text-align: center;
+    }
+    
+    .method-btn i {
+        font-size: 0.875rem;
+    }
+    
+    /* Very small screens */
+    @media (max-width: 480px) {
+        .method-btn {
+            flex-direction: column;
+            gap: 2px;
+            font-size: 0.65rem;
+            padding: var(--spacing-xs);
+        }
+        
+        .method-btn i {
+            font-size: 1rem;
+        }
     }
     
     .camera-controls {
@@ -999,12 +1025,37 @@
     }
     
     .input-methods {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-between;
     }
     
     .method-btn {
-        width: 100%;
+        flex: 1;
         justify-content: center;
+        padding: var(--spacing-sm) var(--spacing-xs);
+        font-size: 0.75rem;
+        white-space: nowrap;
+        gap: var(--spacing-xs);
+        min-height: 44px;
+        text-align: center;
+    }
+    
+    .method-btn i {
+        font-size: 0.875rem;
+    }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+    .method-btn {
+        flex-direction: column;
+        gap: 2px;
+        font-size: 0.65rem;
+        padding: var(--spacing-xs);
+    }
+    
+    .method-btn i {
+        font-size: 1rem;
     }
     
     .result-grid {
