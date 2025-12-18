@@ -202,7 +202,31 @@ class MonitoringController {
         const uploadArea = document.getElementById('uploadArea');
         if (!uploadArea) return;
         
+        // Validate file size (max 5MB)
+        const maxSize = 5 * 1024 * 1024; // 5MB
+        if (file.size > maxSize) {
+            if (window.appController) {
+                window.appController.showNotification('Ukuran file terlalu besar. Maksimal 5MB.', 'error');
+            }
+            return;
+        }
+        
+        // Validate file type
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+            if (window.appController) {
+                window.appController.showNotification('Format file tidak didukung. Gunakan JPG, PNG, atau WebP.', 'error');
+            }
+            return;
+        }
+        
         const reader = new FileReader();
+        reader.onerror = () => {
+            if (window.appController) {
+                window.appController.showNotification('Gagal membaca file. Coba lagi.', 'error');
+            }
+        };
+        
         reader.onload = (e) => {
             uploadArea.innerHTML = `
                 <div class="upload-preview">
@@ -416,7 +440,7 @@ class MonitoringController {
         const previewContainer = document.getElementById('imagePreview');
         const resultContainer = document.getElementById('detectionResult');
         
-        if (!previewContainer.innerHTML.trim()) {
+        if (!previewContainer || !previewContainer.innerHTML.trim()) {
             if (window.appController) {
                 window.appController.showNotification('Silakan upload gambar terlebih dahulu', 'warning');
             }

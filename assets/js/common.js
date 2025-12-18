@@ -63,7 +63,7 @@ class AppController {
         
         // Toggle Profile Dropdown
         const toggleProfileDropdown = () => {
-            if (dropdownMenu && profileDropdown) {
+            if (dropdownMenu && profileDropdown && profileBtn) {
                 if (dropdownMenu.classList.contains('show')) {
                     dropdownMenu.classList.remove('show');
                     profileDropdown.classList.remove('active');
@@ -194,6 +194,28 @@ class AppController {
             
             this.isMobile = isNowMobile;
         });
+    }
+    
+    // Safe localStorage operations with error handling
+    safeLocalStorageGet(key, defaultValue = null) {
+        try {
+            const item = localStorage.getItem(key);
+            return item ? JSON.parse(item) : defaultValue;
+        } catch (error) {
+            console.warn(`Error reading from localStorage key "${key}":`, error);
+            return defaultValue;
+        }
+    }
+    
+    safeLocalStorageSet(key, value) {
+        try {
+            localStorage.setItem(key, JSON.stringify(value));
+            return true;
+        } catch (error) {
+            console.error(`Error writing to localStorage key "${key}":`, error);
+            this.showNotification('Gagal menyimpan data. Periksa ruang penyimpanan browser.', 'error');
+            return false;
+        }
     }
     
     // Utility method for showing notifications
@@ -429,7 +451,7 @@ function showFieldError(field, message) {
     field.parentElement.appendChild(errorDiv);
     
     // Set aria-describedby
-    const errorId = `error-${field.id || Math.random().toString(36).substr(2, 9)}`;
+    const errorId = `error-${field.id || Math.random().toString(36).substring(2, 11)}`;
     errorDiv.id = errorId;
     field.setAttribute('aria-describedby', errorId);
 }

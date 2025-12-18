@@ -8,7 +8,19 @@ class ProductionController {
     }
     
     init() {
+        // Ensure DOM is ready before setting up tabs
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                this.initializeComponents();
+            });
+        } else {
+            this.initializeComponents();
+        }
+    }
+    
+    initializeComponents() {
         this.setupTabs();
+        this.setupTabDelegation(); // Additional tab handling
         this.setupForms();
         this.setupFilters();
         this.setupCalculator();
@@ -16,6 +28,52 @@ class ProductionController {
         this.loadProductionHistory();
         this.loadPlantsList();
         this.updatePlantStats();
+    }
+    
+    setupTabDelegation() {
+        // Event delegation for tab buttons
+        const tabContainer = document.getElementById('tabContainer');
+        if (tabContainer) {
+            tabContainer.addEventListener('click', (e) => {
+                const tabBtn = e.target.closest('.tab-btn');
+                if (tabBtn) {
+                    e.preventDefault();
+                    this.switchTab(tabBtn.dataset.tab);
+                }
+            });
+        }
+    }
+    
+    switchTab(tabId) {
+        console.log('Switching to tab:', tabId);
+        
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        // Remove active from all
+        tabBtns.forEach(btn => {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-selected', 'false');
+        });
+        tabContents.forEach(content => {
+            content.classList.remove('active');
+        });
+        
+        // Activate selected tab
+        const activeBtn = document.querySelector(`[data-tab="${tabId}"]`);
+        const activeContent = document.getElementById(`tab-${tabId}`);
+        
+        if (activeBtn) {
+            activeBtn.classList.add('active');
+            activeBtn.setAttribute('aria-selected', 'true');
+        }
+        
+        if (activeContent) {
+            activeContent.classList.add('active');
+            console.log('Tab switched successfully to:', tabId);
+        } else {
+            console.error('Tab content not found:', `tab-${tabId}`);
+        }
     }
     
     setupFilters() {
@@ -122,43 +180,64 @@ class ProductionController {
             });
         });
         
-        // Quick guide button
-        const quickGuideBtn = document.getElementById('quickGuideBtn');
-        if (quickGuideBtn) {
-            quickGuideBtn.addEventListener('click', () => {
-                const message = `Panduan Penggunaan:
 
-1. Pilih tab "Input Produksi Panen" untuk mencatat hasil panen
-2. Pilih tab "Input Data Tanaman" untuk mengelola data tanaman
-3. Gunakan tab "Riwayat Produksi" untuk melihat dan mengelola data historis
-4. Gunakan filter untuk mencari data spesifik
-5. Data otomatis tersimpan di browser Anda`;
-                
-                alert(message);
-            });
-        }
     }
     
     setupTabs() {
         const tabBtns = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
         
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
+        console.log('Setting up tabs:', tabBtns.length, 'buttons found,', tabContents.length, 'contents found');
+        
+        if (tabBtns.length === 0) {
+            console.warn('No tab buttons found');
+            return;
+        }
+        
+        tabBtns.forEach((btn, index) => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
                 const tabId = this.dataset.tab;
+                console.log('Tab clicked:', tabId);
                 
                 // Remove active class from all tabs and contents
-                tabBtns.forEach(b => b.classList.remove('active'));
+                tabBtns.forEach(b => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false');
+                });
                 tabContents.forEach(c => c.classList.remove('active'));
                 
                 // Add active class to clicked tab and corresponding content
                 this.classList.add('active');
-                const targetContent = document.getElementById(tabId);
+                this.setAttribute('aria-selected', 'true');
+                
+                // Find target content with correct ID format (tab-{tabId})
+                const targetContent = document.getElementById(`tab-${tabId}`);
                 if (targetContent) {
                     targetContent.classList.add('active');
+                    console.log('Tab content activated:', `tab-${tabId}`);
+                } else {
+                    console.error(`Tab content with ID 'tab-${tabId}' not found`);
+                    // Fallback: try without prefix
+                    const fallbackContent = document.getElementById(tabId);
+                    if (fallbackContent) {
+                        fallbackContent.classList.add('active');
+                        console.log('Fallback tab content activated:', tabId);
+                    }
                 }
             });
         });
+        
+        // Ensure first tab is active on load
+        const firstTab = tabBtns[0];
+        const firstTabId = firstTab?.dataset.tab;
+        if (firstTabId) {
+            const firstContent = document.getElementById(`tab-${firstTabId}`);
+            if (firstContent && !firstContent.classList.contains('active')) {
+                firstContent.classList.add('active');
+                console.log('First tab content activated on load:', `tab-${firstTabId}`);
+            }
+        }
     }
     
     setupForms() {
@@ -186,7 +265,7 @@ class ProductionController {
             this.setupFormValidation(plantForm);
         }
         
-        // Auto-calculate production value
+        // Auto-calculate production value with validation
         const quantityInput = document.getElementById('jumlahProduksi');
         const priceInput = document.getElementById('hargaJual');
         const totalDisplay = document.getElementById('totalPendapatanDisplay');
@@ -195,6 +274,17 @@ class ProductionController {
             const calculateTotal = () => {
                 const quantity = parseFloat(quantityInput.value) || 0;
                 const price = parseFloat(priceInput.value) || 0;
+                
+                // Validate inputs
+                if (quantity < 0) {
+                    quantityInput.value = 0;
+                    return;
+                }
+                if (price < 0) {
+                    priceInput.value = 0;
+                    return;
+                }
+                
                 const total = quantity * price;
                 
                 const totalValue = totalDisplay.querySelector('.total-value');
@@ -205,40 +295,25 @@ class ProductionController {
             
             quantityInput.addEventListener('input', calculateTotal);
             priceInput.addEventListener('input', calculateTotal);
+            
+            // Prevent negative values
+            quantityInput.addEventListener('keydown', (e) => {
+                if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                    e.preventDefault();
+                }
+            });
+            
+            priceInput.addEventListener('keydown', (e) => {
+                if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                    e.preventDefault();
+                }
+            });
         }
         
-        // Export data button
-        const exportBtn = document.getElementById('exportDataBtn');
-        if (exportBtn) {
-            exportBtn.addEventListener('click', () => this.exportData());
-        }
+
     }
     
-    exportData() {
-        const productions = JSON.parse(localStorage.getItem('productions')) || [];
-        const plants = JSON.parse(localStorage.getItem('plants')) || [];
-        
-        const exportData = {
-            productions,
-            plants,
-            exportDate: new Date().toISOString(),
-            version: '1.0'
-        };
-        
-        const dataStr = JSON.stringify(exportData, null, 2);
-        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-        
-        const exportFileDefaultName = `nilamtrace-data-${new Date().toISOString().split('T')[0]}.json`;
-        
-        const linkElement = document.createElement('a');
-        linkElement.setAttribute('href', dataUri);
-        linkElement.setAttribute('download', exportFileDefaultName);
-        linkElement.click();
-        
-        if (window.appController) {
-            window.appController.showNotification('Data berhasil diekspor sebagai file JSON!', 'success');
-        }
-    }
+
     
     handleProductionSubmit(e) {
         const form = e.target;
@@ -932,6 +1007,9 @@ function deleteProduction(id) {
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('Production page DOM loaded');
+    
+    // Initialize controller
     window.productionController = new ProductionController();
     
     // Set current date as default
@@ -953,252 +1031,30 @@ document.addEventListener('DOMContentLoaded', () => {
             minute: '2-digit'
         })}`;
     }
+    
+    // Additional tab setup as fallback
+    setTimeout(() => {
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        console.log('Fallback tab check:', tabBtns.length, 'buttons,', tabContents.length, 'contents');
+        
+        // Ensure first tab is properly activated
+        if (tabBtns.length > 0 && tabContents.length > 0) {
+            const firstTab = tabBtns[0];
+            const firstTabId = firstTab.dataset.tab;
+            const firstContent = document.getElementById(`tab-${firstTabId}`);
+            
+            if (firstContent && !firstContent.classList.contains('active')) {
+                // Remove active from all
+                tabContents.forEach(c => c.classList.remove('active'));
+                tabBtns.forEach(b => b.classList.remove('active'));
+                
+                // Activate first
+                firstTab.classList.add('active');
+                firstContent.classList.add('active');
+                console.log('Fallback: Activated first tab');
+            }
+        }
+    }, 100);
 });
-    
-    // Setup form validation
-    setupFormValidation(form) {
-        const fields = form.querySelectorAll('input[required], select[required], textarea[required]');
-        
-        fields.forEach(field => {
-            // Validation rules based on field type and attributes
-            const rules = {
-                required: field.hasAttribute('required')
-            };
-            
-            // Add specific rules based on field type
-            if (field.type === 'email') {
-                rules.email = true;
-            }
-            
-            if (field.type === 'number') {
-                rules.number = true;
-                if (field.hasAttribute('min')) {
-                    rules.min = parseFloat(field.getAttribute('min'));
-                }
-                if (field.hasAttribute('max')) {
-                    rules.max = parseFloat(field.getAttribute('max'));
-                }
-            }
-            
-            if (field.hasAttribute('minlength')) {
-                rules.minLength = parseInt(field.getAttribute('minlength'));
-            }
-            
-            if (field.hasAttribute('maxlength')) {
-                rules.maxLength = parseInt(field.getAttribute('maxlength'));
-            }
-            
-            // Add blur validation
-            field.addEventListener('blur', () => {
-                AppUtils.validateField(field, rules);
-            });
-            
-            // Add input validation for immediate feedback
-            field.addEventListener('input', AppUtils.debounce(() => {
-                if (field.classList.contains('error')) {
-                    AppUtils.validateField(field, rules);
-                }
-            }, 500));
-        });
-    }
-    
-    // Validate entire form
-    validateForm(form) {
-        const fields = form.querySelectorAll('input[required], select[required], textarea[required]');
-        let isValid = true;
-        
-        fields.forEach(field => {
-            const rules = {
-                required: field.hasAttribute('required')
-            };
-            
-            if (field.type === 'email') rules.email = true;
-            if (field.type === 'number') {
-                rules.number = true;
-                if (field.hasAttribute('min')) rules.min = parseFloat(field.getAttribute('min'));
-                if (field.hasAttribute('max')) rules.max = parseFloat(field.getAttribute('max'));
-            }
-            if (field.hasAttribute('minlength')) rules.minLength = parseInt(field.getAttribute('minlength'));
-            if (field.hasAttribute('maxlength')) rules.maxLength = parseInt(field.getAttribute('maxlength'));
-            
-            if (!AppUtils.validateField(field, rules)) {
-                isValid = false;
-            }
-        });
-        
-        return isValid;
-    }
-    
-    // Handle production form submission with validation
-    handleProductionSubmit(e) {
-        const form = e.target;
-        const submitBtn = form.querySelector('button[type="submit"]');
-        
-        // Show loading state
-        submitBtn.classList.add('loading');
-        submitBtn.disabled = true;
-        
-        // Validate form
-        if (!this.validateForm(form)) {
-            submitBtn.classList.remove('loading');
-            submitBtn.disabled = false;
-            AppUtils.showNotification('Mohon perbaiki kesalahan pada form', 'error');
-            
-            // Focus on first error field
-            const firstError = form.querySelector('.error');
-            if (firstError) {
-                firstError.focus();
-            }
-            return;
-        }
-        
-        try {
-            // Get form data
-            const formData = new FormData(form);
-            const productionData = {
-                id: Date.now().toString(),
-                tanggal: formData.get('tanggal'),
-                jenisProduk: formData.get('jenisProduk'),
-                jumlahProduksi: parseFloat(formData.get('jumlahProduksi')),
-                hargaJual: parseFloat(formData.get('hargaJual')),
-                totalPendapatan: parseFloat(formData.get('jumlahProduksi')) * parseFloat(formData.get('hargaJual')),
-                kualitas: formData.get('kualitas'),
-                lokasiPanen: formData.get('lokasiPanen'),
-                keterangan: formData.get('keterangan'),
-                createdAt: new Date().toISOString()
-            };
-            
-            // Save to localStorage
-            const productions = JSON.parse(localStorage.getItem('productions')) || [];
-            productions.push(productionData);
-            localStorage.setItem('productions', JSON.stringify(productions));
-            
-            // Show success message
-            AppUtils.showNotification('Data produksi berhasil disimpan!', 'success');
-            
-            // Reset form
-            form.reset();
-            
-            // Update displays
-            this.loadProductionHistory();
-            this.updateDashboardStats();
-            
-        } catch (error) {
-            console.error('Error saving production data:', error);
-            AppUtils.showNotification('Terjadi kesalahan saat menyimpan data', 'error');
-        } finally {
-            // Remove loading state
-            submitBtn.classList.remove('loading');
-            submitBtn.disabled = false;
-        }
-    }
-    
-    // Handle plant form submission with validation
-    handlePlantSubmit(e) {
-        const form = e.target;
-        const submitBtn = form.querySelector('button[type="submit"]');
-        
-        // Show loading state
-        submitBtn.classList.add('loading');
-        submitBtn.disabled = true;
-        
-        // Validate form
-        if (!this.validateForm(form)) {
-            submitBtn.classList.remove('loading');
-            submitBtn.disabled = false;
-            AppUtils.showNotification('Mohon perbaiki kesalahan pada form', 'error');
-            
-            // Focus on first error field
-            const firstError = form.querySelector('.error');
-            if (firstError) {
-                firstError.focus();
-            }
-            return;
-        }
-        
-        try {
-            // Get form data
-            const formData = new FormData(form);
-            const plantData = {
-                id: Date.now().toString(),
-                namaVarietas: formData.get('namaVarietas'),
-                tanggalTanam: formData.get('tanggalTanam'),
-                jumlahBatang: parseInt(formData.get('jumlahBatang')),
-                luasLahan: parseFloat(formData.get('luasLahan')),
-                lokasiTanam: formData.get('lokasiTanam'),
-                statusTanaman: formData.get('statusTanaman'),
-                catatanTanaman: formData.get('catatanTanaman'),
-                createdAt: new Date().toISOString()
-            };
-            
-            // Save to localStorage
-            const plants = JSON.parse(localStorage.getItem('plants')) || [];
-            plants.push(plantData);
-            localStorage.setItem('plants', JSON.stringify(plants));
-            
-            // Show success message
-            AppUtils.showNotification('Data tanaman berhasil disimpan!', 'success');
-            
-            // Reset form
-            form.reset();
-            
-            // Update displays
-            this.loadPlantsList();
-            this.updatePlantStats();
-            
-        } catch (error) {
-            console.error('Error saving plant data:', error);
-            AppUtils.showNotification('Terjadi kesalahan saat menyimpan data', 'error');
-        } finally {
-            // Remove loading state
-            submitBtn.classList.remove('loading');
-            submitBtn.disabled = false;
-        }
-    }
-    
-    // Update dashboard statistics
-    updateDashboardStats() {
-        const productions = JSON.parse(localStorage.getItem('productions')) || [];
-        const plants = JSON.parse(localStorage.getItem('plants')) || [];
-        
-        // Update footer stats if elements exist
-        const totalProduction = productions.reduce((sum, prod) => sum + (prod.jumlahProduksi || 0), 0);
-        const totalPlants = plants.reduce((sum, plant) => sum + (plant.jumlahBatang || 0), 0);
-        
-        const dataStatsElement = document.getElementById('dataStats');
-        if (dataStatsElement) {
-            dataStatsElement.textContent = `Total Produksi: ${totalProduction.toFixed(1)} kg | Total Tanaman: ${totalPlants} batang`;
-        }
-        
-        const lastUpdateElement = document.getElementById('lastUpdate');
-        if (lastUpdateElement) {
-            lastUpdateElement.textContent = `Update Terakhir: ${AppUtils.formatDate(new Date(), { 
-                day: 'numeric', 
-                month: 'short', 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            })}`;
-        }
-    }
-    
-    // Update plant statistics
-    updatePlantStats() {
-        const plants = JSON.parse(localStorage.getItem('plants')) || [];
-        
-        const stats = {
-            active: plants.filter(p => p.statusTanaman === 'aktif').length,
-            ready: plants.filter(p => p.statusTanaman === 'panen').length,
-            new: plants.filter(p => p.statusTanaman === 'baru').length,
-            sick: plants.filter(p => p.statusTanaman === 'sakit').length
-        };
-        
-        // Update stat displays
-        Object.keys(stats).forEach(key => {
-            const element = document.getElementById(`plant${key.charAt(0).toUpperCase() + key.slice(1)}Count`);
-            if (element) {
-                element.textContent = stats[key];
-            }
-        });
-        
-        this.updateDashboardStats();
-    }
