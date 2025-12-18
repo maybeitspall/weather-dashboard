@@ -190,6 +190,51 @@
     margin-bottom: var(--spacing-xl);
     overflow-x: auto;
     white-space: nowrap;
+    position: relative;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.tab-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Scroll indicators for mobile */
+.tab-container::before,
+.tab-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 2px;
+    width: 20px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.tab-container::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+}
+
+.tab-container::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+}
+
+@media (max-width: 768px) {
+    .tab-container::before,
+    .tab-container::after {
+        opacity: 1;
+    }
+    
+    /* Add subtle shadow to indicate scrollability */
+    .tab-container {
+        box-shadow: inset -10px 0 10px -10px rgba(0,0,0,0.1), 
+                    inset 10px 0 10px -10px rgba(0,0,0,0.1);
+    }
 }
 
 .tab-btn {
@@ -1097,12 +1142,42 @@ table tbody tr:hover {
     }
     
     .tab-container {
-        flex-direction: column;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        padding-bottom: 2px;
+        margin-bottom: calc(var(--spacing-xl) + 2px);
+    }
+    
+    .tab-container::-webkit-scrollbar {
+        display: none;
     }
     
     .tab-btn {
-        width: 100%;
+        flex: 0 0 auto;
+        min-width: 140px;
         justify-content: center;
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.875rem;
+        white-space: nowrap;
+        border-radius: 8px 8px 0 0;
+        margin-right: 2px;
+    }
+    
+    .tab-btn:last-child {
+        margin-right: 0;
+    }
+    
+    .tab-btn i {
+        font-size: 1rem;
+    }
+    
+    /* Add touch-friendly spacing */
+    .tab-btn:not(:last-child) {
+        margin-right: 4px;
     }
     
     .form-row {
