@@ -121,16 +121,7 @@ class DashboardController {
             console.warn('Error processing monthly data:', error);
         }
         
-        // Jika tidak ada data real atau semua data 0, gunakan data contoh
-        const hasRealData = monthlyData.some(val => val > 0);
-        if (!hasRealData) {
-            if (type === 'production') {
-                return [120, 150, 180, 200, 240, 260, 250, 230, 200, 180, 160, 140];
-            } else {
-                return [12000000, 15000000, 18000000, 20000000, 24000000, 26000000, 
-                       25000000, 23000000, 20000000, 18000000, 16000000, 14000000];
-            }
-        }
+        // Return data real (bisa kosong jika belum ada input)
         
         return monthlyData;
     }
@@ -209,7 +200,7 @@ class DashboardController {
     setupChartButtons() {
         const chartBtns = document.querySelectorAll('.chart-btn');
         chartBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
+            btn.addEventListener('click', () => {
                 chartBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 
@@ -284,6 +275,16 @@ class DashboardController {
         if (refreshBtn) {
             refreshBtn.addEventListener('click', () => {
                 this.refreshDashboard();
+            });
+        }
+        
+        // Setup clear data button
+        const clearDataBtn = document.getElementById('clearDataBtn');
+        if (clearDataBtn) {
+            clearDataBtn.addEventListener('click', () => {
+                if (confirm('Apakah Anda yakin ingin menghapus semua data produksi dan tanaman? Tindakan ini tidak dapat dibatalkan.')) {
+                    this.clearAllData();
+                }
             });
         }
     }
@@ -404,80 +405,20 @@ class DashboardController {
     loadInitialData() {
         // Load real data on page load
         this.updateStats();
-        
-        // Initialize sample data if none exists
-        this.initializeSampleData();
     }
     
-    initializeSampleData() {
-        const productions = JSON.parse(localStorage.getItem('productions')) || [];
-        const plants = JSON.parse(localStorage.getItem('plants')) || [];
-        
-        // Add sample production data if none exists
-        if (productions.length === 0) {
-            const sampleProductions = this.generateSampleProductionData();
-            localStorage.setItem('productions', JSON.stringify(sampleProductions));
-        }
-        
-        // Add sample plant data if none exists
-        if (plants.length === 0) {
-            const samplePlants = this.generateSamplePlantData();
-            localStorage.setItem('plants', JSON.stringify(samplePlants));
+    // Fungsi untuk menghapus semua data (untuk testing)
+    clearAllData() {
+        localStorage.removeItem('productions');
+        localStorage.removeItem('plants');
+        this.updateStats();
+        this.refreshChart();
+        if (window.appController) {
+            window.appController.showNotification('Semua data telah dihapus', 'info');
         }
     }
     
-    generateSampleProductionData() {
-        const currentYear = new Date().getFullYear();
-        const sampleData = [];
-        const jenisProduks = ['daun-segar', 'daun-kering', 'minyak-nilam'];
-        
-        // Generate data for last 12 months
-        for (let month = 0; month < 12; month++) {
-            const recordsPerMonth = Math.floor(Math.random() * 3) + 1; // 1-3 records per month
-            
-            for (let i = 0; i < recordsPerMonth; i++) {
-                const date = new Date(currentYear, month, Math.floor(Math.random() * 28) + 1);
-                const jenisProduksi = jenisProduks[Math.floor(Math.random() * jenisProduks.length)];
-                
-                sampleData.push({
-                    id: `prod_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-                    tanggalProduksi: date.toISOString().split('T')[0],
-                    jenisProduksi: jenisProduksi,
-                    jumlahProduksi: Math.floor(Math.random() * 50) + 10, // 10-60 kg
-                    kualitas: ['A', 'B', 'C'][Math.floor(Math.random() * 3)],
-                    catatan: 'Data contoh untuk demonstrasi',
-                    createdAt: date.toISOString()
-                });
-            }
-        }
-        
-        return sampleData;
-    }
-    
-    generateSamplePlantData() {
-        const sampleData = [];
-        const varietasOptions = ['Nilam Aceh', 'Nilam Jawa', 'Nilam Sumatera'];
-        const statusOptions = ['aktif', 'panen', 'baru'];
-        
-        for (let i = 0; i < 5; i++) {
-            const plantDate = new Date();
-            plantDate.setMonth(plantDate.getMonth() - Math.floor(Math.random() * 12));
-            
-            sampleData.push({
-                id: `plant_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-                namaTanaman: `Blok ${String.fromCharCode(65 + i)}`, // Blok A, B, C, etc.
-                varietas: varietasOptions[Math.floor(Math.random() * varietasOptions.length)],
-                tanggalTanam: plantDate.toISOString().split('T')[0],
-                jumlahBatang: Math.floor(Math.random() * 100) + 50, // 50-150 batang
-                luasLahan: Math.floor(Math.random() * 500) + 100, // 100-600 m²
-                statusTanaman: statusOptions[Math.floor(Math.random() * statusOptions.length)],
-                catatan: 'Data contoh untuk demonstrasi',
-                createdAt: plantDate.toISOString()
-            });
-        }
-        
-        return sampleData;
-    }
+
     
     updateLastUpdateTime() {
         const lastUpdateEl = document.getElementById('lastUpdateTime');
