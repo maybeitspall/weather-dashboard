@@ -64,8 +64,20 @@ class AppController {
         // Toggle Profile Dropdown
         const toggleProfileDropdown = () => {
             if (dropdownMenu && profileDropdown) {
-                dropdownMenu.classList.toggle('show');
-                profileDropdown.classList.toggle('active');
+                if (dropdownMenu.classList.contains('show')) {
+                    dropdownMenu.classList.remove('show');
+                    profileDropdown.classList.remove('active');
+                } else {
+                    // Calculate position dynamically
+                    const profileBtnRect = profileBtn.getBoundingClientRect();
+                    dropdownMenu.style.position = 'fixed';
+                    dropdownMenu.style.top = (profileBtnRect.bottom + 8) + 'px';
+                    dropdownMenu.style.right = (window.innerWidth - profileBtnRect.right) + 'px';
+                    dropdownMenu.style.left = 'auto';
+                    
+                    dropdownMenu.classList.add('show');
+                    profileDropdown.classList.add('active');
+                }
             }
         };
         
