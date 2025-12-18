@@ -189,9 +189,6 @@ class ProductionController {
         
         console.log('Setting up tabs:', tabBtns.length, 'buttons found,', tabContents.length, 'contents found');
         
-        // Add scrollIntoViewIfNeeded polyfill for better browser support
-        this.addScrollPolyfill();
-        
         if (tabBtns.length === 0) {
             console.warn('No tab buttons found');
             return;
@@ -213,9 +210,6 @@ class ProductionController {
                 // Add active class to clicked tab and corresponding content
                 this.classList.add('active');
                 this.setAttribute('aria-selected', 'true');
-                
-                // Scroll active tab into view on mobile
-                this.scrollIntoViewIfNeeded();
                 
                 // Find target content with correct ID format (tab-{tabId})
                 const targetContent = document.getElementById(`tab-${tabId}`);
@@ -246,29 +240,7 @@ class ProductionController {
         }
     }
     
-    addScrollPolyfill() {
-        // Add scrollIntoViewIfNeeded polyfill for better browser support
-        if (!Element.prototype.scrollIntoViewIfNeeded) {
-            Element.prototype.scrollIntoViewIfNeeded = function(centerIfNeeded = true) {
-                const parent = this.parentElement;
-                if (!parent) return;
-                
-                const parentRect = parent.getBoundingClientRect();
-                const thisRect = this.getBoundingClientRect();
-                
-                if (thisRect.left < parentRect.left || thisRect.right > parentRect.right) {
-                    const scrollLeft = centerIfNeeded 
-                        ? thisRect.left - parentRect.left - (parentRect.width - thisRect.width) / 2
-                        : thisRect.left - parentRect.left;
-                    
-                    parent.scrollBy({
-                        left: scrollLeft,
-                        behavior: 'smooth'
-                    });
-                }
-            };
-        }
-    }
+
     
     setupForms() {
         // Production form
