@@ -1667,9 +1667,9 @@ table tbody tr:hover {
 }
 
 /* ====================== */
-/* FOOTER */
+/* FOOTER (Dashboard Pages Only) */
 /* ====================== */
-footer {
+body:not(.landing-page) footer {
     background-color: var(--bg-header);
     color: white;
     padding: var(--spacing-xl);
@@ -1677,18 +1677,18 @@ footer {
     transition: margin-left var(--transition-normal);
 }
 
-.footer-content {
+body:not(.landing-page) .footer-content {
     max-width: 1400px;
     margin: 0 auto;
     text-align: center;
 }
 
-.footer-content p {
+body:not(.landing-page) .footer-content p {
     margin-bottom: var(--spacing-sm);
     opacity: 0.9;
 }
 
-.footer-info {
+body:not(.landing-page) .footer-info {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1716,7 +1716,7 @@ footer {
         margin-left: 0;
     }
     
-    footer {
+    body:not(.landing-page) footer {
         margin-left: 0;
     }
     
@@ -1816,7 +1816,7 @@ footer {
         grid-template-columns: 1fr;
     }
     
-    .footer-info {
+    body:not(.landing-page) .footer-info {
         flex-direction: column;
         gap: var(--spacing-xs);
     }
