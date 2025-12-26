@@ -15,6 +15,7 @@ class MonitoringController {
         this.updateDetectionStats();
         this.setupImageUpload();
         this.setupEnhancedUpload();
+        this.setupHistoryControls();
     }
     
     setupInputMethodTabs() {
@@ -294,15 +295,17 @@ class MonitoringController {
                     <p>Upload foto tanaman untuk memulai deteksi penyakit</p>
                 </div>
             `;
+            this.updateClearButtonVisibility();
             return;
         }
         
         historyContainer.innerHTML = '';
-        detections.slice(-5).reverse().forEach(detection => {
+        detections.slice(-5).reverse().forEach((detection, index) => {
             const historyItem = document.createElement('div');
             historyItem.className = 'history-item';
             
             const statusClass = detection.status === 'sehat' ? 'success' : 'warning';
+            const actualIndex = detections.length - 1 - index; // Calculate actual index in original array
             
             historyItem.innerHTML = `
                 <div class="history-image">
@@ -313,10 +316,25 @@ class MonitoringController {
                     <p class="status ${statusClass}">${detection.status || 'Unknown'}</p>
                     <span class="date">${new Date(detection.tanggal).toLocaleDateString('id-ID')}</span>
                 </div>
+                <button class="history-item-delete" title="Hapus riwayat ini" data-index="${actualIndex}" data-name="${detection.penyakit || 'Hasil Deteksi'}">
+                    <i class="fas fa-times"></i>
+                </button>
             `;
+            
+            // Add event listener for individual delete button
+            const deleteBtn = historyItem.querySelector('.history-item-delete');
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent event bubbling
+                const itemIndex = parseInt(deleteBtn.dataset.index);
+                const itemName = deleteBtn.dataset.name;
+                this.showDeleteItemConfirmation(itemIndex, itemName);
+            });
             
             historyContainer.appendChild(historyItem);
         });
+        
+        // Update clear button visibility
+        this.updateClearButtonVisibility();
     }
     
     updateDetectionStats() {
@@ -497,6 +515,185 @@ class MonitoringController {
                 window.appController.showNotification('Deteksi selesai!', 'success');
             }
         }, 2000);
+    }
+    
+    // ====================== //
+    // HISTORY CONTROLS       //
+    // ====================== //
+    
+    setupHistoryControls() {
+        // Setup clear all history button
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        if (clearHistoryBtn) {
+            clearHistoryBtn.addEventListener('click', () => {
+                this.showClearHistoryConfirmation();
+            });
+        }
+        
+        // Update clear button visibility when history loads
+        this.updateClearButtonVisibility();
+    }
+    
+    updateClearButtonVisibility() {
+        const detections = JSON.parse(localStorage.getItem('detections')) || [];
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        
+        if (clearHistoryBtn) {
+            if (detections.length > 0) {
+                clearHistoryBtn.style.display = 'block';
+            } else {
+                clearHistoryBtn.style.display = 'none';
+            }
+        }
+    }
+    
+    showClearHistoryConfirmation() {
+        // Create confirmation modal
+        const modal = document.createElement('div');
+        modal.className = 'confirmation-modal';
+        modal.innerHTML = `
+            <div class="confirmation-content">
+                <h3><i class="fas fa-exclamation-triangle"></i> Konfirmasi Hapus</h3>
+                <p>Apakah Anda yakin ingin menghapus semua riwayat deteksi? Tindakan ini tidak dapat dibatalkan.</p>
+                <div class="confirmation-buttons">
+                    <button class="btn btn-cancel" id="cancelClear">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button class="btn btn-danger" id="confirmClear">
+                        <i class="fas fa-trash"></i> Hapus Semua
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Show modal with animation
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+        
+        // Handle cancel
+        const cancelBtn = modal.querySelector('#cancelClear');
+        cancelBtn.addEventListener('click', () => {
+            this.hideConfirmationModal(modal);
+        });
+        
+        // Handle confirm
+        const confirmBtn = modal.querySelector('#confirmClear');
+        confirmBtn.addEventListener('click', () => {
+            this.clearAllHistory();
+            this.hideConfirmationModal(modal);
+        });
+        
+        // Handle click outside modal
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                this.hideConfirmationModal(modal);
+            }
+        });
+        
+        // Handle escape key
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
+                this.hideConfirmationModal(modal);
+                document.removeEventListener('keydown', handleEscape);
+            }
+        };
+        document.addEventListener('keydown', handleEscape);
+    }
+    
+    hideConfirmationModal(modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            if (modal.parentNode) {
+                modal.parentNode.removeChild(modal);
+            }
+        }, 300);
+    }
+    
+    clearAllHistory() {
+        // Clear localStorage
+        localStorage.removeItem('detections');
+        
+        // Update UI
+        this.loadDetectionHistory();
+        this.updateDetectionStats();
+        this.updateClearButtonVisibility();
+        
+        // Show success notification
+        if (window.appController) {
+            window.appController.showNotification('Semua riwayat deteksi berhasil dihapus!', 'success');
+        }
+    }
+    
+    deleteHistoryItem(index) {
+        const detections = JSON.parse(localStorage.getItem('detections')) || [];
+        
+        if (index >= 0 && index < detections.length) {
+            // Remove item from array
+            detections.splice(index, 1);
+            
+            // Update localStorage
+            localStorage.setItem('detections', JSON.stringify(detections));
+            
+            // Update UI
+            this.loadDetectionHistory();
+            this.updateDetectionStats();
+            this.updateClearButtonVisibility();
+            
+            // Show success notification
+            if (window.appController) {
+                window.appController.showNotification('Riwayat deteksi berhasil dihapus!', 'success');
+            }
+        }
+    }
+    
+    showDeleteItemConfirmation(index, itemName) {
+        // Create confirmation modal for single item
+        const modal = document.createElement('div');
+        modal.className = 'confirmation-modal';
+        modal.innerHTML = `
+            <div class="confirmation-content">
+                <h3><i class="fas fa-exclamation-triangle"></i> Konfirmasi Hapus</h3>
+                <p>Apakah Anda yakin ingin menghapus riwayat deteksi "<strong>${itemName}</strong>"?</p>
+                <div class="confirmation-buttons">
+                    <button class="btn btn-cancel" id="cancelDelete">
+                        <i class="fas fa-times"></i> Batal
+                    </button>
+                    <button class="btn btn-danger" id="confirmDelete">
+                        <i class="fas fa-trash"></i> Hapus
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        
+        // Show modal with animation
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+        
+        // Handle cancel
+        const cancelBtn = modal.querySelector('#cancelDelete');
+        cancelBtn.addEventListener('click', () => {
+            this.hideConfirmationModal(modal);
+        });
+        
+        // Handle confirm
+        const confirmBtn = modal.querySelector('#confirmDelete');
+        confirmBtn.addEventListener('click', () => {
+            this.deleteHistoryItem(index);
+            this.hideConfirmationModal(modal);
+        });
+        
+        // Handle click outside modal
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                this.hideConfirmationModal(modal);
+            }
+        });
     }
 }
 

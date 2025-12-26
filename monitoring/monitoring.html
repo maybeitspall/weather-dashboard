@@ -224,6 +224,13 @@
 
                 <!-- History Area -->
                 <div class="history-area" id="historyArea">
+                    <div class="history-header">
+                        <h3><i class="fas fa-history"></i> Riwayat Deteksi</h3>
+                        <button class="btn btn-danger btn-sm" id="clearHistoryBtn" style="display: none;">
+                            <i class="fas fa-trash"></i>
+                            Hapus Semua
+                        </button>
+                    </div>
                     <div class="history-list" id="detectionHistory">
                         <!-- History items will be loaded here -->
                         <div class="history-empty">
@@ -375,55 +382,195 @@
             <!-- Disease Database -->
             <div class="card disease-db">
                 <div class="section-header">
-                    <h2><i class="fas fa-database"></i> Database Penyakit Nilam</h2>
-                    <p>Kenali berbagai penyakit yang umum menyerang tanaman nilam</p>
+                    <h2><i class="fas fa-database"></i> Database Penyakit & Hama Tanaman Nilam</h2>
+                    <p>Kenali berbagai penyakit dan hama yang umum menyerang tanaman nilam beserta cara pengendaliannya</p>
                 </div>
 
-                <div class="disease-list">
-                    <div class="disease-item">
-                        <div class="disease-image">
-                            <img src="../assets/images/nilam.png" alt="Budok">
+                <!-- Penyakit Section -->
+                <div class="disease-category">
+                    <div class="category-header">
+                        <div class="category-title">
+                            <i class="fas fa-virus"></i>
+                            <h3>Penyakit Tanaman Nilam</h3>
                         </div>
-                        <div class="disease-info">
-                            <h3>Penyakit Budok</h3>
-                            <p class="disease-symptoms">
-                                <strong>Gejala:</strong> Bintil-bintil kasar pada batang dan daun, warna kecokelatan, pertumbuhan terhambat
-                            </p>
-                            <div class="disease-meta">
-                                <span class="disease-severity high">Tingkat Bahaya: Tinggi</span>
-                                <span class="disease-season">Musim: Hujan</span>
+                        <div class="category-description">
+                            <p><strong>Penyakit</strong> adalah gangguan yang disebabkan oleh mikroorganisme patogen seperti jamur, bakteri, virus, atau nematoda yang menginfeksi jaringan tanaman dan mengganggu fungsi fisiologis normal.</p>
+                            <div class="category-characteristics">
+                                <span class="characteristic-item">
+                                    <i class="fas fa-microscope"></i>
+                                    Disebabkan mikroorganisme
+                                </span>
+                                <span class="characteristic-item">
+                                    <i class="fas fa-dna"></i>
+                                    Menginfeksi jaringan internal
+                                </span>
+                                <span class="characteristic-item">
+                                    <i class="fas fa-pills"></i>
+                                    Dikendalikan dengan fungisida/bakterisida
+                                </span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="disease-item">
-                        <div class="disease-image">
-                            <img src="../assets/images/nilam.png" alt="Busuk Batang">
+                    <div class="disease-list">
+                        <!-- Penyakit akibat Jamur -->
+                        <div class="disease-item">
+                            <div class="disease-image">
+                                <img src="../assets/images/nilam.png" alt="Penyakit Budok">
+                            </div>
+                            <div class="disease-info">
+                                <h3>Penyakit Budok</h3>
+                                <p class="disease-cause"><strong>Penyebab:</strong> Jamur <em>Synchytrium pogostemonis</em></p>
+                                <p class="disease-symptoms">
+                                    <strong>Gejala:</strong> Benjolan-benjolan kecil pada daun, tangkai daun, dan batang yang mengalami penebalan jaringan. Serangan berat menghambat pertumbuhan dan menurunkan produksi terna.
+                                </p>
+                                <p class="disease-control">
+                                    <strong>Pengendalian:</strong> Penggunaan bibit sehat, sanitasi lahan, pemangkasan bagian terserang, aplikasi fungisida sebagai alternatif terakhir.
+                                </p>
+                                <div class="disease-meta">
+                                    <span class="disease-severity high">Tingkat Bahaya: Tinggi</span>
+                                    <span class="disease-type fungal">Jenis: Jamur</span>
+                                    <span class="disease-season">Musim: Lembab/Hujan</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="disease-info">
-                            <h3>Busuk Batang (Phythophora)</h3>
-                            <p class="disease-symptoms">
-                                <strong>Gejala:</strong> Batang membusuk, daun layu, warna coklat pada pangkal batang
-                            </p>
-                            <div class="disease-meta">
-                                <span class="disease-severity medium">Tingkat Bahaya: Sedang</span>
-                                <span class="disease-season">Musim: Lembab</span>
+
+                        <!-- Penyakit akibat Bakteri -->
+                        <div class="disease-item">
+                            <div class="disease-image">
+                                <img src="../assets/images/nilam.png" alt="Layu Bakteri">
+                            </div>
+                            <div class="disease-info">
+                                <h3>Penyakit Layu Bakteri</h3>
+                                <p class="disease-cause"><strong>Penyebab:</strong> Bakteri <em>Ralstonia solanacearum</em></p>
+                                <p class="disease-symptoms">
+                                    <strong>Gejala:</strong> Tanaman layu secara tiba-tiba pada tanaman muda maupun dewasa. Layu tidak serempak dan menyebar dari satu cabang ke cabang lain. Dapat menyebabkan tanaman mati.
+                                </p>
+                                <p class="disease-control">
+                                    <strong>Pengendalian:</strong> Perbaikan drainase, sanitasi lahan, penggunaan varietas tahan, pemanfaatan agens hayati.
+                                </p>
+                                <div class="disease-meta">
+                                    <span class="disease-severity critical">Tingkat Bahaya: Sangat Tinggi</span>
+                                    <span class="disease-type bacterial">Jenis: Bakteri</span>
+                                    <span class="disease-season">Musim: Lembab</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Penyakit akibat Nematoda -->
+                        <div class="disease-item">
+                            <div class="disease-image">
+                                <img src="../assets/images/nilam.png" alt="Nematoda Akar">
+                            </div>
+                            <div class="disease-info">
+                                <h3>Penyakit Nematoda Akar</h3>
+                                <p class="disease-cause"><strong>Penyebab:</strong> Nematoda <em>Meloidogyne incognita</em> dan <em>Pratylenchus brachyurus</em></p>
+                                <p class="disease-symptoms">
+                                    <strong>Gejala:</strong> Daun berwarna kuning kemerahan, pertumbuhan terhambat, akar membusuk, terbentuk benjolan pada akar. Mengganggu penyerapan air dan unsur hara.
+                                </p>
+                                <p class="disease-control">
+                                    <strong>Pengendalian:</strong> Pengolahan tanah, pemberian pupuk organik, penggunaan bionematisida.
+                                </p>
+                                <div class="disease-meta">
+                                    <span class="disease-severity medium">Tingkat Bahaya: Sedang</span>
+                                    <span class="disease-type nematode">Jenis: Nematoda</span>
+                                    <span class="disease-season">Musim: Sepanjang Tahun</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hama Section -->
+                <div class="pest-category">
+                    <div class="category-header">
+                        <div class="category-title">
+                            <i class="fas fa-bug"></i>
+                            <h3>Hama Tanaman Nilam</h3>
+                        </div>
+                        <div class="category-description">
+                            <p><strong>Hama</strong> adalah organisme hidup (serangga, tungau, atau hewan lain) yang secara langsung merusak bagian tanaman dengan cara memakan, mengisap, atau melubangi jaringan tanaman.</p>
+                            <div class="category-characteristics">
+                                <span class="characteristic-item">
+                                    <i class="fas fa-eye"></i>
+                                    Dapat dilihat langsung
+                                </span>
+                                <span class="characteristic-item">
+                                    <i class="fas fa-leaf"></i>
+                                    Merusak bagian luar tanaman
+                                </span>
+                                <span class="characteristic-item">
+                                    <i class="fas fa-spray-can"></i>
+                                    Dikendalikan dengan insektisida
+                                </span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="disease-item">
-                        <div class="disease-image">
-                            <img src="../assets/images/nilam.png" alt="Bercak Daun">
+                    <div class="pest-list">
+                        <!-- Hama Kutu Daun -->
+                        <div class="disease-item pest-item">
+                            <div class="disease-image">
+                                <img src="../assets/images/nilam.png" alt="Kutu Daun">
+                            </div>
+                            <div class="disease-info">
+                                <h3>Kutu Daun</h3>
+                                <p class="disease-cause"><strong>Penyebab:</strong> Hama <em>Aphis gossypii</em></p>
+                                <p class="disease-symptoms">
+                                    <strong>Gejala:</strong> Daun dan pucuk mengeriting akibat cairan tanaman dihisap. Serangan berat menghambat pertumbuhan dan menjadi vektor penyakit.
+                                </p>
+                                <p class="disease-control">
+                                    <strong>Pengendalian:</strong> Pengendalian Hama Terpadu (PHT): mekanis, kultur teknis, biologis, pestisida kimia sebagai pilihan terakhir.
+                                </p>
+                                <div class="disease-meta">
+                                    <span class="disease-severity medium">Tingkat Bahaya: Sedang</span>
+                                    <span class="disease-type pest-sucker">Jenis: Hama Pengisap</span>
+                                    <span class="disease-season">Musim: Kemarau</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="disease-info">
-                            <h3>Bercak Daun</h3>
-                            <p class="disease-symptoms">
-                                <strong>Gejala:</strong> Bercak-bercak coklat pada daun, daun mengering, pertumbuhan lambat
-                            </p>
-                            <div class="disease-meta">
-                                <span class="disease-severity low">Tingkat Bahaya: Rendah</span>
-                                <span class="disease-season">Musim: Panas</span>
+
+                        <!-- Hama Belalang -->
+                        <div class="disease-item pest-item">
+                            <div class="disease-image">
+                                <img src="../assets/images/nilam.png" alt="Belalang">
+                            </div>
+                            <div class="disease-info">
+                                <h3>Belalang</h3>
+                                <p class="disease-cause"><strong>Penyebab:</strong> Hama <em>Valanga nigricornis</em> dan <em>Acrida turita</em></p>
+                                <p class="disease-symptoms">
+                                    <strong>Gejala:</strong> Daun berlubang dari tepi ke tengah akibat dimakan belalang. Serangan berat menyebabkan defoliasi pada daun, batang, dan cabang.
+                                </p>
+                                <p class="disease-control">
+                                    <strong>Pengendalian:</strong> Pengendalian Hama Terpadu (PHT): pengendalian mekanis, kultur teknis, biologis, pestisida kimia sebagai pilihan terakhir.
+                                </p>
+                                <div class="disease-meta">
+                                    <span class="disease-severity medium">Tingkat Bahaya: Sedang</span>
+                                    <span class="disease-type pest-chewer">Jenis: Hama Pemakan</span>
+                                    <span class="disease-season">Musim: Kemarau</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hama Ulat -->
+                        <div class="disease-item pest-item">
+                            <div class="disease-image">
+                                <img src="../assets/images/nilam.png" alt="Ulat Daun">
+                            </div>
+                            <div class="disease-info">
+                                <h3>Ulat Pemakan dan Penggulung Daun</h3>
+                                <p class="disease-cause"><strong>Penyebab:</strong> Hama <em>Sylepta sp.</em></p>
+                                <p class="disease-symptoms">
+                                    <strong>Gejala:</strong> Daun tampak transparan, menggulung, dan berlubang akibat serangan ulat. Pada kondisi parah, ulat menyerang batang muda dan pucuk tanaman.
+                                </p>
+                                <p class="disease-control">
+                                    <strong>Pengendalian:</strong> Pengendalian Hama Terpadu (PHT): pengendalian mekanis, kultur teknis, biologis, pestisida kimia sebagai pilihan terakhir.
+                                </p>
+                                <div class="disease-meta">
+                                    <span class="disease-severity medium">Tingkat Bahaya: Sedang</span>
+                                    <span class="disease-type pest-chewer">Jenis: Hama Pemakan</span>
+                                    <span class="disease-season">Musim: Hujan</span>
+                                </div>
                             </div>
                         </div>
                     </div>
