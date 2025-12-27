@@ -1754,3 +1754,146 @@
         flex-direction: column;
     }
 }
+/* ====================== */
+/* DARK MODE FIXES FOR DATABASE */
+/* ====================== */
+
+/* Mode gelap - perbaiki kontras teks */
+.dark-mode .category-description {
+    color: #e9ecef; /* Lebih terang dari default */
+}
+
+.dark-mode .category-description p {
+    color: #f8f9fa; /* Putih keabu-abuan untuk keterbacaan yang baik */
+}
+
+.dark-mode .characteristic-item {
+    background: rgba(255, 255, 255, 0.1); /* Background semi-transparan */
+    color: #f8f9fa; /* Teks putih */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark-mode .disease-cause {
+    color: #e9ecef; /* Lebih terang */
+}
+
+.dark-mode .disease-symptoms {
+    color: #dee2e6; /* Putih keabu-abuan */
+}
+
+.dark-mode .disease-control {
+    color: #ced4da; /* Sedikit lebih gelap dari symptoms */
+    background-color: rgba(255, 255, 255, 0.05); /* Background yang sangat subtle */
+    border-left-color: rgba(255, 255, 255, 0.3);
+}
+
+.dark-mode .disease-info h3 {
+    color: #ffffff; /* Putih untuk judul */
+}
+
+/* Category header untuk mode gelap */
+.dark-mode .category-header {
+    background: rgba(255, 255, 255, 0.05);
+    border-left-color: rgba(255, 255, 255, 0.3);
+}
+
+.dark-mode .category-title h3 {
+    color: #ffffff;
+}
+
+.dark-mode .category-title i {
+    color: var(--primary-color);
+}
+
+/* Pest category untuk mode gelap */
+.dark-mode .pest-category .category-header {
+    border-left-color: #ff6b7a; /* Warna merah yang lebih terang */
+}
+
+.dark-mode .pest-category .category-title i,
+.dark-mode .pest-category .category-title h3 {
+    color: #ff6b7a;
+}
+
+.dark-mode .pest-category .characteristic-item i {
+    color: #ff6b7a;
+}
+
+.dark-mode .pest-item {
+    border-left-color: #ff6b7a;
+}
+
+/* Disease meta badges untuk mode gelap */
+.dark-mode .disease-type.fungal {
+    background-color: rgba(46, 125, 50, 0.3);
+    color: #81c784;
+}
+
+.dark-mode .disease-type.bacterial {
+    background-color: rgba(239, 108, 0, 0.3);
+    color: #ffb74d;
+}
+
+.dark-mode .disease-type.nematode {
+    background-color: rgba(123, 31, 162, 0.3);
+    color: #ce93d8;
+}
+
+.dark-mode .disease-type.pest-sucker {
+    background-color: rgba(198, 40, 40, 0.3);
+    color: #ef5350;
+}
+
+.dark-mode .disease-type.pest-chewer {
+    background-color: rgba(173, 20, 87, 0.3);
+    color: #f06292;
+}
+
+.dark-mode .disease-severity.high {
+    background-color: rgba(211, 47, 47, 0.3);
+    color: #ef5350;
+}
+
+.dark-mode .disease-severity.critical {
+    background-color: rgba(183, 28, 28, 0.4);
+    color: #ff5252;
+}
+
+.dark-mode .disease-severity.medium {
+    background-color: rgba(245, 124, 0, 0.3);
+    color: #ffb74d;
+}
+
+.dark-mode .disease-season {
+    background-color: rgba(123, 31, 162, 0.3);
+    color: #ce93d8;
+}
+
+/* Disease item untuk mode gelap */
+.dark-mode .disease-item {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .disease-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive untuk mode gelap */
+@media (max-width: 768px) {
+    .dark-mode .category-description p {
+        font-size: 0.9rem;
+        color: #f8f9fa;
+    }
+    
+    .dark-mode .characteristic-item {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .dark-mode .disease-control {
+        font-size: 0.85rem;
+        padding: 0.5rem;
+    }
+}

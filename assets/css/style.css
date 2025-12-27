@@ -135,12 +135,20 @@ body.sidebar-active {
 @media (prefers-contrast: high) {
     :root {
         --border-color: #000000;
-        --text-secondary: #000000;
+        --text-secondary: #333333; /* Lebih gelap untuk kontras yang lebih baik */
+        --dropdown-text-secondary: #333333;
     }
     
     .dark-mode {
         --border-color: #ffffff;
-        --text-secondary: #ffffff;
+        --text-secondary: #cccccc;
+        --dropdown-text-secondary: #cccccc;
+    }
+    
+    /* Pastikan dropdown info terlihat di high contrast */
+    .dropdown-info p {
+        color: var(--dropdown-text-secondary) !important;
+        font-weight: 500;
     }
 }
 
@@ -359,11 +367,33 @@ header {
 .dropdown-info h4 {
     font-size: 1rem;
     margin-bottom: 2px;
+    color: var(--text-primary);
 }
 
 .dropdown-info p {
     font-size: 0.85rem;
     color: var(--text-secondary);
+}
+
+/* Fix untuk mode terang - pastikan teks terlihat */
+:root {
+    --dropdown-text-secondary: #6c757d;
+}
+
+.dark-mode {
+    --dropdown-text-secondary: #cccccc;
+}
+
+.dropdown-info p {
+    color: var(--dropdown-text-secondary);
+}
+
+/* Override untuk high contrast mode */
+@media (prefers-contrast: high) {
+    .dropdown-info p {
+        color: var(--text-primary);
+        opacity: 0.8;
+    }
 }
 
 .dropdown-divider {
@@ -2445,5 +2475,41 @@ body:not(.landing-page) .footer-info {
         left: 20px;
         right: 20px;
         max-width: none;
+    }
+}
+/* ====================== */
+/* PROFILE DROPDOWN FIXES */
+/* ====================== */
+
+/* Pastikan teks profile dropdown selalu terlihat */
+.dropdown-header .dropdown-info h4 {
+    color: var(--text-primary) !important;
+    font-weight: 600;
+}
+
+.dropdown-header .dropdown-info p {
+    color: var(--dropdown-text-secondary) !important;
+    font-weight: 500;
+}
+
+/* Mode terang - pastikan kontras yang cukup */
+:root:not(.dark-mode) .dropdown-info p {
+    color: #495057 !important; /* Warna yang lebih gelap dari default */
+}
+
+/* Mode gelap - pastikan teks tetap terlihat */
+.dark-mode .dropdown-info p {
+    color: #dee2e6 !important; /* Warna yang lebih terang */
+}
+
+/* Responsive untuk mobile */
+@media (max-width: 768px) {
+    .dropdown-info h4 {
+        font-size: 0.95rem;
+    }
+    
+    .dropdown-info p {
+        font-size: 0.8rem;
+        font-weight: 500;
     }
 }
