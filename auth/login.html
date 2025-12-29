@@ -1,229 +1,240 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
-    <meta charset="UTF-8" />
-    <!-- Tambahkan setelah <meta name="viewport"> -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Login - NILAMTRACE</title>
-    <link rel="stylesheet" href="../assets/css/style.css" />
-    <style>
-      .auth-container {
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: linear-gradient(135deg, #2d5a27 0%, #1e3f1a 100%);
-        padding: 2rem;
-      }
-
-      .auth-card {
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        padding: 3rem;
-        width: 100%;
-        max-width: 400px;
-      }
-
-      .auth-header {
-        text-align: center;
-        margin-bottom: 2rem;
-      }
-
-      .auth-logo {
-        font-size: 2.5rem;
-        color: #2d5a27;
-        margin-bottom: 0.5rem;
-      }
-
-      .auth-title {
-        color: #2d5a27;
-        font-size: 1.8rem;
-        font-weight: 600;
-        margin-bottom: 0.5rem;
-      }
-
-      .auth-subtitle {
-        color: #666;
-        font-size: 1rem;
-      }
-
-      .form-group {
-        margin-bottom: 1.5rem;
-      }
-
-      .form-label {
-        display: block;
-        margin-bottom: 0.5rem;
-        color: #333;
-        font-weight: 500;
-      }
-
-      .form-control {
-        width: 100%;
-        padding: 0.75rem 1rem;
-        border: 2px solid #e0e0e0;
-        border-radius: 6px;
-        font-size: 1rem;
-        transition: all 0.3s;
-      }
-
-      .form-control:focus {
-        outline: none;
-        border-color: #2d5a27;
-        box-shadow: 0 0 0 3px rgba(45, 90, 39, 0.1);
-      }
-
-      .auth-btn {
-        width: 100%;
-        padding: 0.75rem;
-        background-color: #2d5a27;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-size: 1rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
-
-      .auth-btn:hover {
-        background-color: #1e3f1a;
-      }
-
-      .auth-footer {
-        text-align: center;
-        margin-top: 2rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid #e0e0e0;
-      }
-
-      .auth-link {
-        color: #2d5a27;
-        text-decoration: none;
-        font-weight: 500;
-      }
-
-      .auth-link:hover {
-        text-decoration: underline;
-      }
-
-      .alert {
-        padding: 1rem;
-        border-radius: 6px;
-        margin-bottom: 1.5rem;
-        display: none;
-      }
-
-      .alert.error {
-        background-color: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-        display: block;
-      }
-
-      @media (max-width: 480px) {
-        .auth-container {
-          padding: 1rem;
-        }
-
-        .auth-card {
-          padding: 2rem;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="auth-container">
-      <div class="auth-card">
-        <div class="auth-header">
-        <div class="auth-logo">
-          <img
-            src="../assets/images/nilam.png"
-            alt="Tanaman Nilam"
-            style="width: 100px;height: 100px;"/>
-          <h1 class="auth-title">NILAMTRACE</h1>
-          <p class="auth-subtitle">Masuk ke akun Anda</p>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Masuk - NILAMTRACE</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Masuk ke akun NILAMTRACE untuk mengakses sistem manajemen produksi dan deteksi penyakit tanaman nilam">
+    <meta name="keywords" content="login, masuk, NILAMTRACE, petani nilam">
+    
+    <!-- Ikon Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/landing.css">
+</head>
+<body class="landing-page">
+    <!-- Header Navigation -->
+    <header class="landing-header">
+        <div class="header-container">
+            <div class="header-logo">
+                <img src="../assets/images/nilam.png" alt="Logo NILAMTRACE">
+                <div class="logo-text">
+                    <h1>NILAMTRACE</h1>
+                    <span>Smart Agriculture</span>
+                </div>
+            </div>
+            
+            <nav class="header-nav">
+                <a href="../index.html#features" class="nav-link">Fitur</a>
+                <a href="../index.html#stats" class="nav-link">Statistik</a>
+                <a href="../index.html#contact" class="nav-link">Kontak</a>
+            </nav>
+            
+            <div class="header-auth">
+                <a href="login.html" class="auth-btn login-btn active">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Masuk
+                </a>
+                <a href="register.html" class="auth-btn register-btn">
+                    <i class="fas fa-user-plus"></i>
+                    Daftar
+                </a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
-
-        <form id="loginForm">
-          <div class="alert error" id="errorAlert"></div>
-
-          <div class="form-group">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" id="email" class="form-control" required />
-          </div>
-
-          <div class="form-group">
-            <label for="password" class="form-label">Password</label>
-            <input
-              type="password"
-              id="password"
-              class="form-control"
-              required />
-          </div>
-
-          <button type="submit" class="auth-btn" id="loginBtn">Masuk</button>
-        </form>
-
-        <div class="auth-footer">
-          <p>
-            Belum punya akun?
-            <a href="register.html" class="auth-link">Daftar di sini</a>
-          </p>
-          <p style="margin-top: 0.5rem">
-            <a href="../index.html" class="auth-link"
-              >← Kembali</a
-            >
-          </p>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-nav">
+                <a href="../index.html#features" class="mobile-nav-link">Fitur</a>
+                <a href="../index.html#stats" class="mobile-nav-link">Statistik</a>
+                <a href="../index.html#contact" class="mobile-nav-link">Kontak</a>
+            </div>
+            <div class="mobile-auth">
+                <a href="login.html" class="mobile-auth-btn login active">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Masuk
+                </a>
+                <a href="register.html" class="mobile-auth-btn register">
+                    <i class="fas fa-user-plus"></i>
+                    Daftar
+                </a>
+            </div>
         </div>
-      </div>
-    </div>
+    </header>
 
+    <!-- Auth Section -->
+    <section class="auth-section">
+        <div class="auth-background">
+            <div class="hero-particles"></div>
+            <div class="hero-gradient"></div>
+        </div>
+        
+        <div class="auth-container">
+            <div class="auth-content">
+                <!-- Auth Card -->
+                <div class="auth-card">
+                    <div class="auth-header">
+                        <div class="auth-badge">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Selamat Datang Kembali</span>
+                        </div>
+                        <h1 class="auth-title">Masuk ke Akun Anda</h1>
+                        <p class="auth-subtitle">
+                            Akses dashboard untuk mengelola produksi dan mendeteksi penyakit tanaman nilam Anda
+                        </p>
+                    </div>
+
+                    <form id="loginForm" class="auth-form">
+                        <div class="alert error" id="errorAlert"></div>
+
+                        <div class="form-group">
+                            <label for="email" class="form-label">
+                                <i class="fas fa-envelope"></i>
+                                Email
+                            </label>
+                            <input type="email" id="email" class="form-control" placeholder="Masukkan email Anda" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password" class="form-label">
+                                <i class="fas fa-lock"></i>
+                                Password
+                            </label>
+                            <input type="password" id="password" class="form-control" placeholder="Masukkan password Anda" required>
+                        </div>
+
+                        <button type="submit" class="auth-btn primary" id="loginBtn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            Masuk ke Dashboard
+                        </button>
+                    </form>
+
+                    <div class="auth-footer">
+                        <p class="auth-text">
+                            Belum punya akun? 
+                            <a href="register.html" class="auth-link">Daftar sekarang</a>
+                        </p>
+                        <div class="auth-divider">
+                            <span>atau</span>
+                        </div>
+                        <a href="../index.html" class="auth-btn secondary">
+                            <i class="fas fa-arrow-left"></i>
+                            Kembali ke Beranda
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Auth Info -->
+                <div class="auth-info">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Keamanan Terjamin</h3>
+                        <p>Data Anda dilindungi dengan enkripsi tingkat enterprise</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Akses Dimana Saja</h3>
+                        <p>Platform responsif yang dapat diakses dari perangkat apapun</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3>Dukungan 24/7</h3>
+                        <p>Tim support siap membantu Anda kapan saja</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JavaScript -->
     <script>
-      document
-        .getElementById("loginForm")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                const icon = mobileMenuBtn.querySelector('i');
+                if (mobileMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        }
 
-          const email = document.getElementById("email").value;
-          const password = document.getElementById("password").value;
-          const errorAlert = document.getElementById("errorAlert");
+        // Login Form Handler
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
 
-          // Reset error
-          errorAlert.style.display = "none";
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorAlert = document.getElementById('errorAlert');
+            const loginBtn = document.getElementById('loginBtn');
 
-          // Simple validation
-          if (!email || !password) {
-            errorAlert.textContent = "Email dan password harus diisi";
-            errorAlert.style.display = "block";
-            return;
-          }
+            // Reset error
+            errorAlert.style.display = 'none';
 
-          // Simulate login (demo mode)
-          errorAlert.textContent =
-            "Login berhasil! Mengarahkan ke dashboard...";
-          errorAlert.style.backgroundColor = "#d4edda";
-          errorAlert.style.color = "#155724";
-          errorAlert.style.borderColor = "#c3e6cb";
-          errorAlert.style.display = "block";
+            // Simple validation
+            if (!email || !password) {
+                errorAlert.textContent = 'Email dan password harus diisi';
+                errorAlert.style.display = 'block';
+                return;
+            }
 
-          // Simulate API delay
-          setTimeout(() => {
-            // Store user session
-            localStorage.setItem(
-              "user",
-              JSON.stringify({
-                name: "Petani Nilam",
-                email: email,
-                village: "Desa Teuladan",
-              })
-            );
+            // Show loading state
+            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+            loginBtn.disabled = true;
 
-            // Redirect to homepage
-            window.location.href = "../homepage/homepage.html";
-          }, 1000);
+            // Simulate login (demo mode)
+            setTimeout(() => {
+                errorAlert.textContent = 'Login berhasil! Mengarahkan ke dashboard...';
+                errorAlert.className = 'alert success';
+                errorAlert.style.display = 'block';
+
+                // Store user session
+                localStorage.setItem('user', JSON.stringify({
+                    name: 'Petani Nilam',
+                    email: email,
+                    village: 'Desa Teuladan'
+                }));
+
+                // Redirect to homepage
+                setTimeout(() => {
+                    window.location.href = '../homepage/homepage.html';
+                }, 1000);
+            }, 1500);
         });
+
+        // Header Scroll Effect
+        const header = document.querySelector('.landing-header');
+        if (header) {
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+        }
     </script>
-  </body>
+</body>
 </html>
