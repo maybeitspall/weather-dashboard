@@ -2142,10 +2142,7 @@ textarea.form-control {
         font-size: 0.95rem;
     }
     
-    .auth-btn {
-        padding: 0.875rem 1.5rem;
-        font-size: 1rem;
-    }
+    /* Keep the same padding for auth-btn on tablet */
 }
 
 @media (max-width: 480px) {
@@ -2197,10 +2194,7 @@ textarea.form-control {
         font-size: 0.9rem;
     }
     
-    .auth-btn {
-        padding: 0.75rem 1.25rem;
-        font-size: 0.95rem;
-    }
+    /* Keep the same padding for auth-btn on mobile */
     
     .auth-footer {
         margin-top: 1.5rem;
@@ -2225,10 +2219,7 @@ textarea.form-control {
         padding: 0.625rem;
     }
     
-    .auth-btn {
-        padding: 0.625rem 1rem;
-        font-size: 0.9rem;
-    }
+    /* Keep the same padding for auth-btn on very small screens */
 }
 /* ====================== */
 /* LOGIN PAGE STYLES      */
