@@ -1968,8 +1968,8 @@ textarea.form-control {
     margin-top: 0.25rem;
 }
 
-/* Auth Button */
-.auth-btn {
+/* Auth Form Button (for login/register forms) */
+.auth-form .auth-btn {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1986,22 +1986,22 @@ textarea.form-control {
     overflow: hidden;
 }
 
-.auth-btn.primary {
+.auth-form .auth-btn.primary {
     background: linear-gradient(135deg, #2d5a27 0%, #3d6b35 100%);
     color: white;
     box-shadow: 0 4px 15px rgba(45, 90, 39, 0.3);
 }
 
-.auth-btn.primary:hover {
+.auth-form .auth-btn.primary:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(45, 90, 39, 0.4);
 }
 
-.auth-btn.primary:active {
+.auth-form .auth-btn.primary:active {
     transform: translateY(0);
 }
 
-.auth-btn:disabled {
+.auth-form .auth-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
     transform: none !important;
