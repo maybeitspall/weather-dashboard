@@ -1913,6 +1913,7 @@ html {
     transition: all 0.3s ease;
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(10px);
+    min-height: 50px;
 }
 
 .form-control:focus {
@@ -2411,11 +2412,33 @@ textarea.form-control {
     }
 }
 
-/* Single Column Layout for Register Page */
+/* Single Column Layout for Register Page and Login Page */
 .auth-container:not(:has(.auth-content)) {
-    max-width: 500px;
+    max-width: 600px;
 }
 
 .auth-container:not(:has(.auth-content)) .auth-card {
     width: 100%;
+    padding: 3.5rem;
+}
+
+/* Wider login form */
+@media (min-width: 768px) {
+    .auth-container:not(:has(.auth-content)) {
+        max-width: 650px;
+    }
+    
+    .auth-container:not(:has(.auth-content)) .auth-card {
+        padding: 4rem;
+    }
+}
+
+@media (min-width: 992px) {
+    .auth-container:not(:has(.auth-content)) {
+        max-width: 700px;
+    }
+    
+    .auth-container:not(:has(.auth-content)) .auth-card {
+        padding: 4.5rem;
+    }
 }
