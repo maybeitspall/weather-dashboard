@@ -1897,3 +1897,265 @@
         padding: 0.5rem;
     }
 }
+
+/* ====================== */
+/* ACCORDION STYLES       */
+/* ====================== */
+
+/* Accordion Disease Items for Mobile */
+.accordion-item {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.disease-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    border-bottom: 1px solid transparent;
+    user-select: none; /* Prevent text selection */
+}
+
+.disease-header:hover {
+    background: rgba(45, 90, 39, 0.05);
+}
+
+.disease-summary {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+}
+
+.disease-image-small {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.disease-image-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.disease-title {
+    flex: 1;
+}
+
+.disease-title h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1rem;
+    color: #2d5a27;
+    font-weight: 600;
+}
+
+.disease-cause-short {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.85rem;
+    color: #666;
+    font-style: italic;
+}
+
+.accordion-toggle {
+    padding: 0.5rem;
+    color: #666;
+    transition: transform 0.3s ease;
+}
+
+.accordion-toggle i {
+    font-size: 1rem;
+}
+
+/* Accordion Content */
+.disease-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.accordion-item.active .disease-content {
+    max-height: 800px; /* Increased for longer content */
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.accordion-item.active .accordion-toggle {
+    transform: rotate(180deg);
+}
+
+.accordion-item.active .disease-header {
+    background: rgba(45, 90, 39, 0.1);
+}
+
+.disease-content .disease-info {
+    padding: 1rem;
+}
+
+.disease-content .disease-symptoms,
+.disease-content .disease-control {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.disease-content .disease-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+/* Mobile Responsive Accordion */
+@media (max-width: 768px) {
+    .disease-header {
+        padding: 0.75rem;
+    }
+    
+    .disease-summary {
+        gap: 0.75rem;
+    }
+    
+    .disease-image-small {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .disease-title h3 {
+        font-size: 0.9rem;
+    }
+    
+    .disease-cause-short {
+        font-size: 0.8rem;
+    }
+    
+    .disease-content .disease-info {
+        padding: 0.75rem;
+    }
+    
+    .disease-content .disease-symptoms,
+    .disease-content .disease-control {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .disease-header {
+        padding: 0.5rem;
+    }
+    
+    .disease-summary {
+        gap: 0.5rem;
+    }
+    
+    .disease-image-small {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .disease-title h3 {
+        font-size: 0.85rem;
+    }
+    
+    .disease-cause-short {
+        font-size: 0.75rem;
+    }
+    
+    .accordion-toggle {
+        padding: 0.25rem;
+    }
+    
+    .disease-content .disease-info {
+        padding: 0.5rem;
+    }
+    
+    .disease-content .disease-symptoms,
+    .disease-content .disease-control {
+        font-size: 0.8rem;
+        margin-bottom: 0.75rem;
+    }
+}
+
+/* Accordion responsive behavior */
+@media (min-width: 769px) {
+    /* On desktop, show accordion items but make them always expanded and styled like cards */
+    .accordion-item {
+        display: block;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        margin-bottom: 1.5rem;
+        overflow: visible;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .accordion-item .disease-header {
+        padding: 1.5rem;
+        cursor: default;
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 12px 12px 0 0;
+    }
+    
+    .accordion-item .disease-summary {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    
+    .accordion-item .disease-image-small {
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+    }
+    
+    .accordion-item .disease-title h3 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .accordion-item .disease-cause-short {
+        font-size: 0.95rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    /* Hide accordion toggle on desktop */
+    .accordion-item .accordion-toggle {
+        display: none;
+    }
+    
+    /* Always show content on desktop */
+    .accordion-item .disease-content {
+        max-height: none;
+        overflow: visible;
+        transition: none;
+        background: white;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0 0 12px 12px;
+    }
+    
+    .accordion-item .disease-content .disease-info {
+        padding: 1.5rem;
+    }
+    
+    .accordion-item .disease-content .disease-symptoms,
+    .accordion-item .disease-content .disease-control {
+        font-size: 0.95rem;
+        margin-bottom: 1.25rem;
+        line-height: 1.6;
+    }
+}
+
+@media (max-width: 768px) {
+    /* On mobile, use accordion functionality */
+    .accordion-item {
+        display: block;
+    }
+}
