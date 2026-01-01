@@ -991,25 +991,11 @@
 
 /* Footer Section */
 .landing-page .footer-section {
-    background: linear-gradient(135deg, #0f2a0d 0%, #1e3f1a 50%, #2d5a27 100%);
+    background: linear-gradient(135deg, #1a4d1a 0%, #2d5a27 50%, #4a7c59 100%);
     color: white;
     padding: 4rem 0 0;
     position: relative;
     overflow: hidden;
-}
-
-.landing-page .footer-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="rgba(255,193,7,0.08)"/><circle cx="80" cy="20" r="1.5" fill="rgba(255,193,7,0.06)"/><circle cx="50" cy="50" r="2" fill="rgba(255,193,7,0.1)"/><circle cx="20" cy="80" r="1" fill="rgba(255,193,7,0.08)"/><circle cx="80" cy="80" r="1.5" fill="rgba(255,193,7,0.06)"/></svg>');
-    background-size: 120px 120px;
-    opacity: 0.4;
-    pointer-events: none;
-    animation: float 40s ease-in-out infinite;
 }
 
 .landing-page .footer-content {
@@ -1185,13 +1171,13 @@
 .landing-page .contact-item i {
     width: 20px;
     height: 20px;
-    background: rgba(255, 193, 7, 0.2);
+    background: linear-gradient(135deg, #4a7c59 0%, #2d5a27 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 0.8rem;
-    color: #ffc107;
+    color: white;
     margin-top: 0.1rem;
     flex-shrink: 0;
 }
@@ -1234,7 +1220,7 @@
 .landing-page .social-link {
     width: 40px;
     height: 40px;
-    background: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(74, 124, 89, 0.3) 0%, rgba(45, 90, 39, 0.3) 100%);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     display: flex;
@@ -1248,11 +1234,11 @@
 }
 
 .landing-page .social-link:hover {
-    background: #ffc107;
-    border-color: #ffc107;
-    color: #2d5a27;
+    background: linear-gradient(135deg, #4a7c59 0%, #2d5a27 100%);
+    border-color: #4a7c59;
+    color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+    box-shadow: 0 4px 12px rgba(74, 124, 89, 0.4);
 }
 
 /* ====================== */
@@ -1260,7 +1246,7 @@
 /* ====================== */
 
 .landing-page .footer-bottom {
-    background: rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #0f2a0d 0%, #1a4d1a 100%);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1.5rem 0;
     margin-top: 2rem;
