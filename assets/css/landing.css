@@ -1008,7 +1008,7 @@
 
 .landing-page .footer-main {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.2fr;
+    grid-template-columns: 2fr 1fr;
     gap: 3rem;
     padding-bottom: 3rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.15);
@@ -1246,7 +1246,7 @@
 /* ====================== */
 
 .landing-page .footer-bottom {
-    background: linear-gradient(135deg, #0f2a0d 0%, #1a4d1a 100%);
+    background: linear-gradient(135deg,#1a4d1a 0%, #2d5a27 50%, #4a7c59 100%);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     padding: 1.5rem 0;
     margin-top: 2rem;
