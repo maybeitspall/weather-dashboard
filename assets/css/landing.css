@@ -1439,22 +1439,54 @@
     /* Footer Mobile Styles */
     .landing-page .footer-main {
         grid-template-columns: 1fr;
-        gap: 2.5rem;
+        gap: 2rem;
         text-align: center;
     }
     
     .landing-page .footer-company {
         align-items: center;
         text-align: center;
+        order: 1;
+    }
+    
+    .landing-page .footer-company .footer-description {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        max-width: 350px;
+        margin: 0 auto 1.5rem;
     }
     
     .landing-page .footer-stats {
         justify-content: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+    
+    .landing-page .footer-stat {
+        min-width: 80px;
     }
     
     .landing-page .footer-column {
         align-items: center;
         text-align: center;
+        order: 2;
+    }
+    
+    .landing-page .footer-column:nth-child(2) {
+        order: 2;
+    }
+    
+    .landing-page .footer-column:nth-child(3) {
+        order: 3;
+    }
+    
+    .landing-page .footer-column:nth-child(4) {
+        order: 4;
+    }
+    
+    .landing-page .footer-title {
+        font-size: 1rem;
+        margin-bottom: 1rem;
     }
     
     .landing-page .footer-title::after {
@@ -1464,25 +1496,45 @@
     
     .landing-page .footer-links {
         align-items: center;
-        max-width: 300px;
+        max-width: 280px;
+        gap: 0.5rem;
     }
     
     .landing-page .footer-link {
         justify-content: center;
+        padding: 0.4rem 0;
+        font-size: 0.85rem;
     }
     
     .landing-page .footer-contact {
         align-items: center;
         max-width: 300px;
+        gap: 0.75rem;
     }
     
     .landing-page .contact-item {
-        justify-content: center;
+        justify-content: flex-start;
         text-align: left;
+        max-width: 280px;
+    }
+    
+    .landing-page .contact-value {
+        font-size: 0.85rem;
+    }
+    
+    .landing-page .footer-social {
+        margin-top: 1rem;
     }
     
     .landing-page .social-links {
         justify-content: center;
+        gap: 0.75rem;
+    }
+    
+    .landing-page .social-link {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
     }
     
     /* Footer Bottom Mobile - Simple */
@@ -1554,18 +1606,66 @@
         font-size: 1rem;
     }
     
-    /* Footer Small Mobile - Simple */
+    /* Footer Small Mobile - Improved */
     .landing-page .footer-content {
         padding: 0 1rem;
     }
     
     .landing-page .footer-main {
-        gap: 2rem;
+        gap: 1.5rem;
+    }
+    
+    .landing-page .footer-company .footer-description {
+        font-size: 0.85rem;
+        max-width: 300px;
     }
     
     .landing-page .footer-stats {
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
         gap: 1rem;
+        justify-content: center;
+    }
+    
+    .landing-page .footer-stat {
+        flex: 0 1 auto;
+        min-width: 70px;
+    }
+    
+    .landing-page .footer-stat .stat-number {
+        font-size: 1.1rem;
+    }
+    
+    .landing-page .footer-stat .stat-label {
+        font-size: 0.8rem;
+    }
+    
+    .landing-page .footer-title {
+        font-size: 0.95rem;
+    }
+    
+    .landing-page .footer-link {
+        font-size: 0.8rem;
+        padding: 0.3rem 0;
+    }
+    
+    .landing-page .contact-value {
+        font-size: 0.8rem;
+    }
+    
+    .landing-page .contact-label {
+        font-size: 0.75rem;
+    }
+    
+    .landing-page .social-links {
+        gap: 0.5rem;
+    }
+    
+    .landing-page .social-link {
+        width: 32px;
+        height: 32px;
+        font-size: 0.85rem;
+    }
     }
     
     .landing-page .footer-stat {
@@ -1663,33 +1763,86 @@
         padding: 1rem;
     }
     
-    /* Footer Very Small Mobile - Simple */
+    /* Footer Very Small Mobile - Improved */
     .landing-page .footer-content {
         padding: 0 0.5rem;
     }
     
     .landing-page .footer-main {
-        gap: 1.5rem;
+        gap: 1.25rem;
     }
     
     .landing-page .footer-logo .logo-text h3 {
-        font-size: 1.25rem;
+        font-size: 1.1rem;
+    }
+    
+    .landing-page .footer-logo img {
+        width: 40px;
+        height: 40px;
     }
     
     .landing-page .footer-description {
-        font-size: 0.9rem;
+        font-size: 0.8rem;
+        max-width: 280px;
+        line-height: 1.5;
     }
     
-    .landing-page .footer-title {
+    .landing-page .footer-stats {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .landing-page .footer-stat {
+        flex-direction: row;
+        gap: 0.4rem;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .landing-page .footer-stat .stat-number {
         font-size: 1rem;
     }
     
+    .landing-page .footer-stat .stat-label {
+        font-size: 0.75rem;
+        margin-top: 0;
+    }
+    
+    .landing-page .footer-title {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+    
     .landing-page .footer-link {
-        font-size: 0.85rem;
+        font-size: 0.75rem;
+        padding: 0.25rem 0;
+    }
+    
+    .landing-page .footer-links {
+        max-width: 250px;
+        gap: 0.25rem;
+    }
+    
+    .landing-page .contact-item {
+        max-width: 250px;
     }
     
     .landing-page .contact-value {
-        font-size: 0.85rem;
+        font-size: 0.75rem;
+    }
+    
+    .landing-page .contact-label {
+        font-size: 0.7rem;
+    }
+    
+    .landing-page .social-links {
+        gap: 0.4rem;
+    }
+    
+    .landing-page .social-link {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
     }
     
     .landing-page .footer-bottom {
