@@ -1064,7 +1064,7 @@
 }
 
 .landing-page .footer-description {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.9);
     line-height: 1.6;
     font-size: 0.95rem;
     margin: 0;
@@ -1092,7 +1092,7 @@
 
 .landing-page .footer-stat .stat-label {
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.8);
     margin-top: 0.25rem;
 }
 
@@ -1144,7 +1144,7 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.9);
     text-decoration: none;
     font-size: 0.9rem;
     padding: 0.5rem 0;
@@ -1161,7 +1161,7 @@
 .landing-page .footer-link i {
     width: 16px;
     font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.7);
     transition: color 0.3s ease;
 }
 
@@ -1204,13 +1204,13 @@
 
 .landing-page .contact-label {
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.7);
     font-weight: 500;
 }
 
 .landing-page .contact-value {
     font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.95);
     font-weight: 400;
 }
 
