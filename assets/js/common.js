@@ -52,12 +52,32 @@ class AppController {
         const dropdownMenu = document.getElementById('dropdownMenu');
         const profileDropdown = document.getElementById('profileDropdown');
         
-        // Toggle Sidebar
+        // Toggle Sidebar with content shifting for desktop
         const toggleSidebar = () => {
             if (sidebar && overlay) {
-                sidebar.classList.toggle('active');
-                overlay.classList.toggle('active');
-                document.body.classList.toggle('sidebar-active');
+                const isActive = sidebar.classList.contains('active');
+                
+                if (isActive) {
+                    // Close sidebar
+                    sidebar.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.classList.remove('sidebar-open');
+                } else {
+                    // Open sidebar
+                    sidebar.classList.add('active');
+                    if (this.isMobile) {
+                        overlay.classList.add('active');
+                        document.body.classList.add('sidebar-open');
+                    } else {
+                        // Desktop: shift content instead of overlay
+                        document.body.classList.add('sidebar-open');
+                    }
+                }
+                
+                // Update hamburger button aria-expanded
+                if (hamburgerBtn) {
+                    hamburgerBtn.setAttribute('aria-expanded', !isActive);
+                }
             }
         };
         
@@ -119,20 +139,23 @@ class AppController {
         const menuItems = document.querySelectorAll('.menu-item');
         menuItems.forEach(item => {
             item.addEventListener('click', function() {
-                if (window.innerWidth <= 768) {
-                    toggleSidebar();
+                if (this.isMobile && sidebar) {
+                    sidebar.classList.remove('active');
+                    if (overlay) overlay.classList.remove('active');
+                    document.body.classList.remove('sidebar-open');
                 }
             });
         });
         
-        // Initial sidebar state
+        // Initial sidebar state - always closed on page load
         if (sidebar) {
-            if (this.isMobile) {
-                sidebar.classList.remove('active');
-                if (overlay) overlay.classList.remove('active');
-                document.body.classList.remove('sidebar-active');
-            } else {
-                sidebar.classList.add('active');
+            sidebar.classList.remove('active');
+            if (overlay) overlay.classList.remove('active');
+            document.body.classList.remove('sidebar-open');
+            
+            // Set initial aria-expanded state
+            if (hamburgerBtn) {
+                hamburgerBtn.setAttribute('aria-expanded', 'false');
             }
         }
     }
@@ -179,16 +202,25 @@ class AppController {
             const overlay = document.getElementById('overlay');
             
             if (sidebar && overlay) {
-                if (isNowMobile) {
-                    // Mobile mode - close sidebar
-                    sidebar.classList.remove('active');
-                    overlay.classList.remove('active');
-                    document.body.classList.remove('sidebar-active');
-                } else {
-                    // Desktop mode - open sidebar
-                    sidebar.classList.add('active');
-                    overlay.classList.remove('active');
-                    document.body.classList.remove('sidebar-active');
+                if (isNowMobile !== this.isMobile) {
+                    // Screen size category changed
+                    if (isNowMobile) {
+                        // Switched to mobile - close sidebar and show overlay when needed
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                        document.body.classList.remove('sidebar-open');
+                    } else {
+                        // Switched to desktop - close sidebar initially
+                        sidebar.classList.remove('active');
+                        overlay.classList.remove('active');
+                        document.body.classList.remove('sidebar-open');
+                    }
+                    
+                    // Update hamburger button aria-expanded
+                    const hamburgerBtn = document.getElementById('hamburgerBtn');
+                    if (hamburgerBtn) {
+                        hamburgerBtn.setAttribute('aria-expanded', 'false');
+                    }
                 }
             }
             
