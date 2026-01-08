@@ -267,6 +267,42 @@ class ProductionController {
             this.setupFormValidation(plantForm);
         }
         
+        // Auto-calculate total tanaman based on luas lahan (1 m² = 1 tanaman)
+        const luasLahanInput = document.getElementById('luasLahan');
+        const totalTanamanDisplay = document.getElementById('totalTanamanDisplay');
+        
+        if (luasLahanInput && totalTanamanDisplay) {
+            const calculateTotalTanaman = () => {
+                const luasLahan = parseFloat(luasLahanInput.value) || 0;
+                
+                // Validate input
+                if (luasLahan < 0) {
+                    luasLahanInput.value = 0;
+                    return;
+                }
+                
+                // 1 m² = 1 tanaman nilam
+                const totalTanaman = Math.floor(luasLahan);
+                
+                const totalValue = totalTanamanDisplay.querySelector('.total-value');
+                if (totalValue) {
+                    totalValue.textContent = totalTanaman.toLocaleString('id-ID');
+                }
+            };
+            
+            luasLahanInput.addEventListener('input', calculateTotalTanaman);
+            
+            // Prevent negative values
+            luasLahanInput.addEventListener('keydown', (e) => {
+                if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                    e.preventDefault();
+                }
+            });
+            
+            // Initial calculation
+            calculateTotalTanaman();
+        }
+        
         // Auto-calculate production value with validation
         const quantityInput = document.getElementById('jumlahProduksi');
         const priceInput = document.getElementById('hargaJual');
@@ -311,8 +347,6 @@ class ProductionController {
                 }
             });
         }
-        
-
     }
     
 
@@ -441,12 +475,17 @@ class ProductionController {
         
         try {
             const formData = new FormData(form);
+            const luasLahan = parseFloat(formData.get('luasLahan'));
+            
+            // Calculate total tanaman automatically (1 m² = 1 tanaman)
+            const jumlahBatang = Math.floor(luasLahan);
+            
             const plantData = {
                 id: Date.now().toString(),
                 namaVarietas: formData.get('namaVarietas'),
                 tanggalTanam: formData.get('tanggalTanam'),
-                jumlahBatang: parseInt(formData.get('jumlahBatang')),
-                luasLahan: parseFloat(formData.get('luasLahan')),
+                jumlahBatang: jumlahBatang, // Calculated automatically from luas lahan
+                luasLahan: luasLahan,
                 lokasiTanam: formData.get('lokasiTanam'),
                 statusTanaman: formData.get('statusTanaman'),
                 catatanTanaman: formData.get('catatanTanaman'),
@@ -461,14 +500,23 @@ class ProductionController {
             // Reset form
             form.reset();
             
+            // Reset total tanaman display
+            const totalTanamanDisplay = document.getElementById('totalTanamanDisplay');
+            if (totalTanamanDisplay) {
+                const totalValue = totalTanamanDisplay.querySelector('.total-value');
+                if (totalValue) {
+                    totalValue.textContent = '0';
+                }
+            }
+            
             // Reload list
             this.loadPlantsList();
             this.updatePlantStats();
             
             if (window.appController) {
-                window.appController.showNotification('Data tanaman berhasil disimpan!', 'success');
+                window.appController.showNotification(`Data tanaman berhasil disimpan! Total ${jumlahBatang} tanaman dari luas lahan ${luasLahan} m²`, 'success');
             } else {
-                alert('Data tanaman berhasil disimpan!');
+                alert(`Data tanaman berhasil disimpan! Total ${jumlahBatang} tanaman dari luas lahan ${luasLahan} m²`);
             }
         } catch (error) {
             console.error('Error saving plant data:', error);
@@ -693,6 +741,9 @@ class ProductionController {
             const statusText = this.getStatusText(plant.statusTanaman);
             const age = calculateAge(plant.tanggalTanam);
             
+            // Calculate total tanaman from luas lahan (1 m² = 1 tanaman)
+            const totalTanaman = Math.floor(plant.luasLahan || 0);
+            
             html += `
                 <div class="plant-item ${statusClass}">
                     <div class="plant-icon">
@@ -703,7 +754,7 @@ class ProductionController {
                         <div class="plant-details">
                             <span class="plant-detail">
                                 <i class="fas fa-tree"></i>
-                                ${plant.jumlahBatang} batang
+                                ${totalTanaman} batang
                             </span>
                             <span class="plant-detail">
                                 <i class="fas fa-ruler"></i>
@@ -876,7 +927,12 @@ class ProductionController {
         const plants = JSON.parse(localStorage.getItem('plants')) || [];
         
         const totalProduction = productions.reduce((sum, prod) => sum + (prod.jumlahProduksi || 0), 0);
-        const totalPlants = plants.reduce((sum, plant) => sum + (plant.jumlahBatang || 0), 0);
+        
+        // Calculate total tanaman from luas lahan (1 m² = 1 tanaman)
+        const totalPlants = plants.reduce((sum, plant) => {
+            const luasLahan = plant.luasLahan || 0;
+            return sum + Math.floor(luasLahan);
+        }, 0);
         
         const dataStatsElement = document.getElementById('dataStats');
         if (dataStatsElement) {

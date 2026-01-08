@@ -349,7 +349,12 @@ class DashboardController {
         const plants = JSON.parse(localStorage.getItem('plants')) || [];
         
         // Calculate real statistics from actual data
-        const totalTanaman = plants.reduce((sum, plant) => sum + (plant.jumlahBatang || 0), 0);
+        // Total tanaman now calculated from luas lahan (1 m² = 1 tanaman)
+        const totalTanaman = plants.reduce((sum, plant) => {
+            const luasLahan = plant.luasLahan || 0;
+            return sum + Math.floor(luasLahan); // 1 m² = 1 tanaman
+        }, 0);
+        
         const totalProduction = productions.reduce((sum, prod) => sum + (prod.jumlahProduksi || 0), 0);
         const totalLuasLahan = plants.reduce((sum, plant) => sum + (plant.luasLahan || 0), 0);
         
