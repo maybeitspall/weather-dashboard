@@ -2,36 +2,38 @@
 
 /* CSS Variables untuk konsistensi dengan homepage */
 :root {
-    --welcome-title-size: 1.5rem;
-    --welcome-subtitle-size: 1rem;
-    --welcome-stat-size: 0.9rem;
-    --welcome-spacing-sm: 0.5rem;
-    --welcome-spacing-md: 1rem;
+    --welcome-title-size: 1.3rem;
+    --welcome-subtitle-size: 0.9rem;
+    --welcome-stat-size: 0.8rem;
+    --welcome-spacing-sm: 0.4rem;
+    --welcome-spacing-md: 0.8rem;
+    --card-padding: 1rem;
+    --section-spacing: 1.5rem;
 }
 
 /* Welcome Section */
 .welcome-section {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background: linear-gradient(135deg, #2E7D32 0%, #4CAF50 100%);
     color: white;
-    padding: 2rem 0;
-    margin-bottom: 2rem;
-    border-radius: 12px;
+    padding: 1.5rem 0; /* Kurangi padding untuk mobile */
+    margin-bottom: 1.5rem; /* Kurangi margin */
+    border-radius: 8px; /* Kurangi border radius */
 }
 
 .welcome-content {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 1.5rem; /* Kurangi gap */
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 0.8rem; /* Kurangi padding */
 }
 
 .welcome-icon {
-    font-size: 4rem;
+    font-size: 3rem; /* Kurangi ukuran ikon */
     opacity: 0.9;
-    order: 2; /* Pindahkan ikon ke kanan */
-    flex-shrink: 0; /* Mencegah ikon mengecil */
+    order: 2;
+    flex-shrink: 0;
 }
 
 .welcome-text {
@@ -58,9 +60,9 @@
 
 .welcome-stats {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem; /* Kurangi gap */
     flex-wrap: wrap;
-    justify-content: flex-start; /* Mulai dari kiri */
+    justify-content: flex-start;
 }
 
 .stat-item {
@@ -72,46 +74,46 @@
 }
 
 .stat-item i {
-    font-size: 1.2rem; /* Sedikit lebih kecil untuk konsistensi */
+    font-size: 1rem; /* Kurangi ukuran ikon */
 }
 
 /* Quick Start Section */
 .quick-start-section {
-    margin-bottom: 3rem;
+    margin-bottom: var(--section-spacing);
 }
 
 .section-header {
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem; /* Kurangi margin */
 }
 
 .section-header h2 {
-    font-size: 2rem;
+    font-size: 1.6rem; /* Kurangi ukuran font */
     color: #2E7D32;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem; /* Kurangi margin */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.4rem; /* Kurangi gap */
 }
 
 .section-header p {
-    font-size: 1.1rem;
+    font-size: 1rem; /* Kurangi ukuran font */
     color: #666;
 }
 
 .quick-start-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Kurangi min-width */
+    gap: 1.2rem; /* Kurangi gap */
+    margin-top: 1.5rem; /* Kurangi margin */
 }
 
 .quick-start-card {
     background: white;
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 8px; /* Kurangi border radius */
+    padding: 1.5rem; /* Kurangi padding */
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08); /* Kurangi shadow */
     text-align: center;
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -119,60 +121,61 @@
 }
 
 .quick-start-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    transform: translateY(-2px); /* Kurangi hover effect */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12); /* Kurangi shadow */
     border-color: #4CAF50;
 }
 
 .card-number {
     position: absolute;
-    top: -15px;
+    top: -12px; /* Kurangi posisi */
     left: 50%;
     transform: translateX(-50%);
     background: #4CAF50;
     color: white;
-    width: 40px;
-    height: 40px;
+    width: 32px; /* Kurangi ukuran */
+    height: 32px; /* Kurangi ukuran */
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1rem; /* Kurangi font */
     font-weight: bold;
 }
 
 .card-icon {
-    font-size: 3rem;
+    font-size: 2.5rem; /* Kurangi ukuran ikon */
     color: #4CAF50;
-    margin: 1rem 0;
+    margin: 0.8rem 0; /* Kurangi margin */
 }
 
 .quick-start-card h3 {
-    font-size: 1.4rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.2rem; /* Kurangi font */
+    margin-bottom: 0.4rem; /* Kurangi margin */
     color: #333;
 }
 
 .quick-start-card p {
     color: #666;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-    line-height: 1.5;
+    margin-bottom: 1.2rem; /* Kurangi margin */
+    font-size: 0.9rem; /* Kurangi font */
+    line-height: 1.4; /* Kurangi line height */
 }
 
 .btn-start {
     background: #4CAF50;
     color: white;
     border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
-    font-size: 1rem;
+    padding: 0.7rem 1.2rem; /* Kurangi padding */
+    border-radius: 6px; /* Kurangi border radius */
+    font-size: 0.9rem; /* Kurangi font */
     cursor: pointer;
     transition: background 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem; /* Kurangi gap */
     margin: 0 auto;
+    min-height: 40px; /* Pastikan touch-friendly */
 }
 
 .btn-start:hover {
@@ -181,30 +184,30 @@
 
 /* Guide Categories */
 .guide-categories {
-    margin-bottom: 3rem;
+    margin-bottom: var(--section-spacing);
 }
 
 .categories-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Kurangi min-width */
+    gap: 1.5rem; /* Kurangi gap */
+    margin-top: 1.5rem; /* Kurangi margin */
 }
 
 .category-card {
     background: white;
-    border-radius: 12px;
+    border-radius: 8px; /* Kurangi border radius */
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08); /* Kurangi shadow */
     transition: transform 0.3s ease;
 }
 
 .category-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px); /* Kurangi hover effect */
 }
 
 .category-header {
-    padding: 1.5rem;
+    padding: 1.2rem; /* Kurangi padding */
     background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     display: flex;
     align-items: center;
@@ -212,20 +215,20 @@
 }
 
 .category-header .category-icon {
-    font-size: 2rem;
+    font-size: 1.6rem; /* Kurangi ukuran ikon */
     color: #4CAF50;
 }
 
 .category-header h3 {
-    font-size: 1.3rem;
+    font-size: 1.1rem; /* Kurangi font */
     margin: 0;
     color: #333;
 }
 
 .difficulty {
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.8rem;
+    padding: 0.25rem 0.6rem; /* Kurangi padding */
+    border-radius: 16px; /* Kurangi border radius */
+    font-size: 0.75rem; /* Kurangi font */
     font-weight: 500;
 }
 
@@ -240,31 +243,32 @@
 }
 
 .category-content {
-    padding: 1.5rem;
+    padding: 1.2rem; /* Kurangi padding */
 }
 
 .category-content p {
     color: #666;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-    line-height: 1.5;
+    margin-bottom: 1.2rem; /* Kurangi margin */
+    font-size: 0.9rem; /* Kurangi font */
+    line-height: 1.4; /* Kurangi line height */
 }
 
 .guide-list {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
+    gap: 0.6rem; /* Kurangi gap */
 }
 
 .guide-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1rem;
+    padding: 0.8rem; /* Kurangi padding */
     background: #f8f9fa;
-    border-radius: 8px;
+    border-radius: 6px; /* Kurangi border radius */
     cursor: pointer;
     transition: background 0.3s ease;
+    min-height: 44px; /* Pastikan touch-friendly */
 }
 
 .guide-item:hover {
@@ -273,80 +277,81 @@
 
 .guide-item i {
     color: #4CAF50;
-    margin-right: 0.8rem;
-    font-size: 1.1rem;
+    margin-right: 0.6rem; /* Kurangi margin */
+    font-size: 1rem; /* Kurangi font */
 }
 
 .guide-item span {
     flex: 1;
-    font-size: 1rem;
+    font-size: 0.9rem; /* Kurangi font */
     color: #333;
 }
 
 .guide-duration {
     background: #4CAF50;
     color: white;
-    padding: 0.2rem 0.6rem;
-    border-radius: 12px;
-    font-size: 0.8rem;
+    padding: 0.15rem 0.5rem; /* Kurangi padding */
+    border-radius: 10px; /* Kurangi border radius */
+    font-size: 0.75rem; /* Kurangi font */
 }
 
 /* Help Section */
 .help-section {
-    margin-bottom: 3rem;
+    margin-bottom: var(--section-spacing);
 }
 
 .help-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Kurangi min-width */
+    gap: 1.2rem; /* Kurangi gap */
+    margin-top: 1.5rem; /* Kurangi margin */
 }
 
 .help-card {
     background: white;
-    border-radius: 12px;
-    padding: 2rem;
+    border-radius: 8px; /* Kurangi border radius */
+    padding: 1.5rem; /* Kurangi padding */
     text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08); /* Kurangi shadow */
     transition: transform 0.3s ease;
 }
 
 .help-card:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px); /* Kurangi hover effect */
 }
 
 .help-icon {
-    font-size: 3rem;
+    font-size: 2.5rem; /* Kurangi ukuran ikon */
     color: #4CAF50;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem; /* Kurangi margin */
 }
 
 .help-card h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.1rem; /* Kurangi font */
+    margin-bottom: 0.4rem; /* Kurangi margin */
     color: #333;
 }
 
 .help-card p {
     color: #666;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
+    margin-bottom: 1.2rem; /* Kurangi margin */
+    font-size: 0.9rem; /* Kurangi font */
 }
 
 .help-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.8rem 1.5rem;
+    gap: 0.4rem; /* Kurangi gap */
+    padding: 0.7rem 1.2rem; /* Kurangi padding */
     background: #4CAF50;
     color: white;
     text-decoration: none;
-    border-radius: 8px;
-    font-size: 1rem;
+    border-radius: 6px; /* Kurangi border radius */
+    font-size: 0.9rem; /* Kurangi font */
     transition: background 0.3s ease;
     border: none;
     cursor: pointer;
+    min-height: 40px; /* Pastikan touch-friendly */
 }
 
 .help-btn:hover {
@@ -363,31 +368,32 @@
 
 /* FAQ Section */
 .faq-section {
-    margin-bottom: 3rem;
+    margin-bottom: var(--section-spacing);
 }
 
 .faq-list {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    margin-top: 2rem;
+    gap: 0.8rem; /* Kurangi gap */
+    margin-top: 1.5rem; /* Kurangi margin */
 }
 
 .faq-item {
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 6px; /* Kurangi border radius */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08); /* Kurangi shadow */
     overflow: hidden;
 }
 
 .faq-question {
-    padding: 1.5rem;
+    padding: 1.2rem; /* Kurangi padding */
     background: #f8f9fa;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: space-between;
     transition: background 0.3s ease;
+    min-height: 44px; /* Pastikan touch-friendly */
 }
 
 .faq-question:hover {
@@ -395,14 +401,16 @@
 }
 
 .faq-question h3 {
-    font-size: 1.1rem;
+    font-size: 1rem; /* Kurangi font */
     margin: 0;
     color: #333;
+    line-height: 1.3; /* Kurangi line height */
 }
 
 .faq-question i {
     color: #4CAF50;
     transition: transform 0.3s ease;
+    font-size: 0.9rem; /* Kurangi font ikon */
 }
 
 .faq-item.active .faq-question i {
@@ -410,22 +418,22 @@
 }
 
 .faq-answer {
-    padding: 0 1.5rem;
+    padding: 0 1.2rem; /* Kurangi padding */
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease, padding 0.3s ease;
 }
 
 .faq-item.active .faq-answer {
-    padding: 1.5rem;
-    max-height: 200px;
+    padding: 1.2rem; /* Kurangi padding */
+    max-height: 180px; /* Kurangi max height */
 }
 
 .faq-answer p {
     color: #666;
-    line-height: 1.6;
+    line-height: 1.5;
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.9rem; /* Kurangi font */
 }
 
 /* Guide Modal */
@@ -435,12 +443,12 @@
     left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    border-radius: 8px; /* Kurangi border radius */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.25); /* Kurangi shadow */
     z-index: 1001;
-    width: 90%;
-    max-width: 800px;
-    max-height: 90vh;
+    width: 92%; /* Kurangi width untuk mobile */
+    max-width: 700px; /* Kurangi max-width */
+    max-height: 85vh; /* Kurangi max-height */
     overflow: hidden;
     opacity: 0;
     visibility: hidden;
@@ -472,7 +480,7 @@
 }
 
 .modal-header {
-    padding: 1.5rem;
+    padding: 1.2rem; /* Kurangi padding */
     background: #4CAF50;
     color: white;
     display: flex;
@@ -482,18 +490,21 @@
 
 .modal-header h3 {
     margin: 0;
-    font-size: 1.3rem;
+    font-size: 1.1rem; /* Kurangi font */
+    line-height: 1.3;
 }
 
 .close-modal {
     background: none;
     border: none;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.3rem; /* Kurangi font */
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 0.4rem; /* Kurangi padding */
     border-radius: 4px;
     transition: background 0.3s ease;
+    min-width: 40px; /* Pastikan touch-friendly */
+    min-height: 40px;
 }
 
 .close-modal:hover {
@@ -501,29 +512,31 @@
 }
 
 .modal-body {
-    padding: 2rem;
-    max-height: 60vh;
+    padding: 1.5rem; /* Kurangi padding */
+    max-height: 55vh; /* Kurangi max-height */
     overflow-y: auto;
 }
 
 .modal-footer {
-    padding: 1.5rem;
+    padding: 1.2rem; /* Kurangi padding */
     background: #f8f9fa;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 0.8rem; /* Tambah gap */
 }
 
 .modal-footer .btn {
-    padding: 0.8rem 1.5rem;
+    padding: 0.7rem 1.2rem; /* Kurangi padding */
     border: none;
-    border-radius: 6px;
+    border-radius: 5px; /* Kurangi border radius */
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.9rem; /* Kurangi font */
     transition: background 0.3s ease;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem; /* Kurangi gap */
+    min-height: 40px; /* Pastikan touch-friendly */
 }
 
 .modal-footer .btn-primary {
@@ -544,41 +557,43 @@
     background: #5a6268;
 }
 
-/* Guide Content Styles */
+/* Guide Content Styles - Mobile Optimized */
 .guide-step {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem; /* Kurangi margin */
 }
 
 .guide-step h4 {
     color: #4CAF50;
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
+    font-size: 1.1rem; /* Kurangi font */
+    margin-bottom: 0.8rem; /* Kurangi margin */
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem; /* Kurangi gap */
+    line-height: 1.3;
 }
 
 .guide-step p {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 0.9rem; /* Kurangi font */
+    line-height: 1.5; /* Kurangi line height */
     color: #333;
-    margin-bottom: 1rem;
+    margin-bottom: 0.8rem; /* Kurangi margin */
 }
 
 .guide-step img {
     width: 100%;
-    max-width: 400px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    margin: 1rem 0;
+    max-width: 350px; /* Kurangi max-width */
+    border-radius: 6px; /* Kurangi border radius */
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08); /* Kurangi shadow */
+    margin: 0.8rem 0; /* Kurangi margin */
 }
 
 .guide-tip {
     background: #e8f5e8;
-    border-left: 4px solid #4CAF50;
-    padding: 1rem;
+    border-left: 3px solid #4CAF50; /* Kurangi border */
+    padding: 0.8rem; /* Kurangi padding */
     border-radius: 4px;
-    margin: 1rem 0;
+    margin: 0.8rem 0; /* Kurangi margin */
+    font-size: 0.9rem; /* Kurangi font */
 }
 
 .guide-tip strong {
@@ -587,10 +602,11 @@
 
 .guide-warning {
     background: #fff3cd;
-    border-left: 4px solid #ffc107;
-    padding: 1rem;
+    border-left: 3px solid #ffc107; /* Kurangi border */
+    padding: 0.8rem; /* Kurangi padding */
     border-radius: 4px;
-    margin: 1rem 0;
+    margin: 0.8rem 0; /* Kurangi margin */
+    font-size: 0.9rem; /* Kurangi font */
 }
 
 .guide-warning strong {
@@ -600,89 +616,252 @@
 /* Tablet Responsive */
 @media (max-width: 1024px) and (min-width: 769px) {
     :root {
-        --welcome-title-size: 1.3rem;
-        --welcome-subtitle-size: 0.95rem;
+        --welcome-title-size: 1.2rem;
+        --welcome-subtitle-size: 0.85rem;
+        --card-padding: 0.8rem;
+        --section-spacing: 1.2rem;
     }
     
     .welcome-content {
-        gap: 1.5rem;
+        gap: 1.2rem;
     }
     
     .welcome-icon {
-        font-size: 3.5rem;
+        font-size: 3rem;
     }
     
     .welcome-stats {
-        gap: 1.5rem;
+        gap: 1.2rem;
+    }
+    
+    .quick-start-grid,
+    .categories-grid,
+    .help-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
     }
 }
 
 /* Mobile Responsive */
 @media (max-width: 768px) {
     :root {
-        --welcome-title-size: 1.2rem;
-        --welcome-subtitle-size: 0.9rem;
+        --welcome-title-size: 1.1rem;
+        --welcome-subtitle-size: 0.8rem;
+        --card-padding: 0.8rem;
+        --section-spacing: 1rem;
     }
     
     .welcome-content {
         flex-direction: column;
         text-align: center;
-        gap: 1rem;
+        gap: 0.8rem;
+        padding: 0 0.8rem;
     }
     
     .welcome-icon {
-        order: 1; /* Di mobile, ikon kembali ke atas */
-        font-size: 3rem;
+        order: 1;
+        font-size: 2.5rem; /* Kurangi ukuran ikon */
     }
     
     .welcome-text {
-        order: 2; /* Teks di bawah ikon di mobile */
+        order: 2;
     }
     
     .welcome-stats {
         justify-content: center;
-        gap: 1rem;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+    }
+    
+    .stat-item {
+        font-size: 0.75rem; /* Kurangi font */
     }
     
     .quick-start-grid,
     .categories-grid,
     .help-grid {
         grid-template-columns: 1fr;
-        gap: 1rem;
+        gap: 0.8rem;
     }
     
     .quick-start-card,
     .category-card,
     .help-card {
-        padding: 1.5rem;
+        padding: 1rem; /* Kurangi padding */
     }
     
     .section-header h2 {
-        font-size: 1.5rem;
+        font-size: 1.4rem; /* Kurangi font */
+    }
+    
+    .section-header p {
+        font-size: 0.85rem; /* Kurangi font */
     }
     
     .guide-modal {
         width: 95%;
-        margin: 1rem;
+        margin: 0.5rem;
+        max-height: 90vh;
     }
     
     .modal-body {
         padding: 1rem;
+        max-height: 50vh;
     }
     
     .modal-footer {
-        padding: 1rem;
+        padding: 0.8rem;
         flex-direction: column;
-        gap: 1rem;
+        gap: 0.8rem;
     }
     
     .modal-footer .btn {
         width: 100%;
         justify-content: center;
+        padding: 0.8rem;
+    }
+    
+    .faq-question {
+        padding: 1rem;
+    }
+    
+    .faq-question h3 {
+        font-size: 0.9rem;
+        line-height: 1.2;
+    }
+    
+    .faq-item.active .faq-answer {
+        padding: 1rem;
     }
 }
 
-/* Large Text Mode for Better Readability */
+/* Small Mobile Responsive (iPhone SE, etc) */
+@media (max-width: 480px) {
+    :root {
+        --welcome-title-size: 1rem;
+        --welcome-subtitle-size: 0.75rem;
+        --card-padding: 0.6rem;
+        --section-spacing: 0.8rem;
+    }
+    
+    .welcome-section {
+        padding: 1rem 0;
+        margin-bottom: 1rem;
+    }
+    
+    .welcome-content {
+        padding: 0 0.6rem;
+        gap: 0.6rem;
+    }
+    
+    .welcome-icon {
+        font-size: 2rem;
+    }
+    
+    .welcome-stats {
+        gap: 0.6rem;
+    }
+    
+    .stat-item {
+        font-size: 0.7rem;
+        gap: 0.3rem;
+    }
+    
+    .stat-item i {
+        font-size: 0.8rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.2rem;
+    }
+    
+    .section-header p {
+        font-size: 0.8rem;
+    }
+    
+    .quick-start-card,
+    .category-card,
+    .help-card {
+        padding: 0.8rem;
+    }
+    
+    .quick-start-card h3,
+    .category-header h3,
+    .help-card h3 {
+        font-size: 1rem;
+    }
+    
+    .quick-start-card p,
+    .category-content p,
+    .help-card p {
+        font-size: 0.8rem;
+    }
+    
+    .card-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.9rem;
+        top: -10px;
+    }
+    
+    .card-icon {
+        font-size: 2rem;
+        margin: 0.6rem 0;
+    }
+    
+    .btn-start,
+    .help-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .guide-item {
+        padding: 0.6rem;
+        min-height: 40px;
+    }
+    
+    .guide-item span {
+        font-size: 0.8rem;
+    }
+    
+    .guide-duration {
+        font-size: 0.7rem;
+        padding: 0.1rem 0.4rem;
+    }
+    
+    .faq-question {
+        padding: 0.8rem;
+    }
+    
+    .faq-question h3 {
+        font-size: 0.85rem;
+    }
+    
+    .faq-answer p {
+        font-size: 0.8rem;
+    }
+    
+    .modal-header {
+        padding: 1rem;
+    }
+    
+    .modal-header h3 {
+        font-size: 1rem;
+    }
+    
+    .modal-body {
+        padding: 0.8rem;
+    }
+    
+    .modal-footer {
+        padding: 0.6rem;
+    }
+    
+    .modal-footer .btn {
+        padding: 0.6rem;
+        font-size: 0.8rem;
+    }
+}
 @media (min-width: 1200px) {
     :root {
         --welcome-title-size: 1.6rem;
@@ -741,5 +920,102 @@
     .category-card {
         break-inside: avoid;
         margin-bottom: 1rem;
+    }
+}
+/* Container Optimizations */
+.container {
+    padding: 0 0.8rem; /* Kurangi padding untuk mobile */
+}
+
+/* Touch Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    /* Optimasi untuk touch devices */
+    .guide-item,
+    .faq-question,
+    .quick-start-card,
+    .category-card,
+    .help-card {
+        min-height: 48px; /* Increase touch target */
+    }
+    
+    .btn-start,
+    .help-btn,
+    .modal-footer .btn {
+        min-height: 48px;
+        min-width: 48px;
+    }
+    
+    .close-modal {
+        min-width: 48px;
+        min-height: 48px;
+    }
+}
+
+/* Reduce animations on low-end devices */
+@media (prefers-reduced-motion: reduce) {
+    .quick-start-card,
+    .category-card,
+    .help-card,
+    .guide-item,
+    .faq-question {
+        transition: none;
+    }
+    
+    .guide-modal {
+        transition: opacity 0.2s ease;
+    }
+}
+
+/* Performance Optimizations */
+.guide-modal,
+.modal-overlay {
+    will-change: opacity, visibility;
+}
+
+.quick-start-card,
+.category-card,
+.help-card {
+    will-change: transform;
+}
+
+/* Accessibility Improvements */
+@media (prefers-contrast: high) {
+    .quick-start-card,
+    .category-card,
+    .help-card,
+    .guide-item,
+    .faq-item {
+        border: 2px solid #333;
+    }
+    
+    .btn-start,
+    .help-btn {
+        border: 2px solid #2E7D32;
+    }
+}
+
+/* Print Optimizations */
+@media print {
+    .guide-modal,
+    .modal-overlay,
+    .help-section {
+        display: none;
+    }
+    
+    .quick-start-grid,
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .quick-start-card,
+    .category-card {
+        break-inside: avoid;
+        margin-bottom: 0.5rem;
+        padding: 0.8rem;
+    }
+    
+    .welcome-section {
+        background: none !important;
+        color: black !important;
     }
 }
