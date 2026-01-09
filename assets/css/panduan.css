@@ -1,0 +1,745 @@
+/* Panduan CSS - Optimized for 35-50 age group with minimal literacy */
+
+/* CSS Variables untuk konsistensi dengan homepage */
+:root {
+    --welcome-title-size: 1.5rem;
+    --welcome-subtitle-size: 1rem;
+    --welcome-stat-size: 0.9rem;
+    --welcome-spacing-sm: 0.5rem;
+    --welcome-spacing-md: 1rem;
+}
+
+/* Welcome Section */
+.welcome-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+}
+
+.welcome-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.welcome-icon {
+    font-size: 4rem;
+    opacity: 0.9;
+    order: 2; /* Pindahkan ikon ke kanan */
+    flex-shrink: 0; /* Mencegah ikon mengecil */
+}
+
+.welcome-text {
+    order: 1; /* Pastikan teks di kiri */
+    flex: 1; /* Biarkan teks mengambil ruang yang tersisa */
+}
+
+.welcome-text h1 {
+    font-size: var(--welcome-title-size); /* Menggunakan CSS variable */
+    margin-bottom: var(--welcome-spacing-sm);
+    font-weight: 600;
+    text-align: left;
+    color: white;
+}
+
+.welcome-subtitle {
+    font-size: var(--welcome-subtitle-size); /* Menggunakan CSS variable */
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+    text-align: left;
+    max-width: 600px;
+    line-height: 1.5;
+}
+
+.welcome-stats {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Mulai dari kiri */
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: var(--welcome-spacing-sm);
+    font-size: var(--welcome-stat-size);
+    opacity: 0.9;
+}
+
+.stat-item i {
+    font-size: 1.2rem; /* Sedikit lebih kecil untuk konsistensi */
+}
+
+/* Quick Start Section */
+.quick-start-section {
+    margin-bottom: 3rem;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.section-header h2 {
+    font-size: 2rem;
+    color: #2E7D32;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: #666;
+}
+
+.quick-start-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.quick-start-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.quick-start-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    border-color: #4CAF50;
+}
+
+.card-number {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4CAF50;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.card-icon {
+    font-size: 3rem;
+    color: #4CAF50;
+    margin: 1rem 0;
+}
+
+.quick-start-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.quick-start-card p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.btn-start {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+}
+
+.btn-start:hover {
+    background: #45a049;
+}
+
+/* Guide Categories */
+.guide-categories {
+    margin-bottom: 3rem;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.category-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-2px);
+}
+
+.category-header {
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category-header .category-icon {
+    font-size: 2rem;
+    color: #4CAF50;
+}
+
+.category-header h3 {
+    font-size: 1.3rem;
+    margin: 0;
+    color: #333;
+}
+
+.difficulty {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.difficulty.easy {
+    background: #d4edda;
+    color: #155724;
+}
+
+.difficulty.medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.category-content {
+    padding: 1.5rem;
+}
+
+.category-content p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.guide-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.guide-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.guide-item:hover {
+    background: #e9ecef;
+}
+
+.guide-item i {
+    color: #4CAF50;
+    margin-right: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.guide-item span {
+    flex: 1;
+    font-size: 1rem;
+    color: #333;
+}
+
+.guide-duration {
+    background: #4CAF50;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+}
+
+/* Help Section */
+.help-section {
+    margin-bottom: 3rem;
+}
+
+.help-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.help-card {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.help-card:hover {
+    transform: translateY(-2px);
+}
+
+.help-icon {
+    font-size: 3rem;
+    color: #4CAF50;
+    margin-bottom: 1rem;
+}
+
+.help-card h3 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.help-card p {
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+}
+
+.help-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    background: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.help-btn:hover {
+    background: #45a049;
+}
+
+.help-btn.whatsapp {
+    background: #25D366;
+}
+
+.help-btn.whatsapp:hover {
+    background: #20b358;
+}
+
+/* FAQ Section */
+.faq-section {
+    margin-bottom: 3rem;
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.faq-item {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.faq-question {
+    padding: 1.5rem;
+    background: #f8f9fa;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.3s ease;
+}
+
+.faq-question:hover {
+    background: #e9ecef;
+}
+
+.faq-question h3 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: #333;
+}
+
+.faq-question i {
+    color: #4CAF50;
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    padding: 0 1.5rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+    padding: 1.5rem;
+    max-height: 200px;
+}
+
+.faq-answer p {
+    color: #666;
+    line-height: 1.6;
+    margin: 0;
+    font-size: 1rem;
+}
+
+/* Guide Modal */
+.guide-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    z-index: 1001;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.guide-modal.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-header {
+    padding: 1.5rem;
+    background: #4CAF50;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+.close-modal:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.modal-body {
+    padding: 2rem;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.modal-footer {
+    padding: 1.5rem;
+    background: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-footer .btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-footer .btn-primary {
+    background: #4CAF50;
+    color: white;
+}
+
+.modal-footer .btn-primary:hover {
+    background: #45a049;
+}
+
+.modal-footer .btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.modal-footer .btn-secondary:hover {
+    background: #5a6268;
+}
+
+/* Guide Content Styles */
+.guide-step {
+    margin-bottom: 2rem;
+}
+
+.guide-step h4 {
+    color: #4CAF50;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.guide-step p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.guide-step img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 1rem 0;
+}
+
+.guide-tip {
+    background: #e8f5e8;
+    border-left: 4px solid #4CAF50;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.guide-tip strong {
+    color: #2E7D32;
+}
+
+.guide-warning {
+    background: #fff3cd;
+    border-left: 4px solid #ffc107;
+    padding: 1rem;
+    border-radius: 4px;
+    margin: 1rem 0;
+}
+
+.guide-warning strong {
+    color: #856404;
+}
+
+/* Tablet Responsive */
+@media (max-width: 1024px) and (min-width: 769px) {
+    :root {
+        --welcome-title-size: 1.3rem;
+        --welcome-subtitle-size: 0.95rem;
+    }
+    
+    .welcome-content {
+        gap: 1.5rem;
+    }
+    
+    .welcome-icon {
+        font-size: 3.5rem;
+    }
+    
+    .welcome-stats {
+        gap: 1.5rem;
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    :root {
+        --welcome-title-size: 1.2rem;
+        --welcome-subtitle-size: 0.9rem;
+    }
+    
+    .welcome-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .welcome-icon {
+        order: 1; /* Di mobile, ikon kembali ke atas */
+        font-size: 3rem;
+    }
+    
+    .welcome-text {
+        order: 2; /* Teks di bawah ikon di mobile */
+    }
+    
+    .welcome-stats {
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .quick-start-grid,
+    .categories-grid,
+    .help-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .quick-start-card,
+    .category-card,
+    .help-card {
+        padding: 1.5rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .guide-modal {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .modal-body {
+        padding: 1rem;
+    }
+    
+    .modal-footer {
+        padding: 1rem;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .modal-footer .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Large Text Mode for Better Readability */
+@media (min-width: 1200px) {
+    :root {
+        --welcome-title-size: 1.6rem;
+        --welcome-subtitle-size: 1.1rem;
+    }
+    
+    .section-header h2 {
+        font-size: 2.2rem;
+    }
+    
+    .quick-start-card h3,
+    .category-header h3,
+    .help-card h3 {
+        font-size: 1.5rem;
+    }
+    
+    .quick-start-card p,
+    .category-content p,
+    .help-card p {
+        font-size: 1.1rem;
+    }
+}
+
+/* High Contrast Mode for Better Visibility */
+@media (prefers-contrast: high) {
+    .quick-start-card,
+    .category-card,
+    .help-card {
+        border: 2px solid #333;
+    }
+    
+    .btn-start,
+    .help-btn {
+        border: 2px solid #2E7D32;
+    }
+    
+    .guide-item {
+        border: 1px solid #ddd;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .guide-modal,
+    .modal-overlay,
+    .help-section {
+        display: none;
+    }
+    
+    .quick-start-grid,
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .quick-start-card,
+    .category-card {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+}

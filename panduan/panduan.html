@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>NILAMTRACE - Panduan Penggunaan</title>
+    
+    <!-- Ikon Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Akses CSS -->
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/panduan.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <header role="banner">
+        <div class="header-container">
+            <!-- Hamburger Menu untuk Mobile -->
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka menu navigasi">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <!-- Logo -->
+            <div class="logo">
+                <img src="../assets/images/nilam.png" alt="Tanaman Nilam" class="logo-img"/>
+                <div class="logo-text">
+                    <h1>NILAMTRACE</h1>
+                    <span>Panduan Penggunaan</span>
+                </div>
+            </div>
+            
+            <!-- Profile Dropdown -->
+            <div class="profile-dropdown" id="profileDropdown">
+                <button class="profile-btn" id="profileBtn">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="profile-name">Petani Nilam</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <div class="dropdown-header">
+                        <div class="dropdown-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="dropdown-info">
+                            <h4>Petani Nilam</h4>
+                            <p>petani@nilam.com</p>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="../auth/profile.html" class="dropdown-item">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Profil Saya</span>
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item logout" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Keluar</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="../assets/images/nilam.png" alt="Logo NILAMTRACE"/>
+                <h3>NILAMTRACE</h3>
+            </div>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="sidebar-menu">
+            <a href="../homepage/homepage.html" class="menu-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            
+            <a href="../monitoring/monitoring.html" class="menu-item">
+                <i class="fas fa-camera"></i>
+                <span>Deteksi Penyakit</span>
+            </a>
+            
+            <a href="../production/input-produksi.html" class="menu-item">
+                <i class="fas fa-seedling"></i>
+                <span>Input Produksi</span>
+            </a>
+            
+            <a href="panduan.html" class="menu-item active">
+                <i class="fas fa-book"></i>
+                <span>Panduan</span>
+            </a>
+            
+            <div class="menu-divider"></div>
+            
+            <a href="../auth/profile.html" class="menu-item">
+                <i class="fas fa-user-cog"></i>
+                <span>Pengaturan Akun</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <h4>Petani Nilam</h4>
+                    <p>Desa Teuladan</p>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Overlay untuk mobile -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <div class="container">
+            
+            <!-- Welcome Section -->
+            <div class="welcome-section">
+                <div class="welcome-content">
+                    <div class="welcome-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="welcome-text">
+                        <h1>Selamat Datang di Panduan NILAMTRACE</h1>
+                        <p class="welcome-subtitle">Pelajari cara menggunakan aplikasi dengan mudah dan cepat</p>
+                        <div class="welcome-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-play-circle"></i>
+                                <span>Video Sederhana</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-step-forward"></i>
+                                <span>Langkah Mudah</span>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-headset"></i>
+                                <span>Bantuan Langsung</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Start Section -->
+            <div class="quick-start-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-rocket"></i> Mulai Cepat</h2>
+                    <p>Pelajari hal penting dalam 5 menit</p>
+                </div>
+                
+                <div class="quick-start-grid">
+                    <div class="quick-start-card" data-guide="dashboard">
+                        <div class="card-number">1</div>
+                        <div class="card-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3>Lihat Dashboard</h3>
+                        <p>Cara melihat data tanaman dan produksi Anda</p>
+                        <button class="btn-start">
+                            <i class="fas fa-play"></i>
+                            Mulai Belajar
+                        </button>
+                    </div>
+
+                    <div class="quick-start-card" data-guide="input">
+                        <div class="card-number">2</div>
+                        <div class="card-icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <h3>Input Data</h3>
+                        <p>Cara memasukkan data panen dan tanaman</p>
+                        <button class="btn-start">
+                            <i class="fas fa-play"></i>
+                            Mulai Belajar
+                        </button>
+                    </div>
+
+                    <div class="quick-start-card" data-guide="camera">
+                        <div class="card-number">3</div>
+                        <div class="card-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3>Foto Penyakit</h3>
+                        <p>Cara menggunakan kamera untuk deteksi penyakit</p>
+                        <button class="btn-start">
+                            <i class="fas fa-play"></i>
+                            Mulai Belajar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Guide Categories -->
+            <div class="guide-categories">
+                <div class="section-header">
+                    <h2><i class="fas fa-book-open"></i> Panduan Lengkap</h2>
+                    <p>Pilih topik yang ingin Anda pelajari</p>
+                </div>
+
+                <div class="categories-grid">
+                    <!-- Panduan Dasar -->
+                    <div class="category-card basic">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-seedling"></i>
+                            </div>
+                            <h3>Panduan Dasar</h3>
+                            <span class="difficulty easy">Mudah</span>
+                        </div>
+                        <div class="category-content">
+                            <p>Pelajari dasar-dasar menggunakan aplikasi NILAMTRACE</p>
+                            <div class="guide-list">
+                                <div class="guide-item" data-guide="intro">
+                                    <i class="fas fa-info-circle"></i>
+                                    <span>Pengenalan Aplikasi</span>
+                                    <div class="guide-duration">3 menit</div>
+                                </div>
+                                <div class="guide-item" data-guide="navigation">
+                                    <i class="fas fa-compass"></i>
+                                    <span>Cara Navigasi Menu</span>
+                                    <div class="guide-duration">2 menit</div>
+                                </div>
+                                <div class="guide-item" data-guide="profile">
+                                    <i class="fas fa-user-edit"></i>
+                                    <span>Mengatur Profil</span>
+                                    <div class="guide-duration">4 menit</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panduan Input Data -->
+                    <div class="category-card production">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-clipboard-list"></i>
+                            </div>
+                            <h3>Input Data</h3>
+                            <span class="difficulty medium">Sedang</span>
+                        </div>
+                        <div class="category-content">
+                            <p>Cara memasukkan data panen dan tanaman dengan benar</p>
+                            <div class="guide-list">
+                                <div class="guide-item" data-guide="harvest-input">
+                                    <i class="fas fa-weight"></i>
+                                    <span>Input Data Panen</span>
+                                    <div class="guide-duration">4 menit</div>
+                                </div>
+                                <div class="guide-item" data-guide="plant-input">
+                                    <i class="fas fa-seedling"></i>
+                                    <span>Input Data Tanaman</span>
+                                    <div class="guide-duration">3 menit</div>
+                                </div>
+                                <div class="guide-item" data-guide="calculator">
+                                    <i class="fas fa-calculator"></i>
+                                    <span>Menggunakan Kalkulator</span>
+                                    <div class="guide-duration">2 menit</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panduan Deteksi Penyakit -->
+                    <div class="category-card detection">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-camera-retro"></i>
+                            </div>
+                            <h3>Deteksi Penyakit</h3>
+                            <span class="difficulty medium">Sedang</span>
+                        </div>
+                        <div class="category-content">
+                            <p>Cara menggunakan kamera untuk mendeteksi penyakit tanaman</p>
+                            <div class="guide-list">
+                                <div class="guide-item" data-guide="photo-tips">
+                                    <i class="fas fa-camera"></i>
+                                    <span>Tips Foto yang Baik</span>
+                                    <div class="guide-duration">3 menit</div>
+                                </div>
+                                <div class="guide-item" data-guide="upload-photo">
+                                    <i class="fas fa-upload"></i>
+                                    <span>Upload Foto Penyakit</span>
+                                    <div class="guide-duration">2 menit</div>
+                                </div>
+                                <div class="guide-item" data-guide="read-results">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Membaca Hasil Analisis</span>
+                                    <div class="guide-duration">4 menit</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panduan Dashboard -->
+                    <div class="category-card dashboard">
+                        <div class="category-header">
+                            <div class="category-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <h3>Membaca Data</h3>
+                            <span class="difficulty easy">Mudah</span>
+                        </div>
+                        <div class="category-content">
+                            <p>Cara memahami grafik dan data di dashboard</p>
+                            <div class="guide-list">
+                                <div class="guide-item" data-guide="dashboard-overview">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <span>Memahami Dashboard</span>
+                                    <div class="guide-duration">3 menit</div>
+                                </div>
+                                <div class="guide-item" data-guide="charts">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <span>Membaca Grafik</span>
+                                    <div class="guide-duration">3 menit</div>
+                                </div>
+                                <div class="guide-item" data-guide="history">
+                                    <i class="fas fa-history"></i>
+                                    <span>Melihat Riwayat</span>
+                                    <div class="guide-duration">2 menit</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help & Support -->
+            <div class="help-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-life-ring"></i> Butuh Bantuan?</h2>
+                    <p>Kami siap membantu Anda</p>
+                </div>
+
+                <div class="help-grid">
+                    <div class="help-card">
+                        <div class="help-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>Telepon Langsung</h3>
+                        <p>Hubungi kami untuk bantuan langsung</p>
+                        <a href="tel:0895-4024-32636" class="help-btn">
+                            <i class="fas fa-phone"></i>
+                            0895-4024-32636
+                        </a>
+                    </div>
+
+                    <div class="help-card">
+                        <div class="help-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Chat WhatsApp</h3>
+                        <p>Kirim pesan melalui WhatsApp</p>
+                        <a href="https://wa.me/6289540243636" class="help-btn whatsapp" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                            Chat Sekarang
+                        </a>
+                    </div>
+
+                    <div class="help-card">
+                        <div class="help-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h3>Pertanyaan Umum</h3>
+                        <p>Lihat jawaban pertanyaan yang sering ditanyakan</p>
+                        <button class="help-btn" id="faqBtn">
+                            <i class="fas fa-list"></i>
+                            Lihat FAQ
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section (Hidden by default) -->
+            <div class="faq-section" id="faqSection" style="display: none;">
+                <div class="section-header">
+                    <h2><i class="fas fa-question-circle"></i> Pertanyaan yang Sering Ditanyakan</h2>
+                </div>
+
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Bagaimana cara mengambil foto yang baik untuk deteksi penyakit?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>1. Pastikan cahaya cukup terang<br>
+                            2. Fokuskan kamera pada daun yang sakit<br>
+                            3. Jarak foto sekitar 20-30 cm dari daun<br>
+                            4. Hindari bayangan pada foto<br>
+                            5. Foto hanya satu daun per gambar</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Kenapa data saya tidak tersimpan?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Pastikan semua kolom yang wajib diisi (bertanda *) sudah terisi dengan benar. Periksa juga koneksi internet Anda.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Bagaimana cara melihat riwayat produksi saya?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Buka menu "Input Produksi", lalu klik tab "Riwayat Produksi". Di sana Anda bisa melihat semua data panen yang pernah diinput.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Bagaimana cara mengubah informasi profil saya?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Klik foto profil di pojok kanan atas, pilih "Profil Saya". Di sana Anda bisa mengubah nama, email, nomor telepon, dan alamat. Jangan lupa klik "Simpan Perubahan" setelah selesai.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Bagaimana cara mengganti password?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Masuk ke halaman profil, scroll ke bawah ke bagian "Keamanan". Masukkan password lama, lalu ketik password baru dua kali. Password baru minimal 8 karakter.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Apa bedanya input produksi dan input tanaman?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p><strong>Input Produksi:</strong> Untuk mencatat hasil panen (berapa kg, harga jual, pendapatan).<br>
+                            <strong>Input Tanaman:</strong> Untuk mencatat data tanaman (varietas, luas lahan, status kesehatan).</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Bagaimana cara melihat laporan bulanan?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Buka menu "Input Produksi", klik tab "Riwayat Produksi". Gunakan filter "Bulan Ini" atau pilih rentang tanggal custom. Klik "PDF Report" untuk download laporan.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Kenapa hasil deteksi penyakit tidak akurat?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Pastikan foto diambil dengan cahaya cukup, jarak 20-30 cm, fokus pada daun yang sakit, dan tidak buram. Foto yang gelap atau tidak jelas akan mengurangi akurasi analisis AI.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>Apakah aplikasi ini bisa digunakan tanpa internet?</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Sebagian fitur bisa digunakan offline, tapi untuk deteksi penyakit dan sinkronisasi data memerlukan koneksi internet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Guide Modal -->
+    <div class="guide-modal" id="guideModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Panduan</h3>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="prevStep" style="display: none;">
+                    <i class="fas fa-arrow-left"></i>
+                    Sebelumnya
+                </button>
+                <button class="btn btn-primary" id="nextStep">
+                    Selanjutnya
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay for modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <!-- JavaScript -->
+    <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/panduan.js"></script>
+</body>
+</html>
