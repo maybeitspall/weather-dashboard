@@ -12,8 +12,7 @@ class PanduanManager {
         this.loadGuideData();
         this.bindEvents();
         this.initFAQ();
-        this.setupThemeToggle(); // Tambah theme toggle
-        this.loadSavedTheme(); // Load saved theme
+        // Theme toggle akan dihandle oleh DOMContentLoaded event
     }
 
     loadGuideData() {
@@ -601,6 +600,7 @@ class PanduanManager {
         document.querySelectorAll('.quick-start-card').forEach(card => {
             card.addEventListener('click', (e) => {
                 const guideType = card.dataset.guide;
+                console.log('Quick start clicked:', guideType); // Debug log
                 this.openGuide(guideType);
             });
         });
@@ -609,6 +609,7 @@ class PanduanManager {
         document.querySelectorAll('.guide-item').forEach(item => {
             item.addEventListener('click', (e) => {
                 const guideType = item.dataset.guide;
+                console.log('Guide item clicked:', guideType); // Debug log
                 if (guideType && this.guideData[guideType]) {
                     this.openGuide(guideType);
                 }
@@ -616,26 +617,46 @@ class PanduanManager {
         });
 
         // Modal controls
-        document.getElementById('closeModal')?.addEventListener('click', () => {
-            this.closeGuide();
-        });
+        const closeModal = document.getElementById('closeModal');
+        if (closeModal) {
+            closeModal.addEventListener('click', () => {
+                console.log('Close modal clicked'); // Debug log
+                this.closeGuide();
+            });
+        }
 
-        document.getElementById('modalOverlay')?.addEventListener('click', () => {
-            this.closeGuide();
-        });
+        const modalOverlay = document.getElementById('modalOverlay');
+        if (modalOverlay) {
+            modalOverlay.addEventListener('click', () => {
+                console.log('Modal overlay clicked'); // Debug log
+                this.closeGuide();
+            });
+        }
 
-        document.getElementById('nextStep')?.addEventListener('click', () => {
-            this.nextStep();
-        });
+        const nextStep = document.getElementById('nextStep');
+        if (nextStep) {
+            nextStep.addEventListener('click', () => {
+                console.log('Next step clicked'); // Debug log
+                this.nextStep();
+            });
+        }
 
-        document.getElementById('prevStep')?.addEventListener('click', () => {
-            this.prevStep();
-        });
+        const prevStep = document.getElementById('prevStep');
+        if (prevStep) {
+            prevStep.addEventListener('click', () => {
+                console.log('Previous step clicked'); // Debug log
+                this.prevStep();
+            });
+        }
 
         // FAQ toggle
-        document.getElementById('faqBtn')?.addEventListener('click', () => {
-            this.toggleFAQ();
-        });
+        const faqBtn = document.getElementById('faqBtn');
+        if (faqBtn) {
+            faqBtn.addEventListener('click', () => {
+                console.log('FAQ button clicked'); // Debug log
+                this.toggleFAQ();
+            });
+        }
 
         // Keyboard navigation
         document.addEventListener('keydown', (e) => {
@@ -671,8 +692,11 @@ class PanduanManager {
     }
 
     openGuide(guideType) {
+        console.log('Opening guide:', guideType); // Debug log
+        
         if (!this.guideData[guideType]) {
             console.error('Guide not found:', guideType);
+            alert('Panduan tidak ditemukan: ' + guideType);
             return;
         }
 
@@ -683,10 +707,14 @@ class PanduanManager {
         const overlay = document.getElementById('modalOverlay');
         
         if (modal && overlay) {
+            console.log('Showing modal for guide:', guideType); // Debug log
             this.updateModalContent();
             modal.classList.add('active');
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
+        } else {
+            console.error('Modal elements not found');
+            alert('Error: Modal elements tidak ditemukan');
         }
     }
 
@@ -727,9 +755,17 @@ class PanduanManager {
     }
 
     updateModalContent() {
-        if (!this.currentGuide) return;
+        if (!this.currentGuide) {
+            console.error('No current guide set');
+            return;
+        }
         
         const guide = this.guideData[this.currentGuide];
+        if (!guide || !guide.steps || !guide.steps[this.currentStep]) {
+            console.error('Invalid guide data:', this.currentGuide, this.currentStep);
+            return;
+        }
+        
         const step = guide.steps[this.currentStep];
         
         const titleElement = document.getElementById('modalTitle');
@@ -739,10 +775,14 @@ class PanduanManager {
         
         if (titleElement) {
             titleElement.textContent = `${guide.title} (${this.currentStep + 1}/${guide.steps.length})`;
+        } else {
+            console.error('Modal title element not found');
         }
         
         if (bodyElement) {
             bodyElement.innerHTML = step.content;
+        } else {
+            console.error('Modal body element not found');
         }
         
         // Update button states
@@ -756,6 +796,8 @@ class PanduanManager {
                 '<i class="fas fa-check"></i> Selesai' : 
                 'Selanjutnya <i class="fas fa-arrow-right"></i>';
         }
+        
+        console.log('Modal content updated for step:', this.currentStep + 1, 'of', guide.steps.length);
     }
 
     showCompletionMessage() {
@@ -906,7 +948,47 @@ class PanduanManager {
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.panduanManager = new PanduanManager();
+    console.log('DOM loaded, initializing panduan...'); // Debug log
+    
+    // Check if required elements exist
+    const requiredElements = [
+        'guideModal',
+        'modalOverlay', 
+        'modalTitle',
+        'modalBody',
+        'nextStep',
+        'prevStep',
+        'closeModal',
+        'faqBtn',
+        'faqSection'
+    ];
+    
+    const missingElements = requiredElements.filter(id => !document.getElementById(id));
+    if (missingElements.length > 0) {
+        console.error('Missing required elements:', missingElements);
+    } else {
+        console.log('All required elements found');
+    }
+    
+    // Initialize PanduanManager
+    try {
+        window.panduanManager = new PanduanManager();
+        console.log('PanduanManager initialized successfully');
+    } catch (error) {
+        console.error('Error initializing PanduanManager:', error);
+    }
+    
+    // Initialize CommonManager for navigation and theme
+    if (typeof CommonManager !== 'undefined') {
+        try {
+            window.commonManager = new CommonManager();
+            console.log('CommonManager initialized successfully');
+        } catch (error) {
+            console.error('Error initializing CommonManager:', error);
+        }
+    } else {
+        console.log('CommonManager not available, using fallback theme toggle');
+    }
     
     // Add smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -928,6 +1010,52 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         document.body.style.opacity = '1';
     }, 100);
+    
+    // Ensure theme toggle works (fallback if CommonManager not available)
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle && !themeToggle.hasAttribute('data-initialized')) {
+        themeToggle.setAttribute('data-initialized', 'true');
+        themeToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Theme toggle clicked'); // Debug log
+            
+            const isDarkMode = document.body.classList.toggle('dark-mode');
+            const icon = this.querySelector('i');
+            const text = this.querySelector('span');
+            
+            if (isDarkMode) {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Mode Terang';
+                localStorage.setItem('theme', 'dark');
+                console.log('Switched to dark mode');
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Mode Gelap';
+                localStorage.setItem('theme', 'light');
+                console.log('Switched to light mode');
+            }
+        });
+    }
+    
+    // Load saved theme immediately
+    const savedTheme = localStorage.getItem('theme');
+    console.log('Saved theme:', savedTheme);
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            
+            if (icon && text) {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Mode Terang';
+                console.log('Dark mode loaded from localStorage');
+            }
+        }
+    }
+    
+    console.log('Panduan initialization complete');
 });
 
 // Export for global access
