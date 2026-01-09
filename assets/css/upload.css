@@ -1909,6 +1909,12 @@
     margin-bottom: 0.5rem;
     overflow: hidden;
     transition: all 0.3s ease;
+    position: relative; /* Ensure proper stacking context */
+    z-index: 1; /* Base z-index */
+}
+
+.accordion-item.active {
+    z-index: 2; /* Higher z-index when active */
 }
 
 .disease-header {
@@ -1998,17 +2004,20 @@
 .disease-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease-out;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
     background: rgba(255, 255, 255, 0.95);
+    position: relative;
 }
 
 .accordion-item.active .disease-content {
-    max-height: 800px; /* Increased for longer content */
+    max-height: 1000px; /* Increased for longer content */
     border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 1rem; /* Add padding when expanded */
 }
 
 .accordion-item.active .accordion-toggle {
     transform: rotate(180deg);
+    transition: transform 0.3s ease;
 }
 
 .accordion-item.active .disease-header {
@@ -2017,6 +2026,12 @@
 
 .disease-content .disease-info {
     padding: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease 0.1s; /* Delayed opacity for smoother animation */
+}
+
+.accordion-item.active .disease-content .disease-info {
+    opacity: 1;
 }
 
 .disease-content .disease-symptoms,

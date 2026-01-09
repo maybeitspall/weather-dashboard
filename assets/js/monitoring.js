@@ -779,7 +779,27 @@ window.addEventListener('load', () => {
             }
         }, 500);
     }
+    
+    // Run auto-fix after everything is loaded
+    setTimeout(() => {
+        autoFixAccordion();
+    }, 1000);
 });
+
+// Run periodic checks for accordion health
+setInterval(() => {
+    if (window.location.pathname.includes('monitoring')) {
+        const headers = document.querySelectorAll('.disease-header');
+        const uninitializedHeaders = Array.from(headers).filter(h => 
+            !h.classList.contains('accordion-initialized')
+        );
+        
+        if (uninitializedHeaders.length > 0) {
+            console.log('Found uninitialized headers, auto-fixing...');
+            autoFixAccordion();
+        }
+    }
+}, 5000); // Check every 5 seconds
 
 // ====================== //
 // ACCORDION FUNCTIONALITY //
@@ -787,35 +807,49 @@ window.addEventListener('load', () => {
 
 // Global function for accordion toggle
 function toggleAccordion(header) {
-    console.log('toggleAccordion called'); // Debug log
-    const accordionItem = header.closest('.accordion-item');
-    if (!accordionItem) {
-        console.log('No accordion item found'); // Debug log
-        return;
-    }
-    
-    const isActive = accordionItem.classList.contains('active');
-    console.log('Is active:', isActive); // Debug log
-    
-    // Close all other accordion items in the same container
-    const container = accordionItem.closest('.disease-list, .pest-list');
-    if (container) {
-        const allItems = container.querySelectorAll('.accordion-item');
-        allItems.forEach(item => {
-            if (item !== accordionItem) {
-                item.classList.remove('active');
+    try {
+        console.log('toggleAccordion called'); // Debug log
+        const accordionItem = header.closest('.accordion-item');
+        if (!accordionItem) {
+            console.log('No accordion item found'); // Debug log
+            return;
+        }
+        
+        const isActive = accordionItem.classList.contains('active');
+        console.log('Is active:', isActive); // Debug log
+        
+        // Close all other accordion items in the same container
+        const container = accordionItem.closest('.disease-list, .pest-list');
+        if (container) {
+            const allItems = container.querySelectorAll('.accordion-item');
+            allItems.forEach(item => {
+                if (item !== accordionItem) {
+                    item.classList.remove('active');
+                }
+            });
+        }
+        
+        // Toggle current item
+        if (isActive) {
+            accordionItem.classList.remove('active');
+        } else {
+            accordionItem.classList.add('active');
+        }
+        
+        console.log('Accordion toggled, new state:', accordionItem.classList.contains('active')); // Debug log
+        
+        // Trigger a custom event for debugging
+        const event = new CustomEvent('accordionToggled', {
+            detail: { 
+                element: accordionItem, 
+                isActive: accordionItem.classList.contains('active') 
             }
         });
+        document.dispatchEvent(event);
+        
+    } catch (error) {
+        console.error('Error in toggleAccordion:', error);
     }
-    
-    // Toggle current item
-    if (isActive) {
-        accordionItem.classList.remove('active');
-    } else {
-        accordionItem.classList.add('active');
-    }
-    
-    console.log('Accordion toggled, new state:', accordionItem.classList.contains('active')); // Debug log
 }
 
 // Initialize accordion functionality
@@ -838,6 +872,8 @@ function initializeAccordion() {
             
             // Remove any existing event listeners and onclick attributes
             header.removeAttribute('onclick');
+            
+            // Create a completely new element to avoid event conflicts
             const newHeader = header.cloneNode(true);
             header.parentNode.replaceChild(newHeader, header);
             
@@ -847,15 +883,37 @@ function initializeAccordion() {
             if (isMobile) {
                 // Add accordion functionality on mobile with multiple event types
                 const handleAccordionClick = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Header clicked:', index); // Debug log
-                    toggleAccordion(this);
+                    try {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        console.log('Header clicked:', index, 'Event type:', e.type); // Debug log
+                        
+                        // Add visual feedback
+                        this.style.transform = 'scale(0.98)';
+                        setTimeout(() => {
+                            this.style.transform = '';
+                        }, 150);
+                        
+                        toggleAccordion(this);
+                    } catch (error) {
+                        console.error('Error in accordion click handler:', error);
+                    }
                 };
                 
                 // Add both click and touchstart events for better mobile support
-                newHeader.addEventListener('click', handleAccordionClick, { passive: false });
-                newHeader.addEventListener('touchstart', handleAccordionClick, { passive: false });
+                newHeader.addEventListener('click', handleAccordionClick, { 
+                    passive: false, 
+                    capture: true 
+                });
+                
+                // Only add touchstart if it's a touch device
+                if ('ontouchstart' in window) {
+                    newHeader.addEventListener('touchstart', handleAccordionClick, { 
+                        passive: false, 
+                        capture: true 
+                    });
+                }
                 
                 // Add cursor pointer style and touch-friendly styling
                 newHeader.style.cursor = 'pointer';
@@ -868,6 +926,10 @@ function initializeAccordion() {
                 newHeader.style.minHeight = '44px';
                 newHeader.style.display = 'flex';
                 newHeader.style.alignItems = 'center';
+                
+                // Add data attribute for debugging
+                newHeader.setAttribute('data-accordion-enabled', 'true');
+                
             } else {
                 // On desktop, remove cursor pointer and ensure content is always visible
                 newHeader.style.cursor = 'default';
@@ -875,6 +937,8 @@ function initializeAccordion() {
                 if (accordionItem) {
                     accordionItem.classList.add('active'); // Always show content on desktop
                 }
+                
+                newHeader.setAttribute('data-accordion-enabled', 'false');
             }
             
             // Add a test class to verify the element is being processed
@@ -883,8 +947,14 @@ function initializeAccordion() {
         
         // Listen for window resize to re-initialize if needed
         window.addEventListener('resize', debounce(() => {
+            console.log('Window resized, re-initializing accordion...');
             initializeAccordion();
         }, 250));
+        
+        // Add global event listener for debugging
+        document.addEventListener('accordionToggled', (e) => {
+            console.log('Accordion toggled event:', e.detail);
+        });
         
         console.log('Accordion initialization complete!');
     }, 100);
@@ -946,10 +1016,88 @@ function testAccordion() {
 // Force accordion initialization function
 function forceInitAccordion() {
     console.log('=== FORCE INIT ACCORDION ===');
+    
+    // Clear any existing event listeners
+    const headers = document.querySelectorAll('.disease-header');
+    headers.forEach(header => {
+        header.classList.remove('accordion-initialized');
+    });
+    
     initializeAccordion();
     console.log('=== FORCE INIT COMPLETE ===');
+}
+
+// Diagnostic function to check accordion health
+function diagnoseAccordion() {
+    console.log('=== ACCORDION DIAGNOSIS ===');
+    
+    const accordionItems = document.querySelectorAll('.accordion-item');
+    const accordionHeaders = document.querySelectorAll('.disease-header');
+    const diseaseContent = document.querySelectorAll('.disease-content');
+    
+    console.log('Accordion items:', accordionItems.length);
+    console.log('Accordion headers:', accordionHeaders.length);
+    console.log('Disease content:', diseaseContent.length);
+    
+    // Check each header
+    accordionHeaders.forEach((header, index) => {
+        const isInitialized = header.classList.contains('accordion-initialized');
+        const hasAccordionEnabled = header.getAttribute('data-accordion-enabled');
+        const hasEventListeners = header.onclick !== null;
+        
+        console.log(`Header ${index}:`, {
+            initialized: isInitialized,
+            accordionEnabled: hasAccordionEnabled,
+            hasOnclick: hasEventListeners,
+            cursor: header.style.cursor,
+            touchAction: header.style.touchAction
+        });
+    });
+    
+    // Check for common issues
+    const issues = [];
+    
+    if (accordionItems.length !== accordionHeaders.length) {
+        issues.push('Mismatch between accordion items and headers');
+    }
+    
+    if (accordionHeaders.length === 0) {
+        issues.push('No accordion headers found');
+    }
+    
+    const uninitializedHeaders = Array.from(accordionHeaders).filter(h => 
+        !h.classList.contains('accordion-initialized')
+    );
+    
+    if (uninitializedHeaders.length > 0) {
+        issues.push(`${uninitializedHeaders.length} headers not initialized`);
+    }
+    
+    if (issues.length > 0) {
+        console.warn('Issues found:', issues);
+        console.log('Attempting to fix...');
+        forceInitAccordion();
+    } else {
+        console.log('No issues found');
+    }
+    
+    console.log('=== DIAGNOSIS COMPLETE ===');
+    return issues;
+}
+
+// Auto-fix function that runs periodically
+function autoFixAccordion() {
+    const issues = diagnoseAccordion();
+    if (issues.length > 0) {
+        console.log('Auto-fixing accordion issues...');
+        setTimeout(() => {
+            forceInitAccordion();
+        }, 100);
+    }
 }
 
 // Make test functions available globally
 window.testAccordion = testAccordion;
 window.forceInitAccordion = forceInitAccordion;
+window.diagnoseAccordion = diagnoseAccordion;
+window.autoFixAccordion = autoFixAccordion;
