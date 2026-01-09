@@ -1019,3 +1019,261 @@
         color: black !important;
     }
 }
+/* ===== DARK MODE STYLES ===== */
+
+/* Dark Mode Variables */
+.dark-mode {
+    --primary-color: #3d6b35;
+    --bg-body: #1a1a1a;
+    --bg-card: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #cccccc;
+    --text-muted: #999999;
+    --border-color: #404040;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --welcome-bg-start: #2d4a2a;
+    --welcome-bg-end: #3d6b35;
+}
+
+/* Welcome Section Dark Mode */
+.dark-mode .welcome-section {
+    background: linear-gradient(135deg, var(--welcome-bg-start) 0%, var(--welcome-bg-end) 100%);
+}
+
+/* Cards Dark Mode */
+.dark-mode .quick-start-card,
+.dark-mode .category-card,
+.dark-mode .help-card,
+.dark-mode .faq-item {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+    box-shadow: 0 3px 10px var(--shadow-color);
+}
+
+.dark-mode .quick-start-card:hover,
+.dark-mode .category-card:hover,
+.dark-mode .help-card:hover {
+    box-shadow: 0 6px 20px var(--shadow-color);
+}
+
+/* Section Headers Dark Mode */
+.dark-mode .section-header h2 {
+    color: var(--primary-color);
+}
+
+.dark-mode .section-header p {
+    color: var(--text-secondary);
+}
+
+/* Category Headers Dark Mode */
+.dark-mode .category-header {
+    background: linear-gradient(135deg, #3a3a3a 0%, #2d2d2d 100%);
+}
+
+.dark-mode .category-header h3 {
+    color: var(--text-primary);
+}
+
+.dark-mode .category-content p {
+    color: var(--text-secondary);
+}
+
+/* Guide Items Dark Mode */
+.dark-mode .guide-item {
+    background: #3a3a3a;
+    color: var(--text-primary);
+}
+
+.dark-mode .guide-item:hover {
+    background: #404040;
+}
+
+.dark-mode .guide-item span {
+    color: var(--text-primary);
+}
+
+/* Difficulty Badges Dark Mode */
+.dark-mode .difficulty.easy {
+    background: rgba(46, 125, 50, 0.3);
+    color: #81c784;
+}
+
+.dark-mode .difficulty.medium {
+    background: rgba(245, 124, 0, 0.3);
+    color: #ffb74d;
+}
+
+/* FAQ Dark Mode */
+.dark-mode .faq-question {
+    background: #3a3a3a;
+    color: var(--text-primary);
+}
+
+.dark-mode .faq-question:hover {
+    background: #404040;
+}
+
+.dark-mode .faq-question h3 {
+    color: var(--text-primary);
+}
+
+.dark-mode .faq-answer p {
+    color: var(--text-secondary);
+}
+
+/* Modal Dark Mode */
+.dark-mode .guide-modal {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.dark-mode .modal-header {
+    background: var(--primary-color);
+}
+
+.dark-mode .modal-body {
+    color: var(--text-primary);
+}
+
+.dark-mode .modal-footer {
+    background: #3a3a3a;
+}
+
+/* Guide Content Dark Mode */
+.dark-mode .guide-step h4 {
+    color: var(--primary-color);
+}
+
+.dark-mode .guide-step p {
+    color: var(--text-secondary);
+}
+
+.dark-mode .guide-tip {
+    background: rgba(46, 125, 50, 0.2);
+    border-left-color: var(--primary-color);
+}
+
+.dark-mode .guide-tip strong {
+    color: #81c784;
+}
+
+.dark-mode .guide-warning {
+    background: rgba(245, 124, 0, 0.2);
+    border-left-color: #ff9800;
+}
+
+.dark-mode .guide-warning strong {
+    color: #ffb74d;
+}
+
+/* Buttons Dark Mode */
+.dark-mode .btn-start,
+.dark-mode .help-btn {
+    background: var(--primary-color);
+}
+
+.dark-mode .btn-start:hover,
+.dark-mode .help-btn:hover {
+    background: #2d4a2a;
+}
+
+.dark-mode .help-btn.whatsapp {
+    background: #1e7e34;
+}
+
+.dark-mode .help-btn.whatsapp:hover {
+    background: #155724;
+}
+
+/* Modal Buttons Dark Mode */
+.dark-mode .modal-footer .btn-primary {
+    background: var(--primary-color);
+}
+
+.dark-mode .modal-footer .btn-primary:hover {
+    background: #2d4a2a;
+}
+
+.dark-mode .modal-footer .btn-secondary {
+    background: #495057;
+}
+
+.dark-mode .modal-footer .btn-secondary:hover {
+    background: #343a40;
+}
+
+/* Icons Dark Mode */
+.dark-mode .help-icon,
+.dark-mode .card-icon,
+.dark-mode .category-header .category-icon {
+    color: var(--primary-color);
+}
+
+/* Guide Duration Badge Dark Mode */
+.dark-mode .guide-duration {
+    background: var(--primary-color);
+}
+
+/* Mobile Dark Mode Adjustments */
+@media (max-width: 768px) {
+    .dark-mode .welcome-content {
+        color: var(--text-primary);
+    }
+    
+    .dark-mode .stat-item {
+        color: var(--text-secondary);
+    }
+    
+    .dark-mode .quick-start-card,
+    .dark-mode .category-card,
+    .dark-mode .help-card {
+        box-shadow: 0 2px 8px var(--shadow-color);
+    }
+}
+
+/* Small Mobile Dark Mode */
+@media (max-width: 480px) {
+    .dark-mode .guide-modal {
+        box-shadow: 0 10px 25px var(--shadow-color);
+    }
+    
+    .dark-mode .modal-body {
+        background: var(--bg-card);
+    }
+}
+
+/* High Contrast Dark Mode */
+@media (prefers-contrast: high) {
+    .dark-mode .quick-start-card,
+    .dark-mode .category-card,
+    .dark-mode .help-card,
+    .dark-mode .guide-item,
+    .dark-mode .faq-item {
+        border: 2px solid #666;
+    }
+    
+    .dark-mode .btn-start,
+    .dark-mode .help-btn {
+        border: 2px solid var(--primary-color);
+    }
+}
+
+/* Print Dark Mode (Force Light) */
+@media print {
+    .dark-mode .welcome-section,
+    .dark-mode .quick-start-card,
+    .dark-mode .category-card,
+    .dark-mode .help-card,
+    .dark-mode .faq-item {
+        background: white !important;
+        color: black !important;
+    }
+    
+    .dark-mode .section-header h2,
+    .dark-mode .category-header h3,
+    .dark-mode .guide-item span,
+    .dark-mode .faq-question h3 {
+        color: black !important;
+    }
+}

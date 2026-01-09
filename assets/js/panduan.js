@@ -12,6 +12,8 @@ class PanduanManager {
         this.loadGuideData();
         this.bindEvents();
         this.initFAQ();
+        this.setupThemeToggle(); // Tambah theme toggle
+        this.loadSavedTheme(); // Load saved theme
     }
 
     loadGuideData() {
@@ -847,6 +849,56 @@ class PanduanManager {
             const tooltip = element.querySelector('.highlight-tooltip');
             if (tooltip) {
                 tooltip.remove();
+            }
+        }
+    }
+
+    // Setup theme toggle functionality
+    setupThemeToggle() {
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.toggleTheme();
+            });
+        }
+    }
+
+    // Toggle theme function
+    toggleTheme() {
+        const isDarkMode = document.body.classList.toggle('dark-mode');
+        const themeToggle = document.getElementById('themeToggle');
+        
+        if (themeToggle) {
+            const icon = themeToggle.querySelector('i');
+            const text = themeToggle.querySelector('span');
+            
+            if (isDarkMode) {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Mode Terang';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Mode Gelap';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+    }
+
+    // Load saved theme
+    loadSavedTheme() {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                const icon = themeToggle.querySelector('i');
+                const text = themeToggle.querySelector('span');
+                
+                if (icon && text) {
+                    icon.className = 'fas fa-sun';
+                    text.textContent = 'Mode Terang';
+                }
             }
         }
     }
