@@ -983,11 +983,22 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             window.commonManager = new CommonManager();
             console.log('CommonManager initialized successfully');
+            
+            // Give CommonManager time to set up theme toggle
+            setTimeout(() => {
+                const themeToggle = document.getElementById('themeToggle');
+                if (themeToggle && !themeToggle.hasAttribute('data-initialized')) {
+                    console.log('CommonManager did not initialize theme toggle, using fallback');
+                    initializeFallbackThemeToggle();
+                }
+            }, 100);
         } catch (error) {
             console.error('Error initializing CommonManager:', error);
+            initializeFallbackThemeToggle();
         }
     } else {
         console.log('CommonManager not available, using fallback theme toggle');
+        initializeFallbackThemeToggle();
     }
     
     // Add smooth scrolling for anchor links
@@ -1011,13 +1022,42 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.opacity = '1';
     }, 100);
     
-    // Ensure theme toggle works (fallback if CommonManager not available)
+    // Load saved theme immediately (independent of theme toggle initialization)
+    const savedTheme = localStorage.getItem('theme');
+    console.log('Saved theme:', savedTheme);
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        console.log('Dark mode applied from localStorage');
+        
+        // Update theme toggle UI if it exists
+        setTimeout(() => {
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                const icon = themeToggle.querySelector('i');
+                const text = themeToggle.querySelector('span');
+                
+                if (icon && text) {
+                    icon.className = 'fas fa-sun';
+                    text.textContent = 'Mode Terang';
+                    console.log('Theme toggle UI updated for dark mode');
+                }
+            }
+        }, 50);
+    }
+    
+    console.log('Panduan initialization complete');
+});
+
+// Fallback theme toggle function
+function initializeFallbackThemeToggle() {
     const themeToggle = document.getElementById('themeToggle');
     if (themeToggle && !themeToggle.hasAttribute('data-initialized')) {
+        console.log('Initializing fallback theme toggle');
         themeToggle.setAttribute('data-initialized', 'true');
+        
         themeToggle.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log('Theme toggle clicked'); // Debug log
+            console.log('Fallback theme toggle clicked');
             
             const isDarkMode = document.body.classList.toggle('dark-mode');
             const icon = this.querySelector('i');
@@ -1035,28 +1075,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.log('Switched to light mode');
             }
         });
-    }
-    
-    // Load saved theme immediately
-    const savedTheme = localStorage.getItem('theme');
-    console.log('Saved theme:', savedTheme);
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        const themeToggle = document.getElementById('themeToggle');
-        if (themeToggle) {
+        
+        // Load saved theme for fallback
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
             const icon = themeToggle.querySelector('i');
             const text = themeToggle.querySelector('span');
             
             if (icon && text) {
                 icon.className = 'fas fa-sun';
                 text.textContent = 'Mode Terang';
-                console.log('Dark mode loaded from localStorage');
+                console.log('Dark mode loaded from localStorage (fallback)');
             }
         }
     }
-    
-    console.log('Panduan initialization complete');
-});
+}
 
 // Export for global access
 window.PanduanManager = PanduanManager;
