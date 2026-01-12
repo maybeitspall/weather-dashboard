@@ -1035,6 +1035,12 @@
     --welcome-bg-end: #3d6b35;
 }
 
+/* Apply dark mode body background */
+.dark-mode body {
+    background-color: var(--bg-body);
+    color: var(--text-primary);
+}
+
 /* Welcome Section Dark Mode */
 .dark-mode .welcome-section {
     background: linear-gradient(135deg, var(--welcome-bg-start) 0%, var(--welcome-bg-end) 100%);

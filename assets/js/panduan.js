@@ -978,28 +978,29 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('Error initializing PanduanManager:', error);
     }
     
-    // Initialize CommonManager for navigation and theme
-    if (typeof CommonManager !== 'undefined') {
-        try {
-            window.commonManager = new CommonManager();
-            console.log('CommonManager initialized successfully');
-            
-            // Give CommonManager time to set up theme toggle
-            setTimeout(() => {
-                const themeToggle = document.getElementById('themeToggle');
-                if (themeToggle && !themeToggle.hasAttribute('data-initialized')) {
-                    console.log('CommonManager did not initialize theme toggle, using fallback');
-                    initializeFallbackThemeToggle();
-                }
-            }, 100);
-        } catch (error) {
-            console.error('Error initializing CommonManager:', error);
-            initializeFallbackThemeToggle();
-        }
-    } else {
-        console.log('CommonManager not available, using fallback theme toggle');
-        initializeFallbackThemeToggle();
+    // Load saved theme immediately (before any other initialization)
+    const savedTheme = localStorage.getItem('theme');
+    console.log('Saved theme:', savedTheme);
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        console.log('Dark mode applied from localStorage');
     }
+    
+    // Initialize theme toggle with delay to ensure AppController is ready
+    setTimeout(() => {
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            // Check if AppController already initialized the theme toggle
+            if (window.appController && typeof window.appController.setupThemeToggle === 'function') {
+                console.log('AppController theme toggle is available');
+                // Update theme toggle UI to match current state
+                updateThemeToggleUI();
+            } else {
+                console.log('AppController not available, using fallback theme toggle');
+                initializeFallbackThemeToggle();
+            }
+        }
+    }, 300); // Increased delay to ensure AppController finishes
     
     // Add smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1022,31 +1023,29 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.opacity = '1';
     }, 100);
     
-    // Load saved theme immediately (independent of theme toggle initialization)
-    const savedTheme = localStorage.getItem('theme');
-    console.log('Saved theme:', savedTheme);
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-        console.log('Dark mode applied from localStorage');
-        
-        // Update theme toggle UI if it exists
-        setTimeout(() => {
-            const themeToggle = document.getElementById('themeToggle');
-            if (themeToggle) {
-                const icon = themeToggle.querySelector('i');
-                const text = themeToggle.querySelector('span');
-                
-                if (icon && text) {
-                    icon.className = 'fas fa-sun';
-                    text.textContent = 'Mode Terang';
-                    console.log('Theme toggle UI updated for dark mode');
-                }
-            }
-        }, 50);
-    }
-    
     console.log('Panduan initialization complete');
 });
+
+// Function to update theme toggle UI to match current state
+function updateThemeToggleUI() {
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        const icon = themeToggle.querySelector('i');
+        const text = themeToggle.querySelector('span');
+        
+        if (icon && text) {
+            if (isDarkMode) {
+                icon.className = 'fas fa-sun';
+                text.textContent = 'Mode Terang';
+            } else {
+                icon.className = 'fas fa-moon';
+                text.textContent = 'Mode Gelap';
+            }
+            console.log('Theme toggle UI updated:', isDarkMode ? 'dark' : 'light');
+        }
+    }
+}
 
 // Fallback theme toggle function
 function initializeFallbackThemeToggle() {
@@ -1055,7 +1054,11 @@ function initializeFallbackThemeToggle() {
         console.log('Initializing fallback theme toggle');
         themeToggle.setAttribute('data-initialized', 'true');
         
-        themeToggle.addEventListener('click', function(e) {
+        // Remove any existing event listeners to prevent duplicates
+        const newThemeToggle = themeToggle.cloneNode(true);
+        themeToggle.parentNode.replaceChild(newThemeToggle, themeToggle);
+        
+        newThemeToggle.addEventListener('click', function(e) {
             e.preventDefault();
             console.log('Fallback theme toggle clicked');
             
@@ -1076,19 +1079,9 @@ function initializeFallbackThemeToggle() {
             }
         });
         
-        // Load saved theme for fallback
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-mode');
-            const icon = themeToggle.querySelector('i');
-            const text = themeToggle.querySelector('span');
-            
-            if (icon && text) {
-                icon.className = 'fas fa-sun';
-                text.textContent = 'Mode Terang';
-                console.log('Dark mode loaded from localStorage (fallback)');
-            }
-        }
+        // Update UI to match current state
+        updateThemeToggleUI();
+        console.log('Fallback theme toggle initialized successfully');
     }
 }
 
