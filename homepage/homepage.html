@@ -154,19 +154,31 @@
                 </div>
             </div>
 
-            <!-- Welcome Message -->
+            <!-- Welcome Weather Card -->
             <div class="welcome-card card">
-                <div class="welcome-content">
-                    <div class="welcome-text">
-                        <h2 id="greetingMessage">Selamat Pagi!</h2>
-                        <p>Selamat datang di NILAMTRACE, sistem manajemen produksi dan deteksi penyakit tanaman nilam. Dashboard ini menampilkan data real-time dari input produksi dan tanaman Anda.</p>
-                    </div>
-                    <div class="welcome-weather">
-                        <i class="fas fa-cloud-sun"></i>
-                        <div class="weather-info">
-                            <span class="weather-temp">28°C</span>
-                            <span class="weather-desc">Cerah Berawan</span>
+                <svg fill="none" viewBox="0 0 342 175" height="175" width="342" xmlns="http://www.w3.org/2000/svg" class="background">
+                    <path fill="url(#paint0_linear_green)" d="M0 66.4396C0 31.6455 0 14.2484 11.326 5.24044C22.6519 -3.76754 39.6026 0.147978 73.5041 7.97901L307.903 62.1238C324.259 65.9018 332.436 67.7909 337.218 73.8031C342 79.8154 342 88.2086 342 104.995V131C342 151.742 342 162.113 335.556 168.556C329.113 175 318.742 175 298 175H44C23.2582 175 12.8873 175 6.44365 168.556C0 162.113 0 151.742 0 131V66.4396Z"></path>
+                    <defs>
+                        <linearGradient gradientUnits="userSpaceOnUse" y2="128" x2="354.142" y1="128" x1="0" id="paint0_linear_green">
+                            <stop stop-color="#2d5a27"></stop>
+                            <stop stop-color="#1a4d1a" offset="1"></stop>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="weather-overlay"></div>
+                <div class="weather-content">
+                    <div class="weather-header">
+                        <p class="main-temp" id="mainTemp">28°</p>
+                        <div class="weather-icon-current" id="weatherIconContainer">
+                            <i class="fas fa-cloud-sun" id="weatherIcon"></i>
                         </div>
+                    </div>
+                    <div class="weather-info">
+                        <div class="info-left">
+                            <p class="temp-range" id="tempRange">H:32° L: 16°</p>
+                            <p class="location" id="locationDisplay">Desa Teuladan, Aceh</p>
+                        </div>
+                        <p class="weather-status" id="weatherStatus">Cerah Berawan</p>
                     </div>
                 </div>
             </div>
@@ -391,6 +403,7 @@
 
     <!-- JavaScript -->
     <script src="../assets/js/common.js"></script>
+    <script src="../assets/js/weather.js"></script>
     <script src="../assets/js/dashboard.js"></script>
 </body>
 </html>
