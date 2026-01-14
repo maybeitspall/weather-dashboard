@@ -1169,7 +1169,7 @@ table tbody tr:hover {
 .welcome-card.card {
     background: linear-gradient(135deg, #2d5a27 0%, #1a4d1a 100%) !important;
     width: 100%;
-    max-width: 420px;
+    max-width: 100%;
     height: 220px;
     position: relative;
     padding: 32px;
@@ -1389,13 +1389,60 @@ table tbody tr:hover {
 /* Desktop-specific enhancements */
 @media (min-width: 1025px) {
     .welcome-card.card {
-        max-width: 450px;
-        height: 240px;
-        padding: 36px;
+        max-width: 100%;
+        height: 260px;
+        padding: 40px;
         border-radius: 24px;
     }
     
     .welcome-card .main-temp {
+        font-size: 80px;
+        letter-spacing: -4px;
+    }
+    
+    .welcome-card .weather-icon-current {
+        width: 72px;
+        height: 72px;
+        border-radius: 20px;
+    }
+    
+    .welcome-card .weather-icon-current i {
+        font-size: 40px;
+    }
+    
+    .welcome-card .info-left .temp-range {
+        font-size: 1.2rem;
+    }
+    
+    .welcome-card .info-left .location {
+        font-size: 1.1rem;
+    }
+    
+    .welcome-card .weather-status {
+        font-size: 1.2rem;
+    }
+    
+    /* Add subtle animation */
+    .welcome-card.card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, 
+            transparent 30%, 
+            rgba(255, 255, 255, 0.05) 50%, 
+            transparent 70%);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+        z-index: 3;
+    }
+    
+    .welcome-card.card:hover::before {
+        transform: translateX(100%);
+    }
+}e-card .main-temp {
         font-size: 72px;
         letter-spacing: -4px;
     }
