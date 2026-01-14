@@ -691,11 +691,51 @@
     }
     
     .section-header h2 {
-        font-size: 1.4rem; /* Kurangi font */
+        font-size: 1.1rem; /* Konsisten dengan komponen lain */
+        gap: 0.5rem;
+    }
+    
+    .section-header h2 i {
+        font-size: 1.1rem;
     }
     
     .section-header p {
         font-size: 0.85rem; /* Kurangi font */
+    }
+    
+    /* Help Section Mobile Optimizations */
+    .help-section {
+        padding: var(--card-padding);
+    }
+    
+    .help-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 kolom untuk mobile */
+        gap: 0.8rem;
+    }
+    
+    .help-card {
+        padding: var(--card-padding);
+    }
+    
+    .help-icon {
+        font-size: 48px; /* Touch-friendly size */
+        margin-bottom: 0.6rem;
+    }
+    
+    .help-card h3 {
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .help-card p {
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+    }
+    
+    .help-btn {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+        min-height: 44px;
     }
     
     .guide-modal {
@@ -772,7 +812,13 @@
     }
     
     .section-header h2 {
-        font-size: 1.2rem;
+        font-size: 1rem; /* Konsisten dengan komponen lain */
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+    
+    .section-header h2 i {
+        font-size: 1rem;
     }
     
     .section-header p {
@@ -788,7 +834,7 @@
     .quick-start-card h3,
     .category-header h3,
     .help-card h3 {
-        font-size: 1rem;
+        font-size: 0.9rem; /* Konsisten dengan komponen lain */
     }
     
     .quick-start-card p,
@@ -809,10 +855,42 @@
         margin: 0.6rem 0;
     }
     
+    /* Help Section Very Small Mobile */
+    .help-section {
+        padding: var(--card-padding);
+    }
+    
+    .help-grid {
+        grid-template-columns: 1fr; /* Single column untuk very small mobile */
+        gap: 0.6rem;
+    }
+    
+    .help-card {
+        padding: var(--card-padding);
+    }
+    
+    .help-icon {
+        font-size: 40px; /* Smaller icon untuk very small screens */
+        margin-bottom: 0.5rem;
+    }
+    
+    .help-card h3 {
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .help-card p {
+        font-size: 0.8rem;
+        margin-bottom: 0.8rem;
+    }
+    
     .btn-start,
     .help-btn {
         padding: 0.6rem 1rem;
         font-size: 0.8rem;
+        width: 100%; /* Full width untuk very small mobile */
+        min-height: 44px;
+        justify-content: center;
     }
     
     .guide-item {

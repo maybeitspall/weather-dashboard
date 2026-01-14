@@ -1172,10 +1172,14 @@
         display: none;
     }
     
-    /* Footer Mobile Styles */
+    /* Footer Mobile Styles - Compact */
+    .landing-page .footer-section {
+        padding: 2rem 0 1rem;
+    }
+    
     .landing-page .footer-main {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 1.5rem;
         text-align: center;
     }
     
@@ -1185,21 +1189,28 @@
         order: 1;
     }
     
+    .landing-page .footer-logo {
+        margin-bottom: 0.75rem;
+    }
+    
+    .landing-page .footer-logo img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .landing-page .footer-logo .logo-text h3 {
+        font-size: 1rem;
+    }
+    
+    .landing-page .footer-logo .logo-text span {
+        font-size: 0.7rem;
+    }
+    
     .landing-page .footer-company .footer-description {
-        font-size: 0.9rem;
-        line-height: 1.6;
-        max-width: 350px;
-        margin: 0 auto 1.5rem;
-    }
-    
-    .landing-page .footer-stats {
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 1.5rem;
-    }
-    
-    .landing-page .footer-stat {
-        min-width: 80px;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        max-width: 300px;
+        margin: 0 auto 1rem;
     }
     
     .landing-page .footer-column {
@@ -1208,21 +1219,13 @@
         order: 2;
     }
     
-    .landing-page .footer-column:nth-child(2) {
-        order: 2;
-    }
-    
-    .landing-page .footer-column:nth-child(3) {
-        order: 3;
-    }
-    
-    .landing-page .footer-column:nth-child(4) {
-        order: 4;
-    }
-    
     .landing-page .footer-title {
-        font-size: 1rem;
-        margin-bottom: 1rem;
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .landing-page .footer-title i {
+        font-size: 0.9rem;
     }
     
     .landing-page .footer-title::after {
@@ -1230,64 +1233,82 @@
         transform: translateX(-50%);
     }
     
-    .landing-page .footer-links {
-        align-items: center;
-        max-width: 280px;
-        gap: 0.5rem;
-    }
-    
-    .landing-page .footer-link {
-        justify-content: center;
-        padding: 0.4rem 0;
-        font-size: 0.85rem;
-    }
-    
     .landing-page .footer-contact {
         align-items: center;
-        max-width: 300px;
-        gap: 0.75rem;
+        max-width: 280px;
+        gap: 0.6rem;
     }
     
     .landing-page .contact-item {
         justify-content: flex-start;
         text-align: left;
-        max-width: 280px;
+        max-width: 260px;
+        padding: 0.5rem;
+    }
+    
+    .landing-page .contact-item i {
+        font-size: 0.85rem;
+        width: 28px;
+        height: 28px;
+    }
+    
+    .landing-page .contact-label {
+        font-size: 0.7rem;
     }
     
     .landing-page .contact-value {
-        font-size: 0.85rem;
+        font-size: 0.8rem;
     }
     
     .landing-page .footer-social {
-        margin-top: 1rem;
+        margin-top: 0.75rem;
+    }
+    
+    .landing-page .footer-social h5 {
+        font-size: 0.85rem;
+        margin-bottom: 0.6rem;
     }
     
     .landing-page .social-links {
         justify-content: center;
-        gap: 0.75rem;
+        gap: 0.6rem;
     }
     
     .landing-page .social-link {
-        width: 36px;
-        height: 36px;
-        font-size: 0.9rem;
+        width: 34px;
+        height: 34px;
+        font-size: 0.85rem;
     }
     
-    /* Footer Bottom Mobile - Simple */
+    /* Footer Bottom Mobile - Compact */
     .landing-page .footer-bottom {
-        padding: 1.5rem 0;
+        padding: 1.25rem 0;
+        margin-top: 1.5rem;
     }
     
     .landing-page .footer-bottom-content {
         flex-direction: column;
         text-align: center;
-        gap: 1rem;
+        gap: 0.75rem;
         padding: 0 1rem;
+    }
+    
+    .landing-page .copyright p {
+        font-size: 0.75rem;
+    }
+    
+    .landing-page .sub-copyright {
+        font-size: 0.7rem;
     }
     
     .landing-page .footer-bottom-links {
         justify-content: center;
-        gap: 1rem;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+    }
+    
+    .landing-page .bottom-link {
+        font-size: 0.7rem;
     }
     
     .section-title {
@@ -1342,55 +1363,83 @@
         font-size: 1rem;
     }
     
-    /* Footer Small Mobile - Improved */
+    /* Footer Small Mobile - Very Compact */
+    .landing-page .footer-section {
+        padding: 1.5rem 0 0.75rem;
+    }
+    
     .landing-page .footer-content {
-        padding: 0 1rem;
+        padding: 0 0.75rem;
     }
     
     .landing-page .footer-main {
-        gap: 1.5rem;
+        gap: 1.25rem;
+    }
+    
+    .landing-page .footer-logo {
+        margin-bottom: 0.6rem;
+    }
+    
+    .landing-page .footer-logo img {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .landing-page .footer-logo .logo-text h3 {
+        font-size: 0.9rem;
+    }
+    
+    .landing-page .footer-logo .logo-text span {
+        font-size: 0.65rem;
     }
     
     .landing-page .footer-company .footer-description {
-        font-size: 0.85rem;
-        max-width: 300px;
-    }
-    
-    .landing-page .footer-stats {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 1rem;
-        justify-content: center;
-    }
-    
-    .landing-page .footer-stat {
-        flex: 0 1 auto;
-        min-width: 70px;
-    }
-    
-    .landing-page .footer-stat .stat-number {
-        font-size: 1.1rem;
-    }
-    
-    .landing-page .footer-stat .stat-label {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
+        max-width: 280px;
+        margin-bottom: 0.85rem;
+        line-height: 1.35;
     }
     
     .landing-page .footer-title {
-        font-size: 0.95rem;
+        font-size: 0.85rem;
+        margin-bottom: 0.65rem;
     }
     
-    .landing-page .footer-link {
-        font-size: 0.8rem;
-        padding: 0.3rem 0;
+    .landing-page .footer-title i {
+        font-size: 0.85rem;
     }
     
-    .landing-page .contact-value {
+    .landing-page .footer-contact {
+        gap: 0.5rem;
+        max-width: 260px;
+    }
+    
+    .landing-page .contact-item {
+        padding: 0.4rem;
+        max-width: 240px;
+    }
+    
+    .landing-page .contact-item i {
         font-size: 0.8rem;
+        width: 26px;
+        height: 26px;
     }
     
     .landing-page .contact-label {
+        font-size: 0.65rem;
+    }
+    
+    .landing-page .contact-value {
         font-size: 0.75rem;
+    }
+    
+    .landing-page .footer-social {
+        margin-top: 0.65rem;
+    }
+    
+    .landing-page .footer-social h5 {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
     }
     
     .landing-page .social-links {
@@ -1498,59 +1547,120 @@
         padding: 1rem;
     }
     
-    /* Footer Very Small Mobile - Improved */
+    /* Footer Very Small Mobile - Ultra Compact */
+    .landing-page .footer-section {
+        padding: 1.25rem 0 0.6rem;
+    }
+    
     .landing-page .footer-content {
         padding: 0 0.5rem;
     }
     
     .landing-page .footer-main {
-        gap: 1.25rem;
+        gap: 1rem;
     }
     
-    .landing-page .footer-logo .logo-text h3 {
-        font-size: 1.1rem;
+    .landing-page .footer-logo {
+        margin-bottom: 0.5rem;
     }
     
     .landing-page .footer-logo img {
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
     }
     
-    .landing-page .footer-description {
-        font-size: 0.8rem;
-        max-width: 280px;
-        line-height: 1.5;
+    .landing-page .footer-logo .logo-text h3 {
+        font-size: 0.85rem;
     }
     
-    .landing-page .footer-stats {
-        flex-direction: column;
-        gap: 0.75rem;
+    .landing-page .footer-logo .logo-text span {
+        font-size: 0.6rem;
     }
     
-    .landing-page .footer-stat {
-        flex-direction: row;
-        gap: 0.4rem;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .landing-page .footer-stat .stat-number {
-        font-size: 1rem;
-    }
-    
-    .landing-page .footer-stat .stat-label {
-        font-size: 0.75rem;
-        margin-top: 0;
+    .landing-page .footer-company .footer-description {
+        font-size: 0.7rem;
+        max-width: 260px;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
     }
     
     .landing-page .footer-title {
-        font-size: 0.9rem;
-        margin-bottom: 0.75rem;
+        font-size: 0.8rem;
+        margin-bottom: 0.6rem;
     }
     
-    .landing-page .footer-link {
+    .landing-page .footer-title i {
+        font-size: 0.8rem;
+    }
+    
+    .landing-page .footer-contact {
+        gap: 0.45rem;
+        max-width: 240px;
+    }
+    
+    .landing-page .contact-item {
+        padding: 0.35rem;
+        max-width: 220px;
+    }
+    
+    .landing-page .contact-item i {
         font-size: 0.75rem;
-        padding: 0.25rem 0;
+        width: 24px;
+        height: 24px;
+    }
+    
+    .landing-page .contact-label {
+        font-size: 0.6rem;
+    }
+    
+    .landing-page .contact-value {
+        font-size: 0.7rem;
+    }
+    
+    .landing-page .footer-social {
+        margin-top: 0.6rem;
+    }
+    
+    .landing-page .footer-social h5 {
+        font-size: 0.75rem;
+        margin-bottom: 0.45rem;
+    }
+    
+    .landing-page .social-links {
+        gap: 0.45rem;
+    }
+    
+    .landing-page .social-link {
+        width: 30px;
+        height: 30px;
+        font-size: 0.75rem;
+    }
+    
+    /* Footer Bottom */
+    .landing-page .footer-bottom {
+        padding: 0.85rem 0;
+        margin-top: 1rem;
+    }
+    
+    .landing-page .footer-bottom-content {
+        gap: 0.6rem;
+        padding: 0 0.5rem;
+    }
+    
+    .landing-page .copyright p {
+        font-size: 0.65rem;
+    }
+    
+    .landing-page .sub-copyright {
+        font-size: 0.6rem !important;
+    }
+    
+    .landing-page .footer-bottom-links {
+        gap: 0.6rem;
+    }
+    
+    .landing-page .bottom-link {
+        font-size: 0.6rem;
     }
     
     .landing-page .footer-links {
@@ -1764,13 +1874,13 @@ html {
     font-size: 2rem;
     font-weight: 700;
     margin: 0;
-    color: #2d5a27;
+    color: #2d5a27 !important;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .auth-logo .logo-text span {
     font-size: 0.9rem;
-    color: #ffc107;
+    color: #3d6b35 !important;
     font-weight: 500;
 }
 
@@ -2000,104 +2110,389 @@ textarea.form-control {
 /* Auth Responsive Design */
 @media (max-width: 768px) {
     .auth-section {
-        padding: 5rem 1rem 2rem;
+        padding: 2rem 0.75rem 1rem;
     }
     
     .auth-card {
-        padding: 2rem;
-        border-radius: 16px;
+        padding: 1rem;
+        border-radius: 10px;
+    }
+    
+    .auth-header {
+        margin-bottom: 1rem;
+    }
+    
+    .auth-logo {
+        gap: 0.4rem;
+        margin-bottom: 0.7rem;
     }
     
     .auth-logo img {
-        width: 60px;
-        height: 60px;
+        width: 40px;
+        height: 40px;
     }
     
     .auth-logo .logo-text h1 {
-        font-size: 1.5rem;
+        font-size: 1rem;
+    }
+    
+    .auth-logo .logo-text span {
+        font-size: 0.65rem;
+    }
+    
+    .auth-badge {
+        font-size: 0.65rem;
+        padding: 0.3rem 0.6rem;
+        gap: 0.3rem;
+    }
+    
+    .auth-badge i {
+        font-size: 0.65rem;
     }
     
     .auth-title {
-        font-size: 1.5rem;
+        font-size: 0.95rem;
+        margin-bottom: 0.35rem;
     }
     
     .auth-subtitle {
-        font-size: 0.9rem;
+        font-size: 0.7rem;
+        line-height: 1.25;
+    }
+    
+    .auth-form {
+        gap: 0.7rem;
+    }
+    
+    .form-group {
+        gap: 0.3rem;
+    }
+    
+    .form-label {
+        font-size: 0.75rem;
+    }
+    
+    .form-label i {
+        font-size: 0.75rem;
+        width: 12px;
     }
     
     .form-control {
-        padding: 0.875rem 1rem;
-        font-size: 0.95rem;
+        padding: 0.5rem 0.65rem;
+        font-size: 0.75rem;
+        min-height: 38px;
+        border-radius: 8px;
     }
     
-    /* Keep the same padding for auth-btn on tablet */
+    .auth-form .auth-btn {
+        padding: 0.55rem 0.9rem;
+        font-size: 0.8rem;
+        min-height: 38px;
+        border-radius: 8px;
+    }
+    
+    .alert {
+        padding: 0.55rem 0.65rem;
+        font-size: 0.7rem;
+        border-radius: 8px;
+        margin-bottom: 0.7rem;
+    }
+    
+    .auth-footer {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        gap: 0.6rem;
+    }
+    
+    .auth-footer p,
+    .auth-link {
+        font-size: 0.7rem;
+    }
+    
+    .auth-divider {
+        margin: 0.6rem 0;
+    }
+    
+    .auth-divider span {
+        font-size: 0.65rem;
+        padding: 0 0.6rem;
+    }
+    
+    .auth-btn.secondary {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+        min-height: 38px;
+        border-radius: 8px;
+    }
 }
 
 @media (max-width: 480px) {
     .auth-section {
-        padding: 4rem 0.5rem 1rem;
+        padding: 1.5rem 0.5rem 0.75rem;
     }
     
     .auth-card {
-        padding: 1.5rem;
-        border-radius: 12px;
+        padding: 0.85rem;
+        border-radius: 8px;
     }
     
     .auth-header {
-        margin-bottom: 2rem;
+        margin-bottom: 0.85rem;
     }
     
     .auth-logo {
-        gap: 0.75rem;
-        margin-bottom: 1.5rem;
+        gap: 0.35rem;
+        margin-bottom: 0.6rem;
     }
     
     .auth-logo img {
-        width: 50px;
-        height: 50px;
+        width: 35px;
+        height: 35px;
     }
     
     .auth-logo .logo-text h1 {
-        font-size: 1.25rem;
-    }
-    
-    .auth-logo .logo-text span {
-        font-size: 0.8rem;
-    }
-    
-    .auth-title {
-        font-size: 1.25rem;
-    }
-    
-    .auth-subtitle {
-        font-size: 0.85rem;
-    }
-    
-    .auth-form {
-        gap: 1.25rem;
-    }
-    
-    .form-control {
-        padding: 0.75rem;
         font-size: 0.9rem;
     }
     
-    /* Keep the same padding for auth-btn on mobile */
+    .auth-logo .logo-text span {
+        font-size: 0.6rem;
+    }
+    
+    .auth-badge {
+        font-size: 0.6rem;
+        padding: 0.25rem 0.5rem;
+        gap: 0.25rem;
+    }
+    
+    .auth-badge i {
+        font-size: 0.6rem;
+    }
+    
+    .auth-title {
+        font-size: 0.85rem;
+        margin-bottom: 0.3rem;
+    }
+    
+    .auth-subtitle {
+        font-size: 0.65rem;
+        line-height: 1.25;
+    }
+    
+    .auth-form {
+        gap: 0.6rem;
+    }
+    
+    .form-group {
+        gap: 0.25rem;
+    }
+    
+    .form-label {
+        font-size: 0.7rem;
+    }
+    
+    .form-label i {
+        font-size: 0.7rem;
+        width: 11px;
+    }
+    
+    .form-control {
+        padding: 0.45rem 0.6rem;
+        font-size: 0.7rem;
+        min-height: 36px;
+        border-radius: 6px;
+    }
+    
+    textarea.form-control {
+        min-height: 55px;
+    }
+    
+    .form-hint {
+        font-size: 0.6rem;
+    }
+    
+    .auth-form .auth-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+        min-height: 36px;
+        gap: 0.4rem;
+        border-radius: 6px;
+    }
+    
+    .alert {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.65rem;
+        border-radius: 6px;
+        margin-bottom: 0.6rem;
+    }
     
     .auth-footer {
-        margin-top: 1.5rem;
-        padding-top: 1.5rem;
+        margin-top: 0.85rem;
+        padding-top: 0.85rem;
+        gap: 0.5rem;
+    }
+    
+    .auth-footer p {
+        font-size: 0.65rem;
+    }
+    
+    .auth-link {
+        font-size: 0.65rem;
+    }
+    
+    .auth-divider {
+        margin: 0.5rem 0;
+    }
+    
+    .auth-divider span {
+        font-size: 0.6rem;
+        padding: 0 0.5rem;
+    }
+    
+    .auth-btn.secondary {
+        padding: 0.45rem 0.7rem;
+        font-size: 0.7rem;
+        min-height: 36px;
+        gap: 0.35rem;
+        border-radius: 6px;
+    }
+    
+    .back-home {
+        font-size: 0.65rem;
+        padding: 0.25rem 0.5rem;
     }
 }
 
 @media (max-width: 360px) {
+    .auth-section {
+        padding: 1.25rem 0.4rem 0.6rem;
+    }
+    
     .auth-card {
-        padding: 1rem;
+        padding: 0.7rem;
+        border-radius: 6px;
+    }
+    
+    .auth-header {
+        margin-bottom: 0.7rem;
+    }
+    
+    .auth-logo {
+        gap: 0.3rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .auth-logo img {
+        width: 32px;
+        height: 32px;
     }
     
     .auth-logo .logo-text h1 {
-        font-size: 1.1rem;
+        font-size: 0.85rem;
     }
+    
+    .auth-logo .logo-text span {
+        font-size: 0.55rem;
+    }
+    
+    .auth-badge {
+        font-size: 0.55rem;
+        padding: 0.2rem 0.45rem;
+        gap: 0.2rem;
+    }
+    
+    .auth-title {
+        font-size: 0.8rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .auth-subtitle {
+        font-size: 0.6rem;
+        line-height: 1.2;
+    }
+    
+    .auth-form {
+        gap: 0.5rem;
+    }
+    
+    .form-group {
+        gap: 0.2rem;
+    }
+    
+    .form-label {
+        font-size: 0.65rem;
+    }
+    
+    .form-label i {
+        font-size: 0.65rem;
+        width: 10px;
+    }
+    
+    .form-control {
+        padding: 0.4rem 0.55rem;
+        font-size: 0.65rem;
+        min-height: 34px;
+        border-radius: 6px;
+    }
+    
+    textarea.form-control {
+        min-height: 50px;
+    }
+    
+    .form-hint {
+        font-size: 0.55rem;
+    }
+    
+    .auth-form .auth-btn {
+        padding: 0.45rem 0.7rem;
+        font-size: 0.7rem;
+        min-height: 34px;
+        gap: 0.35rem;
+        border-radius: 6px;
+    }
+    
+    .alert {
+        padding: 0.45rem 0.55rem;
+        font-size: 0.6rem;
+        border-radius: 6px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .auth-footer {
+        margin-top: 0.7rem;
+        padding-top: 0.7rem;
+        gap: 0.45rem;
+    }
+    
+    .auth-footer p {
+        font-size: 0.6rem;
+    }
+    
+    .auth-link {
+        font-size: 0.6rem;
+    }
+    
+    .auth-divider {
+        margin: 0.45rem 0;
+    }
+    
+    .auth-divider span {
+        font-size: 0.55rem;
+        padding: 0 0.45rem;
+    }
+    
+    .auth-btn.secondary {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.65rem;
+        min-height: 34px;
+        gap: 0.3rem;
+        border-radius: 6px;
+    }
+    
+    .back-home {
+        font-size: 0.6rem;
+        padding: 0.2rem 0.45rem;
+    }
+}
     
     .auth-title {
         font-size: 1.1rem;
