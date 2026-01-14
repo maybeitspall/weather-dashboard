@@ -186,6 +186,103 @@ class WeatherService {
     }
 
     /**
+     * Test if icon matches description
+     */
+    testIconDescriptionMatch() {
+        console.log('🧪 TESTING ICON-DESCRIPTION MATCH');
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        
+        const testCases = [
+            { icon: '01d', expectedDesc: 'Cerah', expectedIcon: 'fas fa-sun' },
+            { icon: '02d', expectedDesc: 'Cerah Berawan', expectedIcon: 'fas fa-cloud-sun' },
+            { icon: '03d', expectedDesc: 'Berawan', expectedIcon: 'fas fa-cloud' },
+            { icon: '04d', expectedDesc: 'Mendung', expectedIcon: 'fas fa-cloud' },
+            { icon: '09d', expectedDesc: 'Hujan Rintik', expectedIcon: 'fas fa-cloud-rain' },
+            { icon: '10d', expectedDesc: 'Hujan', expectedIcon: 'fas fa-cloud-sun-rain' },
+            { icon: '11d', expectedDesc: 'Badai Petir', expectedIcon: 'fas fa-bolt' },
+            { icon: '50d', expectedDesc: 'Berkabut', expectedIcon: 'fas fa-smog' }
+        ];
+        
+        let allMatch = true;
+        
+        testCases.forEach(test => {
+            const actualDesc = this.getWeatherDescription(test.icon, 800);
+            const actualIcon = this.getWeatherIcon(test.icon, 800);
+            
+            const descMatch = actualDesc === test.expectedDesc;
+            const iconMatch = actualIcon === test.expectedIcon;
+            
+            const status = (descMatch && iconMatch) ? '✅' : '❌';
+            
+            console.log(`${status} ${test.icon}:`);
+            console.log(`   Description: ${actualDesc} ${descMatch ? '✓' : '✗ Expected: ' + test.expectedDesc}`);
+            console.log(`   Icon: ${actualIcon} ${iconMatch ? '✓' : '✗ Expected: ' + test.expectedIcon}`);
+            
+            if (!descMatch || !iconMatch) allMatch = false;
+        });
+        
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.log(allMatch ? '✅ ALL TESTS PASSED!' : '❌ SOME TESTS FAILED!');
+        
+        return allMatch;
+    }
+
+    /**
+     * Verify current weather icon matches description
+     */
+    async verifyCurrentWeather() {
+        console.log('🔍 VERIFYING CURRENT WEATHER ICON & DESCRIPTION');
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        
+        try {
+            const weatherData = await this.getCurrentWeather();
+            
+            const iconElement = document.getElementById('weatherIcon');
+            const descElement = document.getElementById('weatherStatus');
+            
+            if (!iconElement || !descElement) {
+                console.error('❌ Elements not found!');
+                return false;
+            }
+            
+            const currentIconClass = iconElement.className;
+            const currentDescription = descElement.textContent;
+            
+            const expectedIcon = this.getWeatherIcon(weatherData.icon, weatherData.weatherCode);
+            const expectedDesc = this.getWeatherDescription(weatherData.icon, weatherData.weatherCode);
+            
+            console.log('📊 Current State:');
+            console.log('   Icon Code:', weatherData.icon);
+            console.log('   Icon Class:', currentIconClass);
+            console.log('   Description:', currentDescription);
+            
+            console.log('\n🎯 Expected State:');
+            console.log('   Icon Class:', expectedIcon);
+            console.log('   Description:', expectedDesc);
+            
+            const iconMatch = currentIconClass === expectedIcon;
+            const descMatch = currentDescription === expectedDesc;
+            
+            console.log('\n📋 Verification:');
+            console.log(`   Icon Match: ${iconMatch ? '✅ YES' : '❌ NO'}`);
+            console.log(`   Description Match: ${descMatch ? '✅ YES' : '❌ NO'}`);
+            
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+            
+            if (iconMatch && descMatch) {
+                console.log('✅ VERIFICATION PASSED: Icon matches description!');
+                return true;
+            } else {
+                console.log('❌ VERIFICATION FAILED: Icon does NOT match description!');
+                return false;
+            }
+        } catch (error) {
+            console.error('❌ Verification error:', error);
+            return false;
+        }
+    }
+
+    /**
      * Test different weather icons (for debugging)
      */
     testWeatherIcons() {
@@ -318,6 +415,8 @@ class WeatherService {
      */
     updateWelcomeCard(weatherData) {
         try {
+            console.log('🔄 Updating welcome card with weather data:', weatherData);
+            
             // Update temperature
             const mainTemp = document.getElementById('mainTemp');
             if (mainTemp) {
@@ -336,10 +435,13 @@ class WeatherService {
                 locationDisplay.textContent = weatherData.location;
             }
 
-            // Update weather status
+            // Update weather status/description
             const weatherStatus = document.getElementById('weatherStatus');
             if (weatherStatus) {
-                weatherStatus.textContent = weatherData.description;
+                // Use our Indonesian description mapping
+                const description = this.getWeatherDescription(weatherData.icon, weatherData.weatherCode);
+                weatherStatus.textContent = description;
+                console.log('📝 Weather description updated to:', description);
             }
 
             // Update current weather icon (top-right)
@@ -349,24 +451,23 @@ class WeatherService {
             if (currentWeatherIcon) {
                 const iconClass = this.getWeatherIcon(weatherData.icon, weatherData.weatherCode);
                 currentWeatherIcon.className = iconClass;
-                console.log('Updated weather icon:', iconClass);
+                console.log('🎨 Weather icon updated to:', iconClass);
+                console.log('✅ Icon matches description:', this.getWeatherDescription(weatherData.icon, weatherData.weatherCode));
             } else {
-                console.error('Weather icon element not found');
+                console.error('❌ Weather icon element not found');
             }
             
             if (iconContainer) {
-                console.log('Weather icon container found and visible');
+                console.log('✅ Weather icon container found and visible');
                 iconContainer.style.display = 'flex'; // Force display
             } else {
-                console.error('Weather icon container not found');
+                console.error('❌ Weather icon container not found');
             }
 
-            // Add data source indicator
-            // this.addDataSourceIndicator(weatherData.isFallback);
-
-            console.log('Weather data updated successfully:', weatherData);
+            console.log('✅ Weather data updated successfully');
+            console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
         } catch (error) {
-            console.error('Error updating welcome card:', error);
+            console.error('❌ Error updating welcome card:', error);
         }
     }
 
@@ -597,6 +698,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.testRefreshSync = () => weatherService.testRefreshButtonSync();
         window.debugWeather = () => weatherService.debugCurrentWeather();
         window.stopWeatherTest = (intervalId) => clearInterval(intervalId);
+        window.testIconMatch = () => weatherService.testIconDescriptionMatch();
+        window.verifyWeather = () => weatherService.verifyCurrentWeather();
         
         console.log('✅ Weather service initialized successfully!');
         console.log('📋 Available debug commands:');
@@ -604,6 +707,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('- testCloudyConditions(): Test specifically cloudy conditions');
         console.log('- testRefreshSync(): Test refresh button synchronization');
         console.log('- debugWeather(): Show current weather API response');
+        console.log('- testIconMatch(): Test if icons match descriptions');
+        console.log('- verifyWeather(): Verify current weather icon matches description');
         console.log('- weatherService.refreshWeatherData(): Manually refresh weather');
     } catch (error) {
         console.error('❌ Error initializing weather service:', error);
