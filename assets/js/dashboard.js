@@ -42,7 +42,7 @@ class DashboardController {
                 }
                 
                 this.currentChart = new Chart(ctx, {
-                    type: 'line',
+                    type: 'bar', // Changed from 'line' to 'bar' for better readability
                     data: this.getProductionChartData(),
                     options: this.getChartOptions('production')
                 });
@@ -68,11 +68,12 @@ class DashboardController {
             datasets: [{
                 label: 'Produksi (kg)',
                 data: monthlyData,
-                borderColor: '#2d5a27',
-                backgroundColor: 'rgba(45, 90, 39, 0.1)',
+                backgroundColor: '#2d5a27',
+                borderColor: '#1a4d1a',
                 borderWidth: 2,
-                fill: true,
-                tension: 0.4
+                borderRadius: 6,
+                barThickness: 'flex',
+                maxBarThickness: 60
             }]
         };
     }
@@ -86,11 +87,12 @@ class DashboardController {
             datasets: [{
                 label: 'Pendapatan (Rp)',
                 data: monthlyData,
-                borderColor: '#1e7e34',
-                backgroundColor: 'rgba(30, 126, 52, 0.1)',
+                backgroundColor: '#1e7e34',
+                borderColor: '#155724',
                 borderWidth: 2,
-                fill: true,
-                tension: 0.4
+                borderRadius: 6,
+                barThickness: 'flex',
+                maxBarThickness: 60
             }]
         };
     }
@@ -144,23 +146,61 @@ class DashboardController {
         return {
             responsive: true,
             maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
             plugins: {
                 legend: {
                     display: true,
-                    position: 'top'
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 16,
+                            weight: '600',
+                            family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                        },
+                        padding: 16,
+                        usePointStyle: true,
+                        pointStyle: 'rectRounded',
+                        color: '#212529'
+                    }
                 },
                 tooltip: {
+                    enabled: true,
+                    backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                    titleFont: {
+                        size: 16,
+                        weight: 'bold'
+                    },
+                    bodyFont: {
+                        size: 16,
+                        weight: '600'
+                    },
+                    padding: 16,
+                    cornerRadius: 8,
+                    displayColors: true,
                     callbacks: {
+                        title: function(context) {
+                            return `Bulan ${context[0].label}`;
+                        },
                         label: function(context) {
                             if (isRevenue) {
-                                return `Pendapatan: ${new Intl.NumberFormat('id-ID', {
+                                const value = new Intl.NumberFormat('id-ID', {
                                     style: 'currency',
                                     currency: 'IDR',
                                     minimumFractionDigits: 0
-                                }).format(context.parsed.y)}`;
+                                }).format(context.parsed.y);
+                                return `💰 Pendapatan: ${value}`;
                             } else {
-                                return `Produksi: ${context.parsed.y} kg`;
+                                return `📦 Produksi: ${context.parsed.y} kg`;
                             }
+                        },
+                        afterLabel: function(context) {
+                            if (context.parsed.y === 0) {
+                                return '(Belum ada data)';
+                            }
+                            return '';
                         }
                     }
                 }
@@ -168,18 +208,44 @@ class DashboardController {
             scales: {
                 y: {
                     beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)',
+                        lineWidth: 1
+                    },
+                    border: {
+                        display: true,
+                        color: '#dee2e6',
+                        width: 2
+                    },
                     title: {
                         display: true,
-                        text: isRevenue ? 'Pendapatan (Rp)' : 'Produksi (kg)'
+                        text: isRevenue ? '💰 Pendapatan (Rupiah)' : '📦 Produksi (Kilogram)',
+                        font: {
+                            size: 16,
+                            weight: 'bold',
+                            family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                        },
+                        color: '#2d5a27',
+                        padding: 12
                     },
                     ticks: {
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        color: '#495057',
+                        padding: 8,
                         callback: function(value) {
                             if (isRevenue) {
+                                if (value === 0) return 'Rp 0';
+                                if (value >= 1000000) {
+                                    return 'Rp ' + (value / 1000000).toFixed(1) + ' Jt';
+                                }
                                 return new Intl.NumberFormat('id-ID', {
                                     style: 'currency',
                                     currency: 'IDR',
                                     minimumFractionDigits: 0,
-                                    notation: 'compact'
+                                    maximumFractionDigits: 0
                                 }).format(value);
                             } else {
                                 return value + ' kg';
@@ -188,9 +254,32 @@ class DashboardController {
                     }
                 },
                 x: {
+                    grid: {
+                        display: false
+                    },
+                    border: {
+                        display: true,
+                        color: '#dee2e6',
+                        width: 2
+                    },
                     title: {
                         display: true,
-                        text: 'Bulan'
+                        text: '📅 Bulan',
+                        font: {
+                            size: 16,
+                            weight: 'bold',
+                            family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif"
+                        },
+                        color: '#2d5a27',
+                        padding: 12
+                    },
+                    ticks: {
+                        font: {
+                            size: 14,
+                            weight: '600'
+                        },
+                        color: '#495057',
+                        padding: 8
                     }
                 }
             }
