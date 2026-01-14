@@ -1194,6 +1194,54 @@
     .history-content .date {
         font-size: 0.75rem;
     }
+    
+    /* Stats Card Mobile */
+    .stats-card {
+        padding: var(--spacing-md);
+    }
+    
+    .stats-card .section-header {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .stats-card .section-header h2 {
+        font-size: 1.1rem;
+    }
+    
+    .stats-card .section-header p {
+        font-size: 0.85rem;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-md);
+    }
+    
+    .stat-item {
+        padding: var(--spacing-md);
+    }
+    
+    .stat-icon {
+        width: 48px;
+        height: 48px;
+        margin: 0 auto var(--spacing-md);
+        font-size: 1.25rem;
+    }
+    
+    .stat-content h3 {
+        font-size: 0.8rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-content .stat-value {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-desc {
+        font-size: 0.75rem;
+        line-height: 1.3;
+    }
 }
 
 /* Very small screens */
@@ -1498,6 +1546,62 @@
     
     .history-action {
         align-self: flex-end;
+    }
+    
+    /* Stats Card Very Small Mobile */
+    .stats-card {
+        padding: var(--spacing-sm);
+    }
+    
+    .stats-card .section-header {
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .stats-card .section-header h2 {
+        font-size: 1rem;
+        gap: 0.4rem;
+    }
+    
+    .stats-card .section-header h2 i {
+        font-size: 1rem;
+    }
+    
+    .stats-card .section-header p {
+        font-size: 0.8rem;
+        line-height: 1.3;
+    }
+    
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--spacing-sm);
+    }
+    
+    .stat-item {
+        padding: var(--spacing-sm);
+    }
+    
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        margin: 0 auto 0.5rem;
+        font-size: 1.1rem;
+    }
+    
+    .stat-content h3 {
+        font-size: 0.75rem;
+        margin-bottom: 0.4rem;
+        line-height: 1.2;
+    }
+    
+    .stat-content .stat-value {
+        font-size: 1.3rem;
+        margin-bottom: 0.4rem;
+        font-weight: 700;
+    }
+    
+    .stat-desc {
+        font-size: 0.7rem;
+        line-height: 1.2;
     }
 }
 
