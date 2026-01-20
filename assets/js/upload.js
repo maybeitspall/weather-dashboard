@@ -44,8 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
         cameraArea.classList.add("active");
       }
 
-      // Sembunyikan tombol analisis saat mengganti metode
-      analyzeBtn.style.display = "none";
+      // Reset state saat mengganti metode
       currentImageFile = null;
     });
   });
@@ -180,6 +179,12 @@ document.addEventListener("DOMContentLoaded", function () {
     // Tampilkan tombol ambil ulang
     retakeBtn.style.display = "inline-block";
 
+    // Tampilkan dan aktifkan tombol analisis
+    if (analyzeBtn) {
+      analyzeBtn.style.display = "inline-block";
+      analyzeBtn.disabled = false;
+    }
+
     // Konversi data URL ke File object
     dataURLtoFile(imageDataUrl, "foto-daun-nilam.png");
 
@@ -191,7 +196,12 @@ document.addEventListener("DOMContentLoaded", function () {
   function retakePhoto() {
     cameraResult.style.display = "none";
     retakeBtn.style.display = "none";
-    analyzeBtn.style.display = "none";
+    
+    // Disable analyze button until new photo is captured
+    if (analyzeBtn) {
+      analyzeBtn.disabled = true;
+    }
+    
     currentImageFile = null;
     startCamera();
   }
@@ -273,7 +283,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    analyzeBtn.style.display = "none";
+    // Disable analyze button until new image is uploaded
+    if (analyzeBtn) {
+      analyzeBtn.disabled = true;
+    }
     currentImageFile = null;
   }
 

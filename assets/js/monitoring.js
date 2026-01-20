@@ -17,8 +17,27 @@ class MonitoringController {
         this.setupEnhancedUpload();
         this.setupHistoryControls();
         
+        // Initialize analyze button visibility
+        this.initializeAnalyzeButton();
+        
         // Initialize accordion functionality with multiple attempts
         this.initAccordionWithRetry();
+    }
+    
+    initializeAnalyzeButton() {
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const uploadTab = document.querySelector('.method-btn[data-method="upload"]');
+        
+        // Show analyze button by default for upload tab, but keep it disabled
+        if (analyzeBtn) {
+            analyzeBtn.style.display = 'inline-block';
+            analyzeBtn.disabled = true;
+        }
+        
+        // Ensure upload tab is active by default
+        if (uploadTab && !uploadTab.classList.contains('active')) {
+            uploadTab.click();
+        }
     }
     
     initAccordionWithRetry() {
@@ -65,6 +84,7 @@ class MonitoringController {
         const uploadArea = document.getElementById('uploadArea');
         const cameraArea = document.getElementById('cameraArea');
         const historyArea = document.getElementById('historyArea');
+        const analyzeBtn = document.getElementById('analyzeBtn');
         
         methodBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -81,10 +101,36 @@ class MonitoringController {
                 
                 if (method === 'upload' && uploadArea) {
                     uploadArea.classList.add('active');
+                    // Show analyze button for upload tab
+                    if (analyzeBtn) {
+                        analyzeBtn.style.display = 'inline-block';
+                        // Check if there's already an uploaded image
+                        const uploadPreview = uploadArea.querySelector('.upload-preview');
+                        if (uploadPreview) {
+                            analyzeBtn.disabled = false;
+                        } else {
+                            analyzeBtn.disabled = true;
+                        }
+                    }
                 } else if (method === 'camera' && cameraArea) {
                     cameraArea.classList.add('active');
+                    // Show analyze button for camera tab
+                    if (analyzeBtn) {
+                        analyzeBtn.style.display = 'inline-block';
+                        // Check if there's a captured image
+                        const cameraResult = document.getElementById('cameraResult');
+                        if (cameraResult && cameraResult.style.display !== 'none') {
+                            analyzeBtn.disabled = false;
+                        } else {
+                            analyzeBtn.disabled = true;
+                        }
+                    }
                 } else if (method === 'history' && historyArea) {
                     historyArea.classList.add('active');
+                    // Hide analyze button for history tab
+                    if (analyzeBtn) {
+                        analyzeBtn.style.display = 'none';
+                    }
                     this.loadDetectionHistory();
                 }
             });
@@ -289,8 +335,41 @@ class MonitoringController {
             
             document.getElementById('changePhotoBtn')?.addEventListener('click', () => this.resetUploadArea());
             document.getElementById('usePhotoBtn')?.addEventListener('click', () => {
+                const usePhotoBtn = document.getElementById('usePhotoBtn');
                 const analyzeBtn = document.getElementById('analyzeBtn');
-                if (analyzeBtn) analyzeBtn.disabled = false;
+                
+                // Show loading state
+                if (usePhotoBtn) {
+                    usePhotoBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+                    usePhotoBtn.disabled = true;
+                }
+                
+                // Simulate photo processing
+                setTimeout(() => {
+                    // Enable and show analyze button
+                    if (analyzeBtn) {
+                        analyzeBtn.style.display = 'inline-block';
+                        analyzeBtn.disabled = false;
+                        analyzeBtn.classList.add('ready');
+                    }
+                    
+                    // Update button state
+                    if (usePhotoBtn) {
+                        usePhotoBtn.innerHTML = '<i class="fas fa-check-circle"></i> Foto Siap';
+                        usePhotoBtn.classList.add('success');
+                        usePhotoBtn.disabled = true;
+                    }
+                    
+                    // Show success notification
+                    if (window.appController) {
+                        window.appController.showNotification('Foto berhasil diproses dan siap untuk dianalisis!', 'success');
+                    }
+                    
+                    // Auto scroll to analyze button
+                    if (analyzeBtn) {
+                        analyzeBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 1000);
             });
         };
         reader.readAsDataURL(file);
