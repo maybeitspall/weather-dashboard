@@ -3158,6 +3158,91 @@ textarea.form-control {
         display: none;
     }
     
+    /* Mobile Auth Buttons - Show in header */
+    .landing-page .mobile-auth {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        position: absolute;
+        right: 4rem; /* Give space for hamburger button */
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1001;
+    }
+    
+    .landing-page .mobile-auth .auth-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        min-height: 36px;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+    
+    .landing-page .mobile-auth .login-btn {
+        background: transparent;
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+    
+    .landing-page .mobile-auth .login-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .landing-page .mobile-auth .register-btn {
+        background: rgba(255, 255, 255, 0.9);
+        color: #2d5a27;
+        border: 1px solid transparent;
+    }
+    
+    .landing-page .mobile-auth .register-btn:hover {
+        background: white;
+        transform: translateY(-1px);
+    }
+}
+
+/* Small Mobile Auth Buttons */
+@media (max-width: 480px) {
+    .landing-page .mobile-auth {
+        right: 3.5rem; /* Adjust for smaller screens */
+        gap: 0.4rem;
+    }
+    
+    .landing-page .mobile-auth .auth-btn {
+        padding: 0.45rem 0.7rem;
+        font-size: 0.75rem;
+        min-height: 34px;
+        gap: 0.35rem;
+    }
+    
+    .landing-page .mobile-auth .auth-btn i {
+        font-size: 0.75rem;
+    }
+}
+
+/* Very Small Mobile Auth Buttons */
+@media (max-width: 360px) {
+    .landing-page .mobile-auth {
+        right: 3rem; /* Adjust for very small screens */
+        gap: 0.35rem;
+    }
+    
+    .landing-page .mobile-auth .auth-btn {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.7rem;
+        min-height: 32px;
+        gap: 0.3rem;
+    }
+    
+    .landing-page .mobile-auth .auth-btn i {
+        font-size: 0.7rem;
+    }
+    
     .landing-page .hamburger-btn {
         display: flex !important;
         position: absolute;
@@ -3252,4 +3337,8 @@ textarea.form-control {
         width: 32px;
         height: 32px;
     }
+}
+/* Hide mobile auth on desktop by default */
+.landing-page .mobile-auth {
+    display: none;
 }
