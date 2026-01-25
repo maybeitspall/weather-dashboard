@@ -2843,6 +2843,11 @@ textarea.form-control {
     z-index: 1001;
 }
 
+/* Hide mobile auth on desktop by default */
+.landing-page .mobile-auth {
+    display: none;
+}
+
 /* Auth buttons styling untuk landing page */
 .landing-page .header-auth {
     display: flex;
@@ -3160,14 +3165,14 @@ textarea.form-control {
     
     /* Mobile Auth Buttons - Show in header */
     .landing-page .mobile-auth {
-        display: flex;
+        display: flex !important; /* Force display on mobile */
         align-items: center;
         gap: 0.5rem;
         position: absolute;
         right: 4rem; /* Give space for hamburger button */
         top: 50%;
         transform: translateY(-50%);
-        z-index: 1001;
+        z-index: 1002; /* Higher than other elements */
     }
     
     .landing-page .mobile-auth .auth-btn {
@@ -3209,6 +3214,7 @@ textarea.form-control {
 /* Small Mobile Auth Buttons */
 @media (max-width: 480px) {
     .landing-page .mobile-auth {
+        display: flex !important; /* Force display on small mobile */
         right: 3.5rem; /* Adjust for smaller screens */
         gap: 0.4rem;
     }
@@ -3228,6 +3234,7 @@ textarea.form-control {
 /* Very Small Mobile Auth Buttons */
 @media (max-width: 360px) {
     .landing-page .mobile-auth {
+        display: flex !important; /* Force display on very small mobile */
         right: 3rem; /* Adjust for very small screens */
         gap: 0.35rem;
     }
@@ -3337,8 +3344,3 @@ textarea.form-control {
         width: 32px;
         height: 32px;
     }
-}
-/* Hide mobile auth on desktop by default */
-.landing-page .mobile-auth {
-    display: none;
-}
