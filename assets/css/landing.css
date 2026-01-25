@@ -3169,7 +3169,7 @@ textarea.form-control {
         align-items: center;
         gap: 0.5rem;
         position: absolute;
-        right: 4rem; /* Give space for hamburger button */
+        right: 1rem; /* Move closer to right edge */
         top: 50%;
         transform: translateY(-50%);
         z-index: 1002; /* Higher than other elements */
@@ -3215,7 +3215,7 @@ textarea.form-control {
 @media (max-width: 480px) {
     .landing-page .mobile-auth {
         display: flex !important; /* Force display on small mobile */
-        right: 3.5rem; /* Adjust for smaller screens */
+        right: 0.75rem; /* Closer to edge on small screens */
         gap: 0.4rem;
     }
     
@@ -3235,7 +3235,7 @@ textarea.form-control {
 @media (max-width: 360px) {
     .landing-page .mobile-auth {
         display: flex !important; /* Force display on very small mobile */
-        right: 3rem; /* Adjust for very small screens */
+        right: 0.5rem; /* Very close to edge on tiny screens */
         gap: 0.35rem;
     }
     
@@ -3264,7 +3264,7 @@ textarea.form-control {
     
     .landing-page .header-container {
         justify-content: center;
-        padding: 0 3rem; /* Add padding to prevent logo from overlapping with hamburger */
+        padding: 0 8rem; /* Increase padding to give more space for title */
     }
     
     .landing-page .logo-img {
@@ -3325,7 +3325,7 @@ textarea.form-control {
 /* Very small mobile screens */
 @media (max-width: 480px) {
     .landing-page .header-container {
-        padding: 0 2.5rem; /* Reduce padding on very small screens */
+        padding: 0 6rem; /* Increase padding for auth buttons space */
     }
     
     .landing-page .hamburger-btn {
@@ -3344,3 +3344,13 @@ textarea.form-control {
         width: 32px;
         height: 32px;
     }
+/* Extra small mobile screens */
+@media (max-width: 360px) {
+    .landing-page .header-container {
+        padding: 0 5rem; /* Balanced padding for tiny screens */
+    }
+    
+    .landing-page .hamburger-btn {
+        left: 0.25rem; /* Move hamburger closer to edge */
+    }
+}
