@@ -125,6 +125,54 @@
     margin-right: auto;
 }
 
+/* Mobile Auth Buttons */
+.hero-auth-mobile {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+    animation: fadeInUp 0.8s ease-out 0.8s both;
+}
+
+.hero-auth-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    min-height: 48px;
+    border: 2px solid transparent;
+}
+
+.hero-auth-btn.login-btn {
+    background: linear-gradient(135deg, #2d5a27 0%, #3d6b35 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(45, 90, 39, 0.3);
+}
+
+.hero-auth-btn.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(45, 90, 39, 0.4);
+}
+
+.hero-auth-btn.register-btn {
+    background: transparent;
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.hero-auth-btn.register-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+}
+
 .hero-stats {
     display: flex;
     justify-content: center;
@@ -1119,6 +1167,19 @@
     
     .hero-description {
         font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    /* Show mobile auth buttons */
+    .hero-auth-mobile {
+        display: flex;
+        margin-top: 1.5rem;
+    }
+    
+    .hero-auth-btn {
+        padding: 0.85rem 1.75rem;
+        font-size: 1rem;
+        min-height: 48px;
     }
     
     .hero-stats {
@@ -1336,6 +1397,20 @@
     
     .hero-description {
         font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Mobile auth buttons for small screens */
+    .hero-auth-mobile {
+        margin-top: 1.25rem;
+        gap: 0.85rem;
+    }
+    
+    .hero-auth-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        min-height: 44px;
+        border-radius: 10px;
     }
     
     .stats-grid {
@@ -1536,6 +1611,23 @@
     
     .hero-title {
         font-size: 1.75rem;
+    }
+    
+    .hero-description {
+        margin-bottom: 1.25rem;
+    }
+    
+    /* Mobile auth buttons for very small screens */
+    .hero-auth-mobile {
+        margin-top: 1rem;
+        gap: 0.75rem;
+    }
+    
+    .hero-auth-btn {
+        padding: 0.7rem 1.25rem;
+        font-size: 0.85rem;
+        min-height: 42px;
+        border-radius: 8px;
     }
     
     .features-section,
@@ -2843,11 +2935,6 @@ textarea.form-control {
     z-index: 1001;
 }
 
-/* Hide mobile auth on desktop by default */
-.landing-page .mobile-auth {
-    display: none;
-}
-
 /* Auth buttons styling untuk landing page */
 .landing-page .header-auth {
     display: flex;
@@ -3163,93 +3250,6 @@ textarea.form-control {
         display: none;
     }
     
-    /* Mobile Auth Buttons - Show in header */
-    .landing-page .mobile-auth {
-        display: flex !important; /* Force display on mobile */
-        align-items: center;
-        gap: 0.5rem;
-        position: absolute;
-        right: 1rem; /* Move closer to right edge */
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 1002; /* Higher than other elements */
-    }
-    
-    .landing-page .mobile-auth .auth-btn {
-        padding: 0.5rem 0.8rem;
-        font-size: 0.8rem;
-        border-radius: 6px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        min-height: 36px;
-        display: flex;
-        align-items: center;
-        gap: 0.4rem;
-    }
-    
-    .landing-page .mobile-auth .login-btn {
-        background: transparent;
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    
-    .landing-page .mobile-auth .login-btn:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.5);
-    }
-    
-    .landing-page .mobile-auth .register-btn {
-        background: rgba(255, 255, 255, 0.9);
-        color: #2d5a27;
-        border: 1px solid transparent;
-    }
-    
-    .landing-page .mobile-auth .register-btn:hover {
-        background: white;
-        transform: translateY(-1px);
-    }
-}
-
-/* Small Mobile Auth Buttons */
-@media (max-width: 480px) {
-    .landing-page .mobile-auth {
-        display: flex !important; /* Force display on small mobile */
-        right: 0.75rem; /* Closer to edge on small screens */
-        gap: 0.4rem;
-    }
-    
-    .landing-page .mobile-auth .auth-btn {
-        padding: 0.45rem 0.7rem;
-        font-size: 0.75rem;
-        min-height: 34px;
-        gap: 0.35rem;
-    }
-    
-    .landing-page .mobile-auth .auth-btn i {
-        font-size: 0.75rem;
-    }
-}
-
-/* Very Small Mobile Auth Buttons */
-@media (max-width: 360px) {
-    .landing-page .mobile-auth {
-        display: flex !important; /* Force display on very small mobile */
-        right: 0.5rem; /* Very close to edge on tiny screens */
-        gap: 0.35rem;
-    }
-    
-    .landing-page .mobile-auth .auth-btn {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.7rem;
-        min-height: 32px;
-        gap: 0.3rem;
-    }
-    
-    .landing-page .mobile-auth .auth-btn i {
-        font-size: 0.7rem;
-    }
-    
     .landing-page .hamburger-btn {
         display: flex !important;
         position: absolute;
@@ -3264,7 +3264,7 @@ textarea.form-control {
     
     .landing-page .header-container {
         justify-content: center;
-        padding: 0 8rem; /* Increase padding to give more space for title */
+        padding: 0 3rem; /* Add padding to prevent logo from overlapping with hamburger */
     }
     
     .landing-page .logo-img {
@@ -3325,7 +3325,7 @@ textarea.form-control {
 /* Very small mobile screens */
 @media (max-width: 480px) {
     .landing-page .header-container {
-        padding: 0 6rem; /* Increase padding for auth buttons space */
+        padding: 0 2.5rem; /* Reduce padding on very small screens */
     }
     
     .landing-page .hamburger-btn {
@@ -3343,14 +3343,5 @@ textarea.form-control {
     .landing-page .logo-img {
         width: 32px;
         height: 32px;
-    }
-/* Extra small mobile screens */
-@media (max-width: 360px) {
-    .landing-page .header-container {
-        padding: 0 5rem; /* Balanced padding for tiny screens */
-    }
-    
-    .landing-page .hamburger-btn {
-        left: 0.25rem; /* Move hamburger closer to edge */
     }
 }
