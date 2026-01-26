@@ -252,9 +252,10 @@ header {
 }
 
 .logo-img {
-    width: 40px;
-    height: 40px;
+    width: 200px;
+    height: 100px;
     border-radius: var(--radius-sm);
+    object-fit: contain;
 }
 
 .logo-text {
@@ -462,8 +463,9 @@ header {
 }
 
 .sidebar-logo img {
-    width: 32px;
-    height: 32px;
+    width: 200px;
+    height: 100px;
+    object-fit: contain;
 }
 
 .sidebar-logo h3 {
@@ -2279,12 +2281,14 @@ body:not(.landing-page) .footer-info {
         gap: var(--spacing-sm);
     }
     
-    .logo-text h1 {
-        font-size: 1.1rem;
+    .logo-img {
+        width: 150px;
+        height: 80px;
     }
     
-    .logo-text span {
-        font-size: 0.75rem;
+    .sidebar-logo img {
+        width: 150px;
+        height: 80px;
     }
     
     .profile-name {

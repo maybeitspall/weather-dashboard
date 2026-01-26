@@ -17,6 +17,7 @@ class DashboardController {
         this.setupRefreshButton();
         this.loadInitialData();
         this.updateLastUpdateTime();
+        this.setupDataRefreshListener();
     }
     
     updateGreeting() {
@@ -101,10 +102,17 @@ class DashboardController {
         const monthlyData = new Array(12).fill(0);
         const currentYear = new Date().getFullYear();
         
+        console.log(`Processing ${productions.length} production records for ${type} chart`);
+        
         try {
             productions.forEach(production => {
-                if (production && production.tanggalProduksi) {
-                    const date = new Date(production.tanggalProduksi);
+                if (production && (production.tanggal || production.tanggalProduksi)) {
+                    // Support both field names for backward compatibility
+                    const dateField = production.tanggal || production.tanggalProduksi;
+                    const date = new Date(dateField);
+                    
+                    console.log(`Processing production: ${dateField}, amount: ${production.jumlahProduksi}`);
+                    
                     if (!isNaN(date.getTime()) && date.getFullYear() === currentYear) {
                         const month = date.getMonth();
                         const jumlah = parseFloat(production.jumlahProduksi) || 0;
@@ -112,8 +120,8 @@ class DashboardController {
                         if (type === 'production') {
                             monthlyData[month] += jumlah;
                         } else if (type === 'revenue') {
-                            // Hitung pendapatan berdasarkan harga per kg
-                            const hargaPerKg = this.getHargaPerKg(production.jenisProduksi);
+                            // Use actual price from data or fallback to default
+                            const hargaPerKg = parseFloat(production.hargaJual) || this.getHargaPerKg(production.jenisProduk);
                             monthlyData[month] += jumlah * hargaPerKg;
                         }
                     }
@@ -123,21 +131,25 @@ class DashboardController {
             console.warn('Error processing monthly data:', error);
         }
         
-        // Return data real (bisa kosong jika belum ada input)
-        
+        console.log(`Monthly data result for ${type}:`, monthlyData);
         return monthlyData;
     }
     
-    getHargaPerKg(jenisProduksi) {
+    getHargaPerKg(jenisProduk) {
         // Harga per kg berdasarkan jenis produksi (dalam Rupiah)
         const hargaMap = {
+            'daun_segar': 100000,
             'daun-segar': 100000,
+            'daun_kering': 150000,
             'daun-kering': 150000,
+            'minyak_nilam': 2000000,
             'minyak-nilam': 2000000,
+            'sabut_nilam': 80000,
+            'sabut-nilam': 80000,
             'bibit': 50000
         };
         
-        return hargaMap[jenisProduksi] || 100000;
+        return hargaMap[jenisProduk] || 100000;
     }
     
     getChartOptions(type) {
@@ -553,9 +565,36 @@ class DashboardController {
             recordCountEl.textContent = `Catatan: ${productions.length} produksi, ${plants.length} tanaman`;
         }
     }
+    
+    setupDataRefreshListener() {
+        // Listen for data refresh events from other pages
+        window.addEventListener('dataRefreshNeeded', (event) => {
+            console.log('Data refresh event received:', event.detail);
+            
+            // Refresh chart and stats
+            this.refreshChart();
+            this.updateStats();
+            this.updateLastUpdateTime();
+            
+            // Show notification if available
+            if (window.appController) {
+                window.appController.showNotification('Dashboard diperbarui dengan data terbaru', 'info');
+            }
+        });
+        
+        // Listen for production data updates
+        window.addEventListener('productionDataUpdated', (event) => {
+            console.log('Production data updated:', event.detail);
+            
+            // Refresh chart and stats
+            this.refreshChart();
+            this.updateStats();
+            this.updateLastUpdateTime();
+        });
+    }
 }
 
 // Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
-    new DashboardController();
+    window.dashboardController = new DashboardController();
 });

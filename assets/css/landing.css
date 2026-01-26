@@ -842,8 +842,8 @@
 }
 
 .landing-page .footer-logo img {
-    width: 50px;
-    height: 50px;
+    width: 200px;
+    height: 100px;
     object-fit: contain;
     filter: drop-shadow(0 2px 8px rgba(255, 193, 7, 0.3));
 }
@@ -1140,8 +1140,8 @@
     }
     
     .footer-logo img {
-        width: 70px;
-        height: 70px;
+        width: 200px;
+        height: 100px;
     }
 }
 
@@ -1265,8 +1265,8 @@
     }
     
     .landing-page .footer-logo img {
-        width: 40px;
-        height: 40px;
+        width: 150px;
+        height: 80px;
     }
     
     .landing-page .footer-logo .logo-text h3 {
@@ -1469,8 +1469,8 @@
     }
     
     .landing-page .footer-logo img {
-        width: 35px;
-        height: 35px;
+        width: 150px;
+        height: 80px;
     }
     
     .landing-page .footer-logo .logo-text h3 {
@@ -1673,8 +1673,8 @@
     }
     
     .landing-page .footer-logo img {
-        width: 32px;
-        height: 32px;
+        width: 150px;
+        height: 80px;
     }
     
     .landing-page .footer-logo .logo-text h3 {
@@ -1972,8 +1972,8 @@ html {
 }
 
 .auth-logo img {
-    width: 80px;
-    height: 80px;
+    width: 200px;
+    height: 100px;
     object-fit: contain;
     filter: drop-shadow(0 4px 12px rgba(45, 90, 39, 0.3));
 }
@@ -2236,8 +2236,8 @@ textarea.form-control {
     }
     
     .auth-logo img {
-        width: 40px;
-        height: 40px;
+        width: 150px;
+        height: 80px;
     }
     
     .auth-logo .logo-text h1 {
@@ -2354,8 +2354,8 @@ textarea.form-control {
     }
     
     .auth-logo img {
-        width: 35px;
-        height: 35px;
+        width: 150px;
+        height: 80px;
     }
     
     .auth-logo .logo-text h1 {
@@ -2490,8 +2490,8 @@ textarea.form-control {
     }
     
     .auth-logo img {
-        width: 32px;
-        height: 32px;
+        width: 150px;
+        height: 80px;
     }
     
     .auth-logo .logo-text h1 {
@@ -2918,10 +2918,11 @@ textarea.form-control {
 }
 
 .landing-page .logo-img {
-    width: 40px;
-    height: 40px;
+    width: 200px;
+    height: 100px;
     border-radius: 4px;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    object-fit: contain;
 }
 
 .landing-page .logo-text {
@@ -3065,9 +3066,10 @@ textarea.form-control {
 }
 
 .landing-page .sidebar-logo img {
-    width: 32px;
-    height: 32px;
+    width: 200px;
+    height: 100px;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    object-fit: contain;
 }
 
 .landing-page .sidebar-logo h3 {
@@ -3284,8 +3286,8 @@ textarea.form-control {
     }
     
     .landing-page .logo-img {
-        width: 36px;
-        height: 36px;
+        width: 150px;
+        height: 80px;
     }
     
     .landing-page .logo-text h1 {
@@ -3357,7 +3359,7 @@ textarea.form-control {
     }
     
     .landing-page .logo-img {
-        width: 32px;
-        height: 32px;
+        width: 150px;
+        height: 80px;
     }
 }

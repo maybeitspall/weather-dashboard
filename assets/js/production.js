@@ -405,6 +405,9 @@ class ProductionController {
             productions.push(productionData);
             localStorage.setItem('productions', JSON.stringify(productions));
             
+            console.log('Production data saved:', productionData);
+            console.log('Total productions now:', productions.length);
+            
             // Reset form
             form.reset();
             
@@ -420,6 +423,21 @@ class ProductionController {
             // Reload history
             this.loadProductionHistory();
             this.updateDashboardStats();
+            
+            // Update dashboard chart if available
+            if (window.dashboardController && typeof window.dashboardController.refreshChart === 'function') {
+                window.dashboardController.refreshChart();
+            }
+            
+            // Trigger custom event for other components to listen
+            window.dispatchEvent(new CustomEvent('productionDataUpdated', {
+                detail: { productionData }
+            }));
+            
+            // Also trigger a general data refresh event for dashboard
+            window.dispatchEvent(new CustomEvent('dataRefreshNeeded', {
+                detail: { type: 'production', data: productionData }
+            }));
             
             if (window.appController) {
                 window.appController.showNotification('Data produksi berhasil disimpan!', 'success');
