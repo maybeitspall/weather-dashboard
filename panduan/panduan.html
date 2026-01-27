@@ -17,8 +17,8 @@
     <header role="banner">
         <div class="header-container">
             <!-- Hamburger Menu untuk Mobile -->
-            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka menu navigasi">
-                <i class="fas fa-bars"></i>
+            <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="sidebar">
+                <i class="fas fa-bars" aria-hidden="true"></i>
             </button>
             
             <!-- Logo -->
@@ -28,14 +28,14 @@
             
             <!-- Profile Dropdown -->
             <div class="profile-dropdown" id="profileDropdown">
-                <button class="profile-btn" id="profileBtn">
-                    <div class="profile-avatar">
+                <button class="profile-btn" id="profileBtn" aria-label="Menu profil pengguna" aria-expanded="false" aria-haspopup="true">
+                    <div class="profile-avatar" aria-hidden="true">
                         <i class="fas fa-user"></i>
                     </div>
                     <span class="profile-name">Petani Nilam</span>
-                    <i class="fas fa-chevron-down"></i>
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
                 </button>
-                <div class="dropdown-menu" id="dropdownMenu">
+                <div class="dropdown-menu" id="dropdownMenu" role="menu" aria-labelledby="profileBtn">
                     <div class="dropdown-header">
                         <div class="dropdown-avatar">
                             <i class="fas fa-user"></i>
@@ -49,6 +49,10 @@
                     <a href="../auth/profile.html" class="dropdown-item">
                         <i class="fas fa-user-circle"></i>
                         <span>Profil Saya</span>
+                    </a>
+                    <a href="../auth/profile.html#settings" class="dropdown-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Pengaturan</span>
                     </a>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item logout" id="logoutBtn">
